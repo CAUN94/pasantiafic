@@ -3,8 +3,6 @@
 namespace Illuminate\Database\Concerns;
 
 use Closure;
-use Illuminate\Database\DeadlockException;
-use RuntimeException;
 use Throwable;
 
 trait ManagesTransactions
@@ -32,7 +30,7 @@ trait ManagesTransactions
 
             // If we catch an exception we'll rollback this transaction and try again if we
             // are not out of attempts. If we are out of attempts we will just throw the
-            // exception back out, and let the developer handle an uncaught exception.
+            // exception back out and let the developer handle an uncaught exceptions.
             catch (Throwable $e) {
                 $this->handleTransactionException(
                     $e, $currentAttempt, $attempts
@@ -47,10 +45,6 @@ trait ManagesTransactions
                 }
 
                 $this->transactions = max(0, $this->transactions - 1);
-
-                if ($this->afterCommitCallbacksShouldBeExecuted()) {
-                    $this->transactionsManager?->commit($this->getName());
-                }
             } catch (Throwable $e) {
                 $this->handleCommitTransactionException(
                     $e, $currentAttempt, $attempts
@@ -84,15 +78,7 @@ trait ManagesTransactions
             $this->transactions > 1) {
             $this->transactions--;
 
-            $this->transactionsManager?->rollback(
-                $this->getName(), $this->transactions
-            );
-
-            throw new DeadlockException(
-                $e->getMessage(),
-                $e->getCode(),
-                $e->getPrevious()
-            );
+            throw $e;
         }
 
         // If there was an exception we will rollback this transaction and then we
@@ -120,10 +106,6 @@ trait ManagesTransactions
         $this->createTransaction();
 
         $this->transactions++;
-
-        $this->transactionsManager?->begin(
-            $this->getName(), $this->transactions
-        );
 
         $this->fireConnectionEvent('beganTransaction');
     }
@@ -198,23 +180,7 @@ trait ManagesTransactions
 
         $this->transactions = max(0, $this->transactions - 1);
 
-        if ($this->afterCommitCallbacksShouldBeExecuted()) {
-            $this->transactionsManager?->commit($this->getName());
-        }
-
         $this->fireConnectionEvent('committed');
-    }
-
-    /**
-     * Determine if after commit callbacks should be executed.
-     *
-     * @return bool
-     */
-    protected function afterCommitCallbacksShouldBeExecuted()
-    {
-        return $this->transactions == 0 ||
-            ($this->transactionsManager &&
-             $this->transactionsManager->callbackApplicableTransactions()->count() === 1);
     }
 
     /**
@@ -231,7 +197,8 @@ trait ManagesTransactions
     {
         $this->transactions = max(0, $this->transactions - 1);
 
-        if ($this->causedByConcurrencyError($e) && $currentAttempt < $maxAttempts) {
+        if ($this->causedByConcurrencyError($e) &&
+            $currentAttempt < $maxAttempts) {
             return;
         }
 
@@ -274,10 +241,6 @@ trait ManagesTransactions
 
         $this->transactions = $toLevel;
 
-        $this->transactionsManager?->rollback(
-            $this->getName(), $this->transactions
-        );
-
         $this->fireConnectionEvent('rollingBack');
     }
 
@@ -312,10 +275,6 @@ trait ManagesTransactions
     {
         if ($this->causedByLostConnection($e)) {
             $this->transactions = 0;
-
-            $this->transactionsManager?->rollback(
-                $this->getName(), $this->transactions
-            );
         }
 
         throw $e;
@@ -329,22 +288,5 @@ trait ManagesTransactions
     public function transactionLevel()
     {
         return $this->transactions;
-    }
-
-    /**
-     * Execute the callback after a transaction commits.
-     *
-     * @param  callable  $callback
-     * @return void
-     *
-     * @throws \RuntimeException
-     */
-    public function afterCommit($callback)
-    {
-        if ($this->transactionsManager) {
-            return $this->transactionsManager->addCallback($callback);
-        }
-
-        throw new RuntimeException('Transactions Manager has not been set.');
     }
 }

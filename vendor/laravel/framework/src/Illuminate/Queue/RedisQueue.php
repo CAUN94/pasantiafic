@@ -2,13 +2,12 @@
 
 namespace Illuminate\Queue;
 
-use Illuminate\Contracts\Queue\ClearableQueue;
 use Illuminate\Contracts\Queue\Queue as QueueContract;
 use Illuminate\Contracts\Redis\Factory as Redis;
 use Illuminate\Queue\Jobs\RedisJob;
 use Illuminate\Support\Str;
 
-class RedisQueue extends Queue implements QueueContract, ClearableQueue
+class RedisQueue extends Queue implements QueueContract
 {
     /**
      * The Redis factory implementation.
@@ -53,22 +52,15 @@ class RedisQueue extends Queue implements QueueContract, ClearableQueue
      * @param  string|null  $connection
      * @param  int  $retryAfter
      * @param  int|null  $blockFor
-     * @param  bool  $dispatchAfterCommit
      * @return void
      */
-    public function __construct(Redis $redis,
-                                $default = 'default',
-                                $connection = null,
-                                $retryAfter = 60,
-                                $blockFor = null,
-                                $dispatchAfterCommit = false)
+    public function __construct(Redis $redis, $default = 'default', $connection = null, $retryAfter = 60, $blockFor = null)
     {
         $this->redis = $redis;
         $this->default = $default;
         $this->blockFor = $blockFor;
         $this->connection = $connection;
         $this->retryAfter = $retryAfter;
-        $this->dispatchAfterCommit = $dispatchAfterCommit;
     }
 
     /**
@@ -99,11 +91,7 @@ class RedisQueue extends Queue implements QueueContract, ClearableQueue
         $this->getConnection()->pipeline(function () use ($jobs, $data, $queue) {
             $this->getConnection()->transaction(function () use ($jobs, $data, $queue) {
                 foreach ((array) $jobs as $job) {
-                    if (isset($job->delay)) {
-                        $this->later($job->delay, $job, $data, $queue);
-                    } else {
-                        $this->push($job, $data, $queue);
-                    }
+                    $this->push($job, $data, $queue);
                 }
             });
         });
@@ -119,15 +107,7 @@ class RedisQueue extends Queue implements QueueContract, ClearableQueue
      */
     public function push($job, $data = '', $queue = null)
     {
-        return $this->enqueueUsing(
-            $job,
-            $this->createPayload($job, $this->getQueue($queue), $data),
-            $queue,
-            null,
-            function ($payload, $queue) {
-                return $this->pushRaw($payload, $queue);
-            }
-        );
+        return $this->pushRaw($this->createPayload($job, $this->getQueue($queue), $data), $queue);
     }
 
     /**
@@ -159,19 +139,11 @@ class RedisQueue extends Queue implements QueueContract, ClearableQueue
      */
     public function later($delay, $job, $data = '', $queue = null)
     {
-        return $this->enqueueUsing(
-            $job,
-            $this->createPayload($job, $this->getQueue($queue), $data),
-            $queue,
-            $delay,
-            function ($payload, $queue, $delay) {
-                return $this->laterRaw($delay, $payload, $queue);
-            }
-        );
+        return $this->laterRaw($delay, $this->createPayload($job, $this->getQueue($queue), $data), $queue);
     }
 
     /**
-     * Push a raw job onto the queue after (n) seconds.
+     * Push a raw job onto the queue after a delay.
      *
      * @param  \DateTimeInterface|\DateInterval|int  $delay
      * @param  string  $payload
@@ -213,7 +185,11 @@ class RedisQueue extends Queue implements QueueContract, ClearableQueue
     {
         $this->migrate($prefixed = $this->getQueue($queue));
 
-        [$job, $reserved] = $this->retrieveNextJob($prefixed);
+        if (empty($nextJob = $this->retrieveNextJob($prefixed))) {
+            return;
+        }
+
+        [$job, $reserved] = $nextJob;
 
         if ($reserved) {
             return new RedisJob(
@@ -307,22 +283,6 @@ class RedisQueue extends Queue implements QueueContract, ClearableQueue
         $this->getConnection()->eval(
             LuaScripts::release(), 2, $queue.':delayed', $queue.':reserved',
             $job->getReservedJob(), $this->availableAt($delay)
-        );
-    }
-
-    /**
-     * Delete all of the jobs from the queue.
-     *
-     * @param  string  $queue
-     * @return int
-     */
-    public function clear($queue)
-    {
-        $queue = $this->getQueue($queue);
-
-        return $this->getConnection()->eval(
-            LuaScripts::clear(), 4, $queue, $queue.':delayed',
-            $queue.':reserved', $queue.':notify'
         );
     }
 

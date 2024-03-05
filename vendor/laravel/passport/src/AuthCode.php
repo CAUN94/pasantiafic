@@ -34,7 +34,15 @@ class AuthCode extends Model
      */
     protected $casts = [
         'revoked' => 'bool',
-        'expires_at' => 'datetime',
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'expires_at',
     ];
 
     /**
@@ -59,5 +67,15 @@ class AuthCode extends Model
     public function client()
     {
         return $this->belongsTo(Passport::clientModel());
+    }
+
+    /**
+     * Get the current connection name for the model.
+     *
+     * @return string|null
+     */
+    public function getConnectionName()
+    {
+        return config('passport.storage.database.connection') ?? $this->connection;
     }
 }

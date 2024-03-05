@@ -42,6 +42,8 @@ trait RetrievesAuthRequestFromSession
             }
 
             $authRequest->setUser(new User($request->user()->getAuthIdentifier()));
+
+            $authRequest->setAuthorizationApproved(true);
         });
     }
 }

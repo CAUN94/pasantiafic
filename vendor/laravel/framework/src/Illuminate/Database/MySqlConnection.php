@@ -2,7 +2,7 @@
 
 namespace Illuminate\Database;
 
-use Illuminate\Database\PDO\MySqlDriver;
+use Doctrine\DBAL\Driver\PDOMySql\Driver as DoctrineDriver;
 use Illuminate\Database\Query\Grammars\MySqlGrammar as QueryGrammar;
 use Illuminate\Database\Query\Processors\MySqlProcessor;
 use Illuminate\Database\Schema\Grammars\MySqlGrammar as SchemaGrammar;
@@ -20,7 +20,7 @@ class MySqlConnection extends Connection
      */
     public function isMaria()
     {
-        return str_contains($this->getPdo()->getAttribute(PDO::ATTR_SERVER_VERSION), 'MariaDB');
+        return strpos($this->getPdo()->getAttribute(PDO::ATTR_SERVER_VERSION), 'MariaDB') !== false;
     }
 
     /**
@@ -82,10 +82,10 @@ class MySqlConnection extends Connection
     /**
      * Get the Doctrine DBAL driver.
      *
-     * @return \Illuminate\Database\PDO\MySqlDriver
+     * @return \Doctrine\DBAL\Driver\PDOMySql\Driver
      */
     protected function getDoctrineDriver()
     {
-        return new MySqlDriver;
+        return new DoctrineDriver;
     }
 }

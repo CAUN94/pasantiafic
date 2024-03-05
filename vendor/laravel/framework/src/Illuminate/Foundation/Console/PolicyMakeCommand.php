@@ -4,11 +4,8 @@ namespace Illuminate\Foundation\Console;
 
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
-use LogicException;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputOption;
 
-#[AsCommand(name: 'make:policy')]
 class PolicyMakeCommand extends GeneratorCommand
 {
     /**
@@ -17,17 +14,6 @@ class PolicyMakeCommand extends GeneratorCommand
      * @var string
      */
     protected $name = 'make:policy';
-
-    /**
-     * The name of the console command.
-     *
-     * This name is used to identify the command during lazy loading.
-     *
-     * @var string|null
-     *
-     * @deprecated
-     */
-    protected static $defaultName = 'make:policy';
 
     /**
      * The console command description.
@@ -85,8 +71,6 @@ class PolicyMakeCommand extends GeneratorCommand
      * Get the model for the guard's user provider.
      *
      * @return string|null
-     *
-     * @throws \LogicException
      */
     protected function userProviderModel()
     {
@@ -94,16 +78,8 @@ class PolicyMakeCommand extends GeneratorCommand
 
         $guard = $this->option('guard') ?: $config->get('auth.defaults.guard');
 
-        if (is_null($guardProvider = $config->get('auth.guards.'.$guard.'.provider'))) {
-            throw new LogicException('The ['.$guard.'] guard is not defined in your "auth" configuration file.');
-        }
-
-        if (! $config->get('auth.providers.'.$guardProvider.'.model')) {
-            return 'App\\Models\\User';
-        }
-
         return $config->get(
-            'auth.providers.'.$guardProvider.'.model'
+            'auth.providers.'.$config->get('auth.guards.'.$guard.'.provider').'.model'
         );
     }
 
@@ -118,7 +94,7 @@ class PolicyMakeCommand extends GeneratorCommand
     {
         $model = str_replace('/', '\\', $model);
 
-        if (str_starts_with($model, '\\')) {
+        if (Str::startsWith($model, '\\')) {
             $namespacedModel = trim($model, '\\');
         } else {
             $namespacedModel = $this->qualifyModel($model);
@@ -150,13 +126,8 @@ class PolicyMakeCommand extends GeneratorCommand
             array_keys($replace), array_values($replace), $stub
         );
 
-        return preg_replace(
-            vsprintf('/use %s;[\r\n]+use %s;/', [
-                preg_quote($namespacedModel, '/'),
-                preg_quote($namespacedModel, '/'),
-            ]),
-            "use {$namespacedModel};",
-            $stub
+        return str_replace(
+            "use {$namespacedModel};\nuse {$namespacedModel};", "use {$namespacedModel};", $stub
         );
     }
 

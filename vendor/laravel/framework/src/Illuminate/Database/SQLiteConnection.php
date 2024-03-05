@@ -2,13 +2,13 @@
 
 namespace Illuminate\Database;
 
-use Illuminate\Database\PDO\SQLiteDriver;
+use Doctrine\DBAL\Driver\PDOSqlite\Driver as DoctrineDriver;
 use Illuminate\Database\Query\Grammars\SQLiteGrammar as QueryGrammar;
 use Illuminate\Database\Query\Processors\SQLiteProcessor;
 use Illuminate\Database\Schema\Grammars\SQLiteGrammar as SchemaGrammar;
 use Illuminate\Database\Schema\SQLiteBuilder;
-use Illuminate\Database\Schema\SqliteSchemaState;
 use Illuminate\Filesystem\Filesystem;
+use RuntimeException;
 
 class SQLiteConnection extends Connection
 {
@@ -80,7 +80,7 @@ class SQLiteConnection extends Connection
      */
     public function getSchemaState(Filesystem $files = null, callable $processFactory = null)
     {
-        return new SqliteSchemaState($this, $files, $processFactory);
+        throw new RuntimeException('Schema dumping is not supported when using SQLite.');
     }
 
     /**
@@ -96,11 +96,11 @@ class SQLiteConnection extends Connection
     /**
      * Get the Doctrine DBAL driver.
      *
-     * @return \Illuminate\Database\PDO\SQLiteDriver
+     * @return \Doctrine\DBAL\Driver\PDOSqlite\Driver
      */
     protected function getDoctrineDriver()
     {
-        return new SQLiteDriver;
+        return new DoctrineDriver;
     }
 
     /**

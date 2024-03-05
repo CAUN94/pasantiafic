@@ -5,7 +5,7 @@ namespace Illuminate\View;
 use Closure;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Support\Htmlable;
-use Illuminate\Contracts\View\View as ViewContract;
+use Illuminate\Support\Str;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionProperty;
@@ -50,20 +50,20 @@ abstract class Component
     /**
      * Get the view / view contents that represent the component.
      *
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\Support\Htmlable|\Closure|string
+     * @return \Illuminate\View\View|\Illuminate\Contracts\Support\Htmlable|\Closure|string
      */
     abstract public function render();
 
     /**
      * Resolve the Blade view or view file that should be used when rendering the component.
      *
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\Support\Htmlable|\Closure|string
+     * @return \Illuminate\View\View|\Illuminate\Contracts\Support\Htmlable|\Closure|string
      */
     public function resolveView()
     {
         $view = $this->render();
 
-        if ($view instanceof ViewContract) {
+        if ($view instanceof View) {
             return $view;
         }
 
@@ -74,7 +74,7 @@ abstract class Component
         $resolver = function ($view) {
             $factory = Container::getInstance()->make('view');
 
-            return strlen($view) <= PHP_MAXPATHLEN && $factory->exists($view)
+            return $factory->exists($view)
                         ? $view
                         : $this->createBladeViewFromString($factory, $view);
         };
@@ -120,7 +120,7 @@ abstract class Component
      */
     public function data()
     {
-        $this->attributes = $this->attributes ?: $this->newAttributeBag();
+        $this->attributes = $this->attributes ?: new ComponentAttributeBag;
 
         return array_merge($this->extractPublicProperties(), $this->extractPublicMethods());
     }
@@ -222,7 +222,7 @@ abstract class Component
      */
     protected function shouldIgnore($name)
     {
-        return str_starts_with($name, '__') ||
+        return Str::startsWith($name, '__') ||
                in_array($name, $this->ignoredMethods());
     }
 
@@ -265,22 +265,11 @@ abstract class Component
      */
     public function withAttributes(array $attributes)
     {
-        $this->attributes = $this->attributes ?: $this->newAttributeBag();
+        $this->attributes = $this->attributes ?: new ComponentAttributeBag;
 
         $this->attributes->setAttributes($attributes);
 
         return $this;
-    }
-
-    /**
-     * Get a new attribute bag instance.
-     *
-     * @param  array  $attributes
-     * @return \Illuminate\View\ComponentAttributeBag
-     */
-    protected function newAttributeBag(array $attributes = [])
-    {
-        return new ComponentAttributeBag($attributes);
     }
 
     /**

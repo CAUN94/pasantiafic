@@ -15,8 +15,7 @@ class PurgeCommand extends Command
      */
     protected $signature = 'passport:purge
                             {--revoked : Only purge revoked tokens and authentication codes}
-                            {--expired : Only purge expired tokens and authentication codes}
-                            {--hours= : The number of hours to retain expired tokens}';
+                            {--expired : Only purge expired tokens and authentication codes}';
 
     /**
      * The console command description.
@@ -30,9 +29,7 @@ class PurgeCommand extends Command
      */
     public function handle()
     {
-        $expired = $this->option('hours')
-            ? Carbon::now()->subHours($this->option('hours'))
-            : Carbon::now()->subDays(7);
+        $expired = Carbon::now()->subDays(7);
 
         if (($this->option('revoked') && $this->option('expired')) ||
             (! $this->option('revoked') && ! $this->option('expired'))) {
@@ -40,9 +37,7 @@ class PurgeCommand extends Command
             Passport::authCode()->where('revoked', 1)->orWhereDate('expires_at', '<', $expired)->delete();
             Passport::refreshToken()->where('revoked', 1)->orWhereDate('expires_at', '<', $expired)->delete();
 
-            $this->option('hours')
-                ? $this->info('Purged revoked items and items expired for more than '.$this->option('hours').' hours.')
-                : $this->info('Purged revoked items and items expired for more than seven days.');
+            $this->info('Purged revoked items and items expired for more than seven days.');
         } elseif ($this->option('revoked')) {
             Passport::token()->where('revoked', 1)->delete();
             Passport::authCode()->where('revoked', 1)->delete();
@@ -54,9 +49,7 @@ class PurgeCommand extends Command
             Passport::authCode()->whereDate('expires_at', '<', $expired)->delete();
             Passport::refreshToken()->whereDate('expires_at', '<', $expired)->delete();
 
-            $this->option('hours')
-                ? $this->info('Purged items expired for more than '.$this->option('hours').' hours.')
-                : $this->info('Purged items expired for more than seven days.');
+            $this->info('Purged items expired for more than seven days.');
         }
     }
 }

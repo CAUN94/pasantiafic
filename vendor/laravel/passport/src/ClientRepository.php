@@ -37,7 +37,7 @@ class ClientRepository
     /**
      * Get a client by the given ID.
      *
-     * @param  int|string  $id
+     * @param  int  $id
      * @return \Laravel\Passport\Client|null
      */
     public function find($id)
@@ -50,7 +50,7 @@ class ClientRepository
     /**
      * Get an active client by the given ID.
      *
-     * @param  int|string  $id
+     * @param  int  $id
      * @return \Laravel\Passport\Client|null
      */
     public function findActive($id)
@@ -63,7 +63,7 @@ class ClientRepository
     /**
      * Get a client instance for the given ID and user ID.
      *
-     * @param  int|string  $clientId
+     * @param  int  $clientId
      * @param  mixed  $userId
      * @return \Laravel\Passport\Client|null
      */
@@ -128,7 +128,7 @@ class ClientRepository
     /**
      * Store a new client.
      *
-     * @param  int|null  $userId
+     * @param  int  $userId
      * @param  string  $name
      * @param  string  $redirect
      * @param  string|null  $provider
@@ -158,7 +158,7 @@ class ClientRepository
     /**
      * Store a new personal access token client.
      *
-     * @param  int|null  $userId
+     * @param  int  $userId
      * @param  string  $name
      * @param  string  $redirect
      * @return \Laravel\Passport\Client
@@ -167,7 +167,7 @@ class ClientRepository
     {
         return tap($this->create($userId, $name, $redirect, null, true), function ($client) {
             $accessClient = Passport::personalAccessClient();
-            $accessClient->client_id = $client->getKey();
+            $accessClient->client_id = $client->id;
             $accessClient->save();
         });
     }
@@ -175,7 +175,7 @@ class ClientRepository
     /**
      * Store a new password grant client.
      *
-     * @param  int|null  $userId
+     * @param  int  $userId
      * @param  string  $name
      * @param  string  $redirect
      * @param  string|null  $provider
@@ -221,7 +221,7 @@ class ClientRepository
     /**
      * Determine if the given client is revoked.
      *
-     * @param  int|string  $id
+     * @param  int  $id
      * @return bool
      */
     public function revoked($id)

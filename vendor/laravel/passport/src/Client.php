@@ -2,16 +2,11 @@
 
 namespace Laravel\Passport;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Laravel\Passport\Database\Factories\ClientFactory;
 
 class Client extends Model
 {
-    use HasFactory;
-    use ResolvesInheritedScopes;
-
     /**
      * The database table used by the model.
      *
@@ -42,7 +37,6 @@ class Client extends Model
      */
     protected $casts = [
         'grant_types' => 'array',
-        'scopes' => 'array',
         'personal_access_client' => 'bool',
         'password_client' => 'bool',
         'revoked' => 'bool',
@@ -65,7 +59,7 @@ class Client extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            if (Passport::clientUuids()) {
+            if (config('passport.client_uuids')) {
                 $model->{$model->getKeyName()} = $model->{$model->getKeyName()} ?: (string) Str::orderedUuid();
             }
         });
@@ -157,46 +151,6 @@ class Client extends Model
     }
 
     /**
-     * Determine if the client has the given grant type.
-     *
-     * @param  string  $grantType
-     * @return bool
-     */
-    public function hasGrantType($grantType)
-    {
-        if (! isset($this->grant_types) || ! is_array($this->grant_types)) {
-            return true;
-        }
-
-        return in_array($grantType, $this->grant_types);
-    }
-
-    /**
-     * Determine whether the client has the given scope.
-     *
-     * @param  string  $scope
-     * @return bool
-     */
-    public function hasScope($scope)
-    {
-        if (! isset($this->scopes) || ! is_array($this->scopes)) {
-            return true;
-        }
-
-        $scopes = Passport::$withInheritedScopes
-            ? $this->resolveInheritedScopes($scope)
-            : [$scope];
-
-        foreach ($scopes as $scope) {
-            if (in_array($scope, $this->scopes)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * Determine if the client is a confidential client.
      *
      * @return bool
@@ -227,12 +181,12 @@ class Client extends Model
     }
 
     /**
-     * Create a new factory instance for the model.
+     * Get the current connection name for the model.
      *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     * @return string|null
      */
-    public static function newFactory()
+    public function getConnectionName()
     {
-        return ClientFactory::new();
+        return config('passport.storage.database.connection') ?? $this->connection;
     }
 }

@@ -98,7 +98,7 @@ class PersonalAccessTokenFactory
 
         return (new ServerRequest('POST', 'not-important'))->withParsedBody([
             'grant_type' => 'personal_access',
-            'client_id' => $client->getKey(),
+            'client_id' => $client->id,
             'client_secret' => $secret,
             'user_id' => $userId,
             'scope' => implode(' ', $scopes),
@@ -124,10 +124,10 @@ class PersonalAccessTokenFactory
      * @param  array  $response
      * @return \Laravel\Passport\Token
      */
-    public function findAccessToken(array $response)
+    protected function findAccessToken(array $response)
     {
         return $this->tokens->find(
-            $this->jwt->parse($response['access_token'])->claims()->get('jti')
+            $this->jwt->parse($response['access_token'])->getClaim('jti')
         );
     }
 }

@@ -1,12 +1,13 @@
 <?php
-declare(strict_types=1);
 
 namespace Lcobucci\JWT;
 
 use Closure;
-use Lcobucci\JWT\Encoding\ChainedFormatter;
-use Lcobucci\JWT\Encoding\JoseEncoder;
+use Lcobucci\JWT\Parsing\Decoder;
+use Lcobucci\JWT\Parsing\Encoder;
 use Lcobucci\JWT\Signer\Key;
+use Lcobucci\JWT\Signer\Key\InMemory;
+use Lcobucci\JWT\Signer\None;
 use Lcobucci\JWT\Validation\Constraint;
 
 /**
@@ -17,114 +18,160 @@ use Lcobucci\JWT\Validation\Constraint;
  */
 final class Configuration
 {
-    private Parser $parser;
-    private Validator $validator;
+    /** @var Parser */
+    private $parser;
 
-    /** @var Closure(ClaimsFormatter $claimFormatter): Builder */
-    private Closure $builderFactory;
+    /** @var Signer */
+    private $signer;
+
+    /** @var Key */
+    private $signingKey;
+
+    /** @var Key */
+    private $verificationKey;
+
+    /** @var Validator */
+    private $validator;
+
+    /** @var Closure(): Builder */
+    private $builderFactory;
 
     /** @var Constraint[] */
-    private array $validationConstraints = [];
+    private $validationConstraints = [];
 
     private function __construct(
-        private readonly Signer $signer,
-        private readonly Key $signingKey,
-        private readonly Key $verificationKey,
-        Encoder $encoder,
-        Decoder $decoder,
+        Signer $signer,
+        Key $signingKey,
+        Key $verificationKey,
+        Encoder $encoder = null,
+        Decoder $decoder = null
     ) {
-        $this->parser    = new Token\Parser($decoder);
-        $this->validator = new Validation\Validator();
+        $this->signer          = $signer;
+        $this->signingKey      = $signingKey;
+        $this->verificationKey = $verificationKey;
+        $this->parser          = new Parser($decoder ?: new Decoder());
+        $this->validator       = new Validation\Validator();
 
-        $this->builderFactory = static function (ClaimsFormatter $claimFormatter) use ($encoder): Builder {
-            return new Token\Builder($encoder, $claimFormatter);
+        $this->builderFactory = static function () use ($encoder) {
+            return new Builder($encoder ?: new Encoder());
         };
     }
 
+    /** @return self */
     public static function forAsymmetricSigner(
         Signer $signer,
         Key $signingKey,
         Key $verificationKey,
-        Encoder $encoder = new JoseEncoder(),
-        Decoder $decoder = new JoseEncoder(),
-    ): self {
+        Encoder $encoder = null,
+        Decoder $decoder = null
+    ) {
         return new self(
             $signer,
             $signingKey,
             $verificationKey,
             $encoder,
-            $decoder,
+            $decoder
         );
     }
 
+    /** @return self */
     public static function forSymmetricSigner(
         Signer $signer,
         Key $key,
-        Encoder $encoder = new JoseEncoder(),
-        Decoder $decoder = new JoseEncoder(),
-    ): self {
+        Encoder $encoder = null,
+        Decoder $decoder = null
+    ) {
         return new self(
             $signer,
             $key,
             $key,
             $encoder,
-            $decoder,
+            $decoder
         );
     }
 
-    /** @param callable(ClaimsFormatter): Builder $builderFactory */
-    public function setBuilderFactory(callable $builderFactory): void
-    {
-        $this->builderFactory = $builderFactory(...);
+    /** @return self */
+    public static function forUnsecuredSigner(
+        Encoder $encoder = null,
+        Decoder $decoder = null
+    ) {
+        $key = InMemory::plainText('');
+
+        return new self(
+            new None(),
+            $key,
+            $key,
+            $encoder,
+            $decoder
+        );
     }
 
-    public function builder(?ClaimsFormatter $claimFormatter = null): Builder
+    /** @param callable(): Builder $builderFactory */
+    public function setBuilderFactory(callable $builderFactory)
     {
-        return ($this->builderFactory)($claimFormatter ?? ChainedFormatter::default());
+        if (! $builderFactory instanceof Closure) {
+            $builderFactory = static function() use ($builderFactory) {
+                return $builderFactory();
+            };
+        }
+        $this->builderFactory = $builderFactory;
     }
 
-    public function parser(): Parser
+    /** @return Builder */
+    public function builder()
+    {
+        $factory = $this->builderFactory;
+
+        return $factory();
+    }
+
+    /** @return Parser */
+    public function parser()
     {
         return $this->parser;
     }
 
-    public function setParser(Parser $parser): void
+    public function setParser(Parser $parser)
     {
         $this->parser = $parser;
     }
 
-    public function signer(): Signer
+    /** @return Signer */
+    public function signer()
     {
         return $this->signer;
     }
 
-    public function signingKey(): Key
+    /** @return Key */
+    public function signingKey()
     {
         return $this->signingKey;
     }
 
-    public function verificationKey(): Key
+    /** @return Key */
+    public function verificationKey()
     {
         return $this->verificationKey;
     }
 
-    public function validator(): Validator
+    /** @return Validator */
+    public function validator()
     {
         return $this->validator;
     }
 
-    public function setValidator(Validator $validator): void
+    public function setValidator(Validator $validator)
     {
         $this->validator = $validator;
     }
 
     /** @return Constraint[] */
-    public function validationConstraints(): array
+    public function validationConstraints()
     {
         return $this->validationConstraints;
     }
 
-    public function setValidationConstraints(Constraint ...$validationConstraints): void
+    public function setValidationConstraints(Constraint ...$validationConstraints)
     {
         $this->validationConstraints = $validationConstraints;
     }

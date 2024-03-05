@@ -6,12 +6,10 @@ use Illuminate\Container\Container;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Mail\Markdown;
-use Illuminate\Support\Traits\Conditionable;
+use Traversable;
 
 class MailMessage extends SimpleMessage implements Renderable
 {
-    use Conditionable;
-
     /**
      * The view to be rendered.
      *
@@ -81,20 +79,6 @@ class MailMessage extends SimpleMessage implements Renderable
      * @var array
      */
     public $rawAttachments = [];
-
-    /**
-     * The tags for the message.
-     *
-     * @var array
-     */
-    public $tags = [];
-
-    /**
-     * The metadata for the message.
-     *
-     * @var array
-     */
-    public $metadata = [];
 
     /**
      * Priority level of the message.
@@ -268,33 +252,6 @@ class MailMessage extends SimpleMessage implements Renderable
     }
 
     /**
-     * Add a tag header to the message when supported by the underlying transport.
-     *
-     * @param  string  $value
-     * @return $this
-     */
-    public function tag($value)
-    {
-        array_push($this->tags, $value);
-
-        return $this;
-    }
-
-    /**
-     * Add a metadata header to the message when supported by the underlying transport.
-     *
-     * @param  string  $key
-     * @param  string  $value
-     * @return $this
-     */
-    public function metadata($key, $value)
-    {
-        $this->metadata[$key] = $value;
-
-        return $this;
-    }
-
-    /**
      * Set the priority of this message.
      *
      * The value is an integer where 1 is the highest priority and 5 is the lowest.
@@ -340,7 +297,9 @@ class MailMessage extends SimpleMessage implements Renderable
      */
     protected function arrayOfAddresses($address)
     {
-        return is_iterable($address) || $address instanceof Arrayable;
+        return is_array($address) ||
+               $address instanceof Arrayable ||
+               $address instanceof Traversable;
     }
 
     /**
@@ -356,19 +315,18 @@ class MailMessage extends SimpleMessage implements Renderable
             );
         }
 
-        $markdown = Container::getInstance()->make(Markdown::class);
-
-        return $markdown->theme($this->theme ?: $markdown->getTheme())
-                ->render($this->markdown, $this->data());
+        return Container::getInstance()
+            ->make(Markdown::class)
+            ->render($this->markdown, $this->data());
     }
 
     /**
-     * Register a callback to be called with the Symfony message instance.
+     * Register a callback to be called with the Swift message instance.
      *
      * @param  callable  $callback
      * @return $this
      */
-    public function withSymfonyMessage($callback)
+    public function withSwiftMessage($callback)
     {
         $this->callbacks[] = $callback;
 

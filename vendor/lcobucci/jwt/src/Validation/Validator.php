@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 namespace Lcobucci\JWT\Validation;
 
@@ -7,7 +6,7 @@ use Lcobucci\JWT\Token;
 
 final class Validator implements \Lcobucci\JWT\Validator
 {
-    public function assert(Token $token, Constraint ...$constraints): void
+    public function assert(Token $token, Constraint ...$constraints)
     {
         if ($constraints === []) {
             throw new NoConstraintsGiven('No constraint given.');
@@ -28,8 +27,8 @@ final class Validator implements \Lcobucci\JWT\Validator
     private function checkConstraint(
         Constraint $constraint,
         Token $token,
-        array &$violations,
-    ): void {
+        array &$violations
+    ) {
         try {
             $constraint->assert($token);
         } catch (ConstraintViolation $e) {
@@ -37,7 +36,7 @@ final class Validator implements \Lcobucci\JWT\Validator
         }
     }
 
-    public function validate(Token $token, Constraint ...$constraints): bool
+    public function validate(Token $token, Constraint ...$constraints)
     {
         if ($constraints === []) {
             throw new NoConstraintsGiven('No constraint given.');
@@ -49,7 +48,7 @@ final class Validator implements \Lcobucci\JWT\Validator
             }
 
             return true;
-        } catch (ConstraintViolation) {
+        } catch (ConstraintViolation $e) {
             return false;
         }
     }

@@ -9,8 +9,8 @@
     "license": "MIT",
     "require": {
         "php": "^7.2|^8.0",
-        "laravel/framework": "9.11",
-        "laravel/passport": "^11.10.5",
+        "laravel/framework": "8.0",
+        "laravel/passport": "^10.0",
         "barryvdh/laravel-dompdf": "^2.0.1",
         "consoletvs/charts": "6.*",
         "fideloper/proxy": "^4.0",
@@ -23,8 +23,8 @@
         "filp/whoops": "^2.0",
         "fzaninotto/faker": "^1.4",
         "mockery/mockery": "^1.0",
-        "nunomaduro/collision": "^7.5.2",
-        "phpunit/phpunit": "^10.1.3"
+        "nunomaduro/collision": "^5.11.0",
+        "phpunit/phpunit": "^9.6.17"
     },
     "config": {
         "optimize-autoloader": true,

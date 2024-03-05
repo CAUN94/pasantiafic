@@ -5,11 +5,7 @@ namespace Laravel\Passport\Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Laravel\Passport\Client;
-use Laravel\Passport\Passport;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Laravel\Passport\Client>
- */
 class ClientFactory extends Factory
 {
     /**
@@ -26,32 +22,15 @@ class ClientFactory extends Factory
      */
     public function definition()
     {
-        return $this->ensurePrimaryKeyIsSet([
+        return [
             'user_id' => null,
-            'name' => $this->faker->company(),
+            'name' => $this->faker->company,
             'secret' => Str::random(40),
-            'redirect' => $this->faker->url(),
+            'redirect' => $this->faker->url,
             'personal_access_client' => false,
             'password_client' => false,
             'revoked' => false,
-        ]);
-    }
-
-    /**
-     * Ensure the primary key is set on the model when using UUIDs.
-     *
-     * @param  array  $data
-     * @return array
-     */
-    protected function ensurePrimaryKeyIsSet(array $data)
-    {
-        if (Passport::clientUuids()) {
-            $keyName = (new $this->model)->getKeyName();
-
-            $data[$keyName] = (string) Str::orderedUuid();
-        }
-
-        return $data;
+        ];
     }
 
     /**

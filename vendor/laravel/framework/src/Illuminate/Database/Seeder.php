@@ -4,7 +4,6 @@ namespace Illuminate\Database;
 
 use Illuminate\Console\Command;
 use Illuminate\Container\Container;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
 
@@ -25,21 +24,14 @@ abstract class Seeder
     protected $command;
 
     /**
-     * Seeders that have been called at least one time.
-     *
-     * @var array
-     */
-    protected static $called = [];
-
-    /**
-     * Run the given seeder class.
+     * Seed the given connection from the given path.
      *
      * @param  array|string  $class
      * @param  bool  $silent
-     * @param  array  $parameters
+     * @param  mixed ...$parameters
      * @return $this
      */
-    public function call($class, $silent = false, array $parameters = [])
+    public function call($class, $silent = false, ...$parameters)
     {
         $classes = Arr::wrap($class);
 
@@ -54,58 +46,28 @@ abstract class Seeder
 
             $startTime = microtime(true);
 
-            $seeder->__invoke($parameters);
+            $seeder->__invoke(...$parameters);
 
             $runTime = number_format((microtime(true) - $startTime) * 1000, 2);
 
             if ($silent === false && isset($this->command)) {
                 $this->command->getOutput()->writeln("<info>Seeded:</info>  {$name} ({$runTime}ms)");
             }
-
-            static::$called[] = $class;
         }
 
         return $this;
     }
 
     /**
-     * Run the given seeder class.
+     * Silently seed the given connection from the given path.
      *
      * @param  array|string  $class
-     * @param  array  $parameters
+     * @param  mixed ...$parameters
      * @return void
      */
-    public function callWith($class, array $parameters = [])
+    public function callSilent($class, ...$parameters)
     {
-        $this->call($class, false, $parameters);
-    }
-
-    /**
-     * Silently run the given seeder class.
-     *
-     * @param  array|string  $class
-     * @param  array  $parameters
-     * @return void
-     */
-    public function callSilent($class, array $parameters = [])
-    {
-        $this->call($class, true, $parameters);
-    }
-
-    /**
-     * Run the given seeder class once.
-     *
-     * @param  array|string  $class
-     * @param  bool  $silent
-     * @return void
-     */
-    public function callOnce($class, $silent = false, array $parameters = [])
-    {
-        if (in_array($class, static::$called)) {
-            return;
-        }
-
-        $this->call($class, $silent, $parameters);
+        $this->call($class, true, ...$parameters);
     }
 
     /**
@@ -160,27 +122,19 @@ abstract class Seeder
     /**
      * Run the database seeds.
      *
-     * @param  array  $parameters
+     * @param  mixed ...$parameters
      * @return mixed
      *
      * @throws \InvalidArgumentException
      */
-    public function __invoke(array $parameters = [])
+    public function __invoke(...$parameters)
     {
         if (! method_exists($this, 'run')) {
             throw new InvalidArgumentException('Method [run] missing from '.get_class($this));
         }
 
-        $callback = fn () => isset($this->container)
-            ? $this->container->call([$this, 'run'], $parameters)
-            : $this->run(...$parameters);
-
-        $uses = array_flip(class_uses_recursive(static::class));
-
-        if (isset($uses[WithoutModelEvents::class])) {
-            $callback = $this->withoutModelEvents($callback);
-        }
-
-        return $callback();
+        return isset($this->container)
+                    ? $this->container->call([$this, 'run'], $parameters)
+                    : $this->run(...$parameters);
     }
 }
