@@ -9,13 +9,13 @@
     "license": "MIT",
     "require": {
         "php": "^7.2|^8.0",
-        "laravel/framework": "8.0",
-        "laravel/passport": "^10.0",
         "barryvdh/laravel-dompdf": "^2.0.1",
         "consoletvs/charts": "6.*",
         "fideloper/proxy": "^4.0",
+        "laravel/framework": "8.0",
+        "laravel/passport": "^10.0",
         "laravel/tinker": "^2.8",
-        "maatwebsite/excel": "^3.1.55",
+        "maatwebsite/excel": "^3.1",
         "yajra/laravel-datatables-oracle": "^9.21"
     },
     "require-dev": {

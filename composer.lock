@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b0f5de09dda2a78d2c2ec519ce558a96",
+    "content-hash": "d21c45f3bcc3f2d6fdea3c1ffdf66361",
     "packages": [
         {
             "name": "balping/json-raw-encoder",
