@@ -15,6 +15,7 @@
         "consoletvs/charts": "6.*",
         "fideloper/proxy": "^4.0",
         "laravel/tinker": "^2.8",
+        "maatwebsite/excel": "^3.1.55",
         "yajra/laravel-datatables-oracle": "^9.21"
     },
     "require-dev": {
