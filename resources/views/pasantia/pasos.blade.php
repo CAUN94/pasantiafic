@@ -43,5 +43,17 @@
 		@elseif($statusPaso4==4)
 		<a class="btn btn-lg btn-outline-success" href="{{route('inscripcion.4.view')}}" role="button">Paso 4 <i class="fas fa-check ml-1"></i></a>
 		@endif
+
+		@if($statusPaso5==0)
+		<a class="btn btn-lg btn-outline-secondary" href="{{route('inscripcion.5.view')}}" role="button">Paso 5 <i class="fas fa-question ml-1"></i></a>
+		@elseif($statusPaso5==1)
+		<a class="btn btn-lg btn-outline-primary" href="{{route('inscripcion.5.view')}}" role="button">Paso 5 <i class="fas fa-pencil-alt ml-1"></i></a>
+		@elseif($statusPaso5==2)
+		<a class="btn btn-lg btn-outline-primary" href="{{route('inscripcion.5.view')}}" role="button">Paso 5 <i class="fas fa-user ml-1"></i></a>
+		@elseif($statusPaso5==3)
+		<a class="btn btn-lg btn-outline-danger" href="{{route('inscripcion.5.view')}}" role="button">Paso 5 <i class="fas fa-times ml-1"></i></a>
+		@elseif($statusPaso5==4)
+		<a class="btn btn-lg btn-outline-success" href="{{route('inscripcion.5.view')}}" role="button">Paso 5 <i class="fas fa-check ml-1"></i></a>
+		@endif
 	</div>
 </div>

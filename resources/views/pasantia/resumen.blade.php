@@ -10,7 +10,7 @@
 	<div class="row justify-content-md-center mb-3">
 		<h2>Resumen de tu inscripción</h2>
 	</div>
-	@include('pasantia.pasos', ['statusPaso0'=>$statusPaso0, 'statusPaso1'=>$statusPaso1, 'statusPaso2'=>$statusPaso2, 'statusPaso3'=>$statusPaso3, 'statusPaso4'=>$statusPaso4])
+	@include('pasantia.pasos', ['statusPaso0'=>$statusPaso0, 'statusPaso1'=>$statusPaso1, 'statusPaso2'=>$statusPaso2, 'statusPaso3'=>$statusPaso3, 'statusPaso4'=>$statusPaso4, 'statusPaso5'=>$statusPaso5])
 	<div class="row justify-content-md-center mb-3">
 		<ul class="list-group">
 			@if($statusPaso0 == 2)
@@ -60,6 +60,20 @@
 				<li class="list-group-item list-group-item-danger"><i class="fas fa-times"></i> Tu proyecto ha sido objetado. <a href="{{route('inscripcion.4.view')}}">Has click aquí para revisarlo</a></li>
 			@elseif($statusPaso4==4)
 				<li class="list-group-item list-group-item-success"><i class="fas fa-check"></i> Tu proyecto está aprobado.</li>
+			@endif
+
+			@if($statusPaso5==0)
+				<li class="list-group-item list-group-item-secondary"><i class="fas fa-question"></i> No has iniciado el paso 5</li>
+			@elseif($statusPaso5==1)
+				<li class="list-group-item list-group-item-warning"><i class="fas fa-exclamation"></i> 
+                    Los datos de tu defensa están incompletos. <a href="{{route('inscripcion.5.view')}}" role="button">Completar</a>
+                </li>
+			@elseif($statusPaso5==2)
+				<li class="list-group-item list-group-item-primary"><i class="fas fa-user"></i> Los datos de tu defensa están guarados pero aún no ha sido aprobada.</li>
+			@elseif($statusPaso5==3)
+				<li class="list-group-item list-group-item-danger"><i class="fas fa-times"></i> Tu defensa ha sido objetada. <a href="{{route('inscripcion.5.view')}}">Has click aquí para revisarlo</a></li>
+			@elseif($statusPaso5==4)
+				<li class="list-group-item list-group-item-success"><i class="fas fa-check"></i> Tu defensa está aprobada.</li>
 			@endif
 		</ul>
 	</div>

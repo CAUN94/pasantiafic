@@ -37,6 +37,7 @@ class PasantiaController extends Controller{
 					'statusPaso2'=>$pasantia->statusPaso2,
 					'statusPaso3'=>$pasantia->statusPaso3,
 					'statusPaso4'=>$pasantia->statusPaso4,
+					'statusPaso5'=>0,
 					'reglamento' => '0']);
 			}
 			else {
@@ -46,6 +47,7 @@ class PasantiaController extends Controller{
 					'statusPaso2'=>$pasantia->statusPaso2,
 					'statusPaso3'=>$pasantia->statusPaso3,
 					'statusPaso4'=>$pasantia->statusPaso4,
+					'statusPaso5'=>0,
 					'reglamento' => '1']);
 			}
 		}
@@ -61,6 +63,7 @@ class PasantiaController extends Controller{
 				'statusPaso2'=>$pasantia->statusPaso2,
 				'statusPaso3'=>$pasantia->statusPaso3,
 				'statusPaso4'=>$pasantia->statusPaso4,
+				'statusPaso5'=>0,
 				'reglamento' => '0']);
 		}
 	}
@@ -111,6 +114,7 @@ class PasantiaController extends Controller{
 				'statusPaso2'=>$pasantia->statusPaso2,
 				'statusPaso3'=>$pasantia->statusPaso3,
 				'statusPaso4'=>$pasantia->statusPaso4,
+				'statusPaso5'=>$pasantia->statusPaso5,
 				'tipoMalla'=>$tipoMalla]);
 		}
 		else {
@@ -160,6 +164,7 @@ class PasantiaController extends Controller{
 				'statusPaso2'=>$pasantia->statusPaso2,
 				'statusPaso3'=>$pasantia->statusPaso3,
 				'statusPaso4'=>$pasantia->statusPaso4,
+				'statusPaso5'=>$pasantia->statusPaso5,
 				'statusGeneral'=>$pasantia->statusGeneral,
 				'empresas'=>$empresas,
 				'empresaSel'=>$empresaSel,
@@ -302,6 +307,7 @@ class PasantiaController extends Controller{
 					'statusPaso2'=>$pasantia->statusPaso2,
 					'statusPaso3'=>$pasantia->statusPaso3,
 					'statusPaso4'=>$pasantia->statusPaso4,
+					'statusPaso5'=>$pasantia->statusPaso5,
 					'nombre'=>$pasantia->nombreJefe,
 					'correo'=>$pasantia->correoJefe,
 					'razon'=>false]);
@@ -376,6 +382,7 @@ class PasantiaController extends Controller{
 						'statusPaso2'=>$pasantia->statusPaso2,
 						'statusPaso3'=>$pasantia->statusPaso3,
 						'statusPaso4'=>$pasantia->statusPaso4,
+						'statusPaso5'=>$pasantia->statusPaso5,
 						'proyecto'=>$proyecto
 					]);
 
@@ -388,6 +395,7 @@ class PasantiaController extends Controller{
 						'statusPaso2'=>$pasantia->statusPaso2,
 						'statusPaso3'=>$pasantia->statusPaso3,
 						'statusPaso4'=>$pasantia->statusPaso4,
+						'statusPaso5'=>$pasantia->statusPaso5,
 						'proyecto'=>$proyecto]);
 				}
 			}
@@ -412,28 +420,16 @@ class PasantiaController extends Controller{
 		}
 		if (Proyecto::where('idPasantia', $pasantia->idPasantia)->first()){
 			$proyecto = Proyecto::where('idPasantia', $pasantia->idPasantia)->first();
-			$proyecto->telefono = $request->telefono;
-			$proyecto->correoPersonal = $request->correoPersonal;
-			$proyecto->certificado = Auth::user()->rut. '_Certificado_' .time() . '_' . $request->certificado->getClientOriginalName();
-			$proyecto->carrera = $request->carrera;
-			$proyecto->dobleTitulacion = $request->dobleTitulacion;
-			$proyecto->segundaCarrera = $request->segundaCarrera;
-			$proyecto->mecanismoTitulacion = $request->mecanismoTitulacion;
-			$proyecto->nombreEmpresa = $request->nombreEmpresa;
-			$proyecto->lugarPasantia = $request->lugarPasantia;
-			$proyecto->invitarSupervisor = $request->invitarSupervisor;
-			$proyecto->nombreSupervisor = $request->nombreSupervisor;
-			$proyecto->cargoSupervisor = $request->cargoSupervisor;
-			$proyecto->correoSupervisor = $request->correoSupervisor;
 			$proyecto->nombre = $request->nombre;
-			$proyecto->area = $request->areaProyecto;
-			$proyecto->descripcion = $request->descripcion;
-			$proyecto->informe = Auth::user()->rut. '_Informe_' .time() . '_' . $request->informeProyecto->getClientOriginalName();
-			$proyecto->presentacion = $request->presentacion;
+			$proyecto->area = $request->area;
+			$proyecto->disciplina = $request->disciplina;
+			$proyecto->problematica = $request->problematica;
+			$proyecto->objetivo = $request->objetivo;
+			$proyecto->medidas = $request->medidas;
+			$proyecto->metodologia = $request->metodologia;
+			$proyecto->planificacion = $request->planificacion;
 
-			if (!$request->telefono || !$request->correoPersonal || !$request->certificado || !$request->carrera || !$request->segundaCarrera || !$request->mecanismoTitulacion
-			 || !$request->nombreEmpresa || !$request->nombre 
-			 || !$request->areaProyecto || !$request->descripcion || !$request->informeProyecto || is_null($request->dobleTitulacion) || is_null($request->lugarPasantia) || is_null($request->presentacion)){
+			if (!$request->nombre || !$request->area || !$request->disciplina || !$request->problematica || !$request->objetivo || !$request->medidas || !$request->metodologia || !$request->planificacion){
 				$proyecto->status = '1';
 				$pasantia->statusPaso4 = '1';
 				$pasantia->save();
@@ -442,17 +438,6 @@ class PasantiaController extends Controller{
 				$proyecto->status = '2';
 				$pasantia->statusPaso4 = '2';
 				$pasantia->save();
-			}
-			if($request->hasFile('certificado')){
-				$certificado = $request->file('certificado');
-				$fileName = Auth::user()->rut. '_Certificado_' .time() . '_' . $certificado->getClientOriginalName();
-				$certificado->move(public_path('documents'), $fileName);
-			} 
-            if($request->hasFile('informeProyecto')){
-				$informeProyecto = $request->file('informeProyecto');
-				$fileName = Auth::user()->rut. '_Informe_' .time() . '_' . $informeProyecto->getClientOriginalName();
-				$informeProyecto->move(public_path('documents'), $fileName);
-                // $request->file('informeProyecto')->storeAs('public', $fileName);
 			} 
 			$proyecto->save();
 
@@ -461,30 +446,17 @@ class PasantiaController extends Controller{
 		else {
 			$proyecto = new Proyecto([
 				'idPasantia'=> $pasantia->idPasantia,
-				'telefono' => $request->telefono,
-				'correoPersonal' => $request->correoPersonal,
-				'certificado' => Auth::user()->rut. '_Certificado_' .time() . '_' . $request->certificado->getClientOriginalName(),
-				'carrera' => $request->carrera,
-				'dobleTitulacion' => $request->dobleTitulacion,
-				'segundaCarrera' => $request->segundaCarrera,
-				'mecanismoTitulacion' => $request->mecanismoTitulacion,
-				'nombreEmpresa' => $request->nombreEmpresa,
-				'lugarPasantia' => $request->lugarPasantia,
-				'invitarSupervisor' => $request->invitarSupervisor,
-				'nombreSupervisor' => $request->nombreSupervisor,
-				'cargoSupervisor' => $request->cargoSupervisor,
-				'correoSupervisor' => $request->correoSupervisor,
 				'nombre' => $request->nombre,
-				'area' => $request->areaProyecto,
-				'descripcion' => $request->descripcionProyecto,
-				'informe' => Auth::user()->rut. '_Informe_' .time() . '_' . $request->informeProyecto->getClientOriginalName(),
-				'presentacion' => $request->presentacion,
+				'area' => $request->area,
+				'disciplina' => $request->disciplina,
+				'problematica' => $request->problematica,
+				'objetivo' => $request->objetivo,
+				'medidas' => $request->medidas,
+				'metodologia' => $request->metodologia,
+				'planificacion' => $request->planificacion
 			]);
 			
-			if (!$request->telefono || !$request->correoPersonal || !$request->certificado || !$request->carrera || !$request->segundaCarrera || !$request->mecanismoTitulacion
-			 || !$request->nombreEmpresa || !$request->nombre 
-			 || !$request->areaProyecto || !$request->descripcion || !$request->informeProyecto || is_null($request->dobleTitulacion) || is_null($request->lugarPasantia) || is_null($request->presentacion)){
-
+			if (!$request->nombre || !$request->area || !$request->disciplina || !$request->problematica || !$request->objetivo || !$request->medidas || !$request->metodologia || !$request->planificacion){
 				$proyecto->status = '1';
 				$pasantia->statusPaso4 = '1';
 				$pasantia->save();
@@ -494,16 +466,6 @@ class PasantiaController extends Controller{
 				$pasantia->statusPaso4 = '2';
 				$pasantia->save();
 			}
-			if($request->hasFile('certificado')){
-				$certificado = $request->file('certificado');
-				$fileName = Auth::user()->rut. '_Certificado_' .time() . '_' . $certificado->getClientOriginalName();
-				$certificado->move(public_path('documents'), $fileName);
-			} 
-            if($request->hasFile('informeProyecto')){
-				$informeProyecto = $request->file('informeProyecto');
-				$fileName = Auth::user()->rut. '_Informe_' .time() . '_' . $informeProyecto->getClientOriginalName();
-				$informeProyecto->move(public_path('documents'), $fileName);
-			} 
 			$proyecto->save();
 
 		}
@@ -529,6 +491,7 @@ class PasantiaController extends Controller{
 				'statusPaso2'=>$pasantia->statusPaso2,
 				'statusPaso3'=>$pasantia->statusPaso3,
 				'statusPaso4'=>$pasantia->statusPaso4,
+				'statusPaso5'=>$pasantia->statusPaso5,
 				'statusGeneral' =>$pasantia->statusGeneral,
 				'pasantia'=>$pasantia,
 				'empresa'=>$empresa]);
@@ -641,6 +604,7 @@ class PasantiaController extends Controller{
  		 'statusPaso2'=>$pasantia->statusPaso2,
  		 'statusPaso3'=>$pasantia->statusPaso3,
  		 'statusPaso4'=>$pasantia->statusPaso4,
+		 'statusPaso5'=>$pasantia->statusPaso5,
  		 'nombre'=>$pasantia->nombreJefe,
  		 'correo'=>$pasantia->correoJefe])->with('razon', true);
 	}
@@ -648,6 +612,160 @@ class PasantiaController extends Controller{
 	public function resumenAlumno(){
 		$pasantias = Auth::user()->pasantias;
         return view('pasantias.resumen',compact('pasantias'));
+	}
+
+	public function paso5View(){
+		$userId = Auth::id();
+		$pasantia = Pasantia::where('idAlumno', $userId)->where('actual',1)->first();
+		if ($pasantia->statusPaso5 == 4) {
+			return redirect('/inscripcion/resumen')->with('error', 'No puedes editar el paso 5.');
+		}
+		if ($pasantia && $pasantia->statusPaso0==2){
+			if ($pasantia->statusPaso2 == 3){
+				return redirect('/inscripcion/2')->with('danger', 'No puedes continuar tu proceso de inscripción si tienes un pariente en la empresa. Su pasantía quedará en un estado pendiente de validación, lo que podría tardar el proceso de su inscripción.');
+			}
+			if ($pasantia->statusPaso4 != 4){
+				return redirect('/inscripcion/resumen')->with('error', "No puedes crear una defensa si tu proyecto no está validado.");
+			}
+			else {
+				if (Proyecto::where('idPasantia', '=', $pasantia->idPasantia)->first()){
+					$proyecto = Proyecto::where('idPasantia', '=', $pasantia->idPasantia)->first();
+					return view('pasantia.paso5', [
+						'statusPaso0'=>$pasantia->statusPaso0,
+						'statusPaso1'=>$pasantia->statusPaso1,
+						'statusPaso2'=>$pasantia->statusPaso2,
+						'statusPaso3'=>$pasantia->statusPaso3,
+						'statusPaso4'=>$pasantia->statusPaso4,
+						'statusPaso5'=>$pasantia->statusPaso5,
+						'proyecto'=>$proyecto
+					]);
+
+				}
+				else {
+					$proyecto = new Proyecto;
+					return view('pasantia.paso5', [
+						'statusPaso0'=>$pasantia->statusPaso0,
+						'statusPaso1'=>$pasantia->statusPaso1,
+						'statusPaso2'=>$pasantia->statusPaso2,
+						'statusPaso3'=>$pasantia->statusPaso3,
+						'statusPaso4'=>$pasantia->statusPaso4,
+						'statusPaso5'=>$pasantia->statusPaso5,
+						'proyecto'=>$proyecto]);
+				}
+			}
+		}
+		else {
+			return redirect('/inscripcion/0');
+		}
+	}
+
+	public function paso5Control(Request $request){
+		
+		$userId = Auth::id();
+		$pasantia = Pasantia::where('idAlumno', $userId)->where('actual',1)->first();
+		if ($pasantia->statusPaso5 == 4) {
+			return redirect('/inscripcion/resumen')->with('error', 'No puedes editar el paso 4.');
+		}
+		if (Proyecto::where('idPasantia', $pasantia->idPasantia)->first()){
+			$proyecto = Proyecto::where('idPasantia', $pasantia->idPasantia)->first();
+			$proyecto->telefono = $request->telefono;
+			$proyecto->correoPersonal = $request->correoPersonal;
+			$proyecto->certificado = Auth::user()->rut. '_Certificado_' .time() . '_' . $request->certificado->getClientOriginalName();
+			$proyecto->carrera = $request->carrera;
+			$proyecto->dobleTitulacion = $request->dobleTitulacion;
+			$proyecto->segundaCarrera = $request->segundaCarrera;
+			$proyecto->mecanismoTitulacion = $request->mecanismoTitulacion;
+			$proyecto->nombreEmpresa = $request->nombreEmpresa;
+			$proyecto->lugarPasantia = $request->lugarPasantia;
+			$proyecto->invitarSupervisor = $request->invitarSupervisor;
+			$proyecto->nombreSupervisor = $request->nombreSupervisor;
+			$proyecto->cargoSupervisor = $request->cargoSupervisor;
+			$proyecto->correoSupervisor = $request->correoSupervisor;
+			$proyecto->nombre = $request->nombre;
+			$proyecto->area = $request->areaProyecto;
+			$proyecto->descripcion = $request->descripcion;
+			$proyecto->informe = Auth::user()->rut. '_Informe_' .time() . '_' . $request->informeProyecto->getClientOriginalName();
+			$proyecto->presentacion = $request->presentacion;
+
+			if (!$request->telefono || !$request->correoPersonal || !$request->certificado || !$request->carrera || !$request->segundaCarrera || !$request->mecanismoTitulacion
+			 || !$request->nombreEmpresa || !$request->nombre 
+			 || !$request->areaProyecto || !$request->descripcion || !$request->informeProyecto || is_null($request->dobleTitulacion) || is_null($request->lugarPasantia) || is_null($request->presentacion)){
+				$proyecto->status = '1';
+				$pasantia->statusPaso5 = '1';
+				$pasantia->save();
+			}
+			else {
+				$proyecto->status = '2';
+				$pasantia->statusPaso5 = '2';
+				$pasantia->save();
+			}
+			if($request->hasFile('certificado')){
+				$certificado = $request->file('certificado');
+				$fileName = Auth::user()->rut. '_Certificado_' .time() . '_' . $certificado->getClientOriginalName();
+				$certificado->move(public_path('documents'), $fileName);
+			} 
+            if($request->hasFile('informeProyecto')){
+				$informeProyecto = $request->file('informeProyecto');
+				$fileName = Auth::user()->rut. '_Informe_' .time() . '_' . $informeProyecto->getClientOriginalName();
+				$informeProyecto->move(public_path('documents'), $fileName);
+                // $request->file('informeProyecto')->storeAs('public', $fileName);
+			} 
+			$proyecto->save();
+
+			return redirect('/inscripcion/resumen');
+		}
+		else {
+			$proyecto = new Proyecto([
+				'idPasantia'=> $pasantia->idPasantia,
+				'telefono' => $request->telefono,
+				'correoPersonal' => $request->correoPersonal,
+				'certificado' => Auth::user()->rut. '_Certificado_' .time() . '_' . $request->certificado->getClientOriginalName(),
+				'carrera' => $request->carrera,
+				'dobleTitulacion' => $request->dobleTitulacion,
+				'segundaCarrera' => $request->segundaCarrera,
+				'mecanismoTitulacion' => $request->mecanismoTitulacion,
+				'nombreEmpresa' => $request->nombreEmpresa,
+				'lugarPasantia' => $request->lugarPasantia,
+				'invitarSupervisor' => $request->invitarSupervisor,
+				'nombreSupervisor' => $request->nombreSupervisor,
+				'cargoSupervisor' => $request->cargoSupervisor,
+				'correoSupervisor' => $request->correoSupervisor,
+				'nombre' => $request->nombre,
+				'area' => $request->areaProyecto,
+				'descripcion' => $request->descripcionProyecto,
+				'informe' => Auth::user()->rut. '_Informe_' .time() . '_' . $request->informeProyecto->getClientOriginalName(),
+				'presentacion' => $request->presentacion,
+			]);
+			
+			if (!$request->telefono || !$request->correoPersonal || !$request->certificado || !$request->carrera || !$request->segundaCarrera || !$request->mecanismoTitulacion
+			 || !$request->nombreEmpresa || !$request->nombre 
+			 || !$request->areaProyecto || !$request->descripcion || !$request->informeProyecto || is_null($request->dobleTitulacion) || is_null($request->lugarPasantia) || is_null($request->presentacion)){
+
+				$proyecto->status = '1';
+				$pasantia->statusPaso5 = '1';
+				$pasantia->save();
+			}
+			else {
+				$proyecto->status = '2';
+				$pasantia->statusPaso5 = '2';
+				$pasantia->save();
+			}
+			if($request->hasFile('certificado')){
+				$certificado = $request->file('certificado');
+				$fileName = Auth::user()->rut. '_Certificado_' .time() . '_' . $certificado->getClientOriginalName();
+				$certificado->move(public_path('documents'), $fileName);
+			} 
+            if($request->hasFile('informeProyecto')){
+				$informeProyecto = $request->file('informeProyecto');
+				$fileName = Auth::user()->rut. '_Informe_' .time() . '_' . $informeProyecto->getClientOriginalName();
+				$informeProyecto->move(public_path('documents'), $fileName);
+			} 
+			$proyecto->save();
+
+		}
+
+
+		return redirect('/inscripcion/resumen');
 	}
 
 }
