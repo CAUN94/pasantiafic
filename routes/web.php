@@ -30,6 +30,7 @@ Route::resource('/admin/importarlista', 'ListadoController')->middleware('auth',
 Route::get('/admin/asignarProyectos', 'AdminController@asignarProyectosView')->name('admin.asignarProyectos')->middleware('auth', 'admin');
 Route::get('/admin/asignarProyectos/{id}', 'AdminController@asignarProyectosManual')->middleware('auth', 'admin');
 Route::get('/admin/asignarProyectos/{idProf}/{idProy}/{action}', 'AdminController@asignarProyectoQuick')->middleware('auth', 'admin');
+Route::post('/admin/listadoProyectos/inscribir', 'AdminController@inscribirProyecto')->name('admin.inscribirProyecto.post')->middleware('auth', 'admin');
 
 // Rutas de Listado Inscripcion
 // Ruta de Destroy Paso 2
