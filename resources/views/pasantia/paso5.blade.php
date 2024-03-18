@@ -9,7 +9,7 @@
   @endif
 	@include('pasantia.pasos', ['statusPaso0'=>$statusPaso0, 'statusPaso1'=>$statusPaso1, 'statusPaso2'=>$statusPaso2, 'statusPaso3'=>$statusPaso3, 'statusPaso4'=>$statusPaso4])
 	<div class="row justify-content-md-center mb-5">
-		<h2>Paso 4: Proyecto Defensa</h2>
+		<h2>Paso 5: Proyecto Defensa</h2>
 	</div>
 	<div class="row justify-content-md-center mb-5">
 		<div class="col-md-9">
@@ -53,7 +53,7 @@
 							@foreach(['Ingeniería Civil Bioingeniería', 'Ingeniería Civil', 'Ingeniería Civil Energía y Medioambiente', 
 										'Ingeniería Civil Mecanica','Ingeniería Civil en Minería', 'Ingeniería Civil Industrial',
 										'Ingeniería Civil Informática'] as $opcion)
-								<option value="{{ $opcion }}">{{ $opcion }}</option>
+								<option value="{{$proyecto->carrera}}">{{ $opcion }}</option>
 							@endforeach
 						</select>
 					</div>

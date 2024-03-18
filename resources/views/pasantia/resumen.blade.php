@@ -7,6 +7,13 @@
       {{ session()->get('error') }}
     </div><br />
   @endif
+
+  @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
 	<div class="row justify-content-md-center mb-3">
 		<h2>Resumen de tu inscripción</h2>
 	</div>

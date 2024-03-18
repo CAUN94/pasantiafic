@@ -106,7 +106,7 @@ Route::get('/inscripcion/resumen', 'PasantiaController@resumenView')->name('insc
 Route::get('/inscripcion/cambiarSupervisor', 'PasantiaController@cambiarSupervisor')->name('inscripcion.cambiarSupervisor')->middleware('auth');
 Route::get('/inscripcion/certificado', 'PasantiaController@descargarCert')->name('inscripcion.certificado')->middleware('auth');
 Route::get('/inscripcion/5', 'PasantiaController@paso5View')->name('inscripcion.5.view')->middleware('auth');
-Route::post('/inscripcion/4/post','PasantiaController@paso5Control')->name('inscripcion.5.post')->middleware('auth');
+Route::post('/inscripcion/5/post','PasantiaController@paso5Control')->name('inscripcion.5.post')->middleware('auth');
 
 
 Route::get('/confirmarTutor/{id}', 'PasantiaController@confirmarTutor')->name('confTutor');

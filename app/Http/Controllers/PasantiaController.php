@@ -712,7 +712,7 @@ class PasantiaController extends Controller{
 			} 
 			$proyecto->save();
 
-			return redirect('/inscripcion/resumen');
+			return redirect('/inscripcion/resumen')->with('success', "Tus datos se han enviado exitosamente");
 		}
 		else {
 			$proyecto = new Proyecto([
@@ -761,11 +761,11 @@ class PasantiaController extends Controller{
 				$informeProyecto->move(public_path('documents'), $fileName);
 			} 
 			$proyecto->save();
-
+			return redirect('/inscripcion/resumen')->with('success', "Tus datos se han enviado exitosamente");
 		}
 
 
-		return redirect('/inscripcion/resumen');
+		
 	}
 
 }
