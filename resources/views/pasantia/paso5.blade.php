@@ -74,7 +74,7 @@
 							@foreach(['Ninguna','Ingeniería Civil Bioingeniería', 'Ingeniería Civil', 'Ingeniería Civil Energía y Medioambiente', 
 										'Ingeniería Civil Mecanica','Ingeniería Civil en Minería', 'Ingeniería Civil Industrial',
 										'Ingeniería Civil Informática'] as $opcion)
-								<option value="{{ $opcion }}">{{ $opcion }}</option>
+								<option value="{{ $opcion }}" @if($proyecto->segundaCarrera == $opcion) selected @endif>{{ $opcion }}</option>
 							@endforeach
 						</select>
 					</div>
@@ -159,7 +159,7 @@
 					</div>
 					
 					<label for="comentarios">18. Comentarios Generales/Sugerencias (OPCIONAL)</label>
-					<textarea class="form-control mt-2" id="comentarios" name="comentarios" rows="3" placeholder="Comentarios"></textarea>
+					<textarea class="form-control mt-2" id="comentarios" name="comentarios" rows="3" placeholder="Comentarios" value="{{$proyecto->comentario}}">{{$proyecto->comentario}}</textarea>
 			  	</div>
 
 				<button type="submit" class="btn btn-primary">Continuar</button>
@@ -187,6 +187,18 @@
                 segundaCarreraContainer.style.display = 'none';
             }
         });
+    });
+
+	document.getElementById('carrera').addEventListener('change', function() {
+        var carreraSeleccionada = this.value;
+        var segundaCarreraSelect = document.getElementById('segundaCarrera');
+        for (var i = 0; i < segundaCarreraSelect.options.length; i++) {
+            if (segundaCarreraSelect.options[i].value === carreraSeleccionada) {
+                segundaCarreraSelect.options[i].disabled = true;
+            } else {
+                segundaCarreraSelect.options[i].disabled = false;
+            }
+        }
     });
 </script>
 
