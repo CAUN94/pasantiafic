@@ -10,7 +10,6 @@
 	@include('pasantia.pasos', ['statusPaso0'=>$statusPaso0, 'statusPaso1'=>$statusPaso1, 'statusPaso2'=>$statusPaso2, 'statusPaso3'=>$statusPaso3, 'statusPaso4'=>$statusPaso4])
 	<div class="row justify-content-md-center mb-5">
 		<h2>Paso 5: Proyecto Defensa</h2>
-		<h2>Paso 5: Proyecto Defensa</h2>
 	</div>
 	<div class="row justify-content-md-center mb-5">
 		<div class="col-md-9">
