@@ -53,27 +53,28 @@
 							@foreach(['Ingeniería Civil Bioingeniería', 'Ingeniería Civil', 'Ingeniería Civil Energía y Medioambiente', 
 										'Ingeniería Civil Mecanica','Ingeniería Civil en Minería', 'Ingeniería Civil Industrial',
 										'Ingeniería Civil Informática'] as $opcion)
-								<option value="{{$proyecto->carrera}}" @if($proyecto->carrera == $opcion) selected @endif>{{ $opcion }}</option>
+								<option value="{{$opcion}}" @if($proyecto->carrera == $opcion) selected @endif>{{ $opcion }}</option>
 							@endforeach
 						</select>
 					</div>
 
 					<div class="mb-3">
 						<label for="dobleTitulacion">5. ¿Eres Doble Titulación?</label>
-						<br><input class="ml-5" type="radio" name="dobleTitulacion" id="dobleTotulacion" value="1" required>
+						<br>
+						<input class="ml-5" type="radio" name="dobleTitulacion" id="dobleTitulacion_si" value="1" required>
 						<label for="dobleTitulacion_si">Sí:</label>
-						
-						<input type="radio" name="dobleTitulacion" id="dobleTotulacion" value="0" required>
+
+						<input type="radio" name="dobleTitulacion" id="dobleTitulacion_no" value="0" required>
 						<label for="dobleTitulacion_no">No:</label>
 					</div>
 
-					<div class="mb-3">
-						<label for="segundaCarrera">6. Selecciona una tu segunda carrera:</label>
-						<select class="segundaCarrera" id="segundaCarrera" name="segundaCarrera" value="{{old('myselect')}}`" required>
+					<div class="mb-3" id="segundaCarreraContainer" style="display: none;">
+						<label for="segundaCarrera">6. Selecciona tu segunda carrera:</label>
+						<select class="segundaCarrera" id="segundaCarrera" name="segundaCarrera" required>
 							@foreach(['Ninguna','Ingeniería Civil Bioingeniería', 'Ingeniería Civil', 'Ingeniería Civil Energía y Medioambiente', 
 										'Ingeniería Civil Mecanica','Ingeniería Civil en Minería', 'Ingeniería Civil Industrial',
 										'Ingeniería Civil Informática'] as $opcion)
-								<option value="{{ $opcion }}" @if($proyecto->segundaCarrera == $opcion) selected @endif>{{ $opcion }}</option>
+								<option value="{{ $opcion }}">{{ $opcion }}</option>
 							@endforeach
 						</select>
 					</div>
@@ -168,5 +169,25 @@
 	</div>
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Escuchar el cambio en el input radio
+        var dobleTitulacionSi = document.getElementById('dobleTitulacion_si');
+        var dobleTitulacionNo = document.getElementById('dobleTitulacion_no');
+        var segundaCarreraContainer = document.getElementById('segundaCarreraContainer');
+
+        dobleTitulacionSi.addEventListener('change', function () {
+            if (this.checked) {
+                segundaCarreraContainer.style.display = 'block';
+            }
+        });
+
+        dobleTitulacionNo.addEventListener('change', function () {
+            if (this.checked) {
+                segundaCarreraContainer.style.display = 'none';
+            }
+        });
+    });
+</script>
 
 @endsection
