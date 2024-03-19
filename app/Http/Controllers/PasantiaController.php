@@ -684,7 +684,7 @@ class PasantiaController extends Controller{
 			$proyecto->nombre = $request->nombre;
 			$proyecto->area = $request->areaProyecto;
 			$proyecto->descripcion = $request->descripcion;
-			$proyecto->comentario = $request->comentario;
+			$proyecto->comentario = $request->comentarios;
 			$proyecto->informe = Auth::user()->rut. '_Informe_' .time() . '_' . $request->informeProyecto->getClientOriginalName();
 			$proyecto->presentacion = $request->presentacion;
 
@@ -736,7 +736,7 @@ class PasantiaController extends Controller{
 				'descripcion' => $request->descripcionProyecto,
 				'informe' => Auth::user()->rut. '_Informe_' .time() . '_' . $request->informeProyecto->getClientOriginalName(),
 				'presentacion' => $request->presentacion,
-				'comentario' => $request->comentario
+				'comentario' => $request->comentarios
 			]);
 			
 			if (!$request->telefono || !$request->correoPersonal || !$request->certificado || !$request->carrera || !$request->segundaCarrera || !$request->mecanismoTitulacion
