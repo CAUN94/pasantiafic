@@ -10,6 +10,7 @@
 	@include('pasantia.pasos', ['statusPaso0'=>$statusPaso0, 'statusPaso1'=>$statusPaso1, 'statusPaso2'=>$statusPaso2, 'statusPaso3'=>$statusPaso3, 'statusPaso4'=>$statusPaso4])
 	<div class="row justify-content-md-center mb-5">
 		<h2>Paso 5: Proyecto Defensa</h2>
+		<h2>Paso 5: Proyecto Defensa</h2>
 	</div>
 	<div class="row justify-content-md-center mb-5">
 		<div class="col-md-9">
@@ -53,14 +54,14 @@
 							@foreach(['Ingeniería Civil Bioingeniería', 'Ingeniería Civil', 'Ingeniería Civil Energía y Medioambiente', 
 										'Ingeniería Civil Mecanica','Ingeniería Civil en Minería', 'Ingeniería Civil Industrial',
 										'Ingeniería Civil Informática'] as $opcion)
-								<option value="{{$proyecto->carrera}}">{{ $opcion }}</option>
+								<option value="{{$proyecto->carrera}}" @if($proyecto->carrera == $opcion) selected @endif>{{ $opcion }}</option>
 							@endforeach
 						</select>
 					</div>
 
 					<div class="mb-3">
 						<label for="dobleTitulacion">5. ¿Eres Doble Titulación?</label>
-						<input type="radio" name="dobleTitulacion" id="dobleTotulacion" value="1" required>
+						<br><input class="ml-5" type="radio" name="dobleTitulacion" id="dobleTotulacion" value="1" required>
 						<label for="dobleTitulacion_si">Sí:</label>
 						
 						<input type="radio" name="dobleTitulacion" id="dobleTotulacion" value="0" required>
@@ -69,11 +70,11 @@
 
 					<div class="mb-3">
 						<label for="segundaCarrera">6. Selecciona una tu segunda carrera:</label>
-						<select class="segundaCarrera" id="segundaCarrera" name="segundaCarrera" required>
+						<select class="segundaCarrera" id="segundaCarrera" name="segundaCarrera" value="{{old('myselect')}}`" required>
 							@foreach(['Ninguna','Ingeniería Civil Bioingeniería', 'Ingeniería Civil', 'Ingeniería Civil Energía y Medioambiente', 
 										'Ingeniería Civil Mecanica','Ingeniería Civil en Minería', 'Ingeniería Civil Industrial',
 										'Ingeniería Civil Informática'] as $opcion)
-								<option value="{{ $opcion }}">{{ $opcion }}</option>
+								<option value="{{ $opcion }}" @if($proyecto->segundaCarrera == $opcion) selected @endif>{{ $opcion }}</option>
 							@endforeach
 						</select>
 					</div>
@@ -82,7 +83,7 @@
 						<label for="mecanismoTitulacion">7. Selecciona tu mecanismo de titulación</label>
 						<select class="rounded" id="mecanismoTitulacion" name="mecanismoTitulacion" required>
 							@foreach(['Pasantía Part Time','Pasantía Full Time','Emprendimiento Part Time', 'Emprendimiento Part Time'] as $opcion)
-								<option value="{{ $opcion }}">{{ $opcion }}</option>
+								<option value="{{ $opcion }}" @if($proyecto->mecanismoTitulacion == $opcion) selected @endif>{{ $opcion }}</option>
 							@endforeach
 						</select>
 					</div>
@@ -96,7 +97,7 @@
 
 					<div class="mb-3">
 						<label for="lugarPasantia">9. Lugar donde realizaste tu pasantía/emprendimiento: </label>
-						<label for="lugarPasantia">En chile</label>
+						<br><label class="ml-3" for="lugarPasantia">En Chile</label>
 						<input type="radio" name="lugarPasantia" id="lugarPasantia" value="1" required>
 						
 						<label for="lugarPasantia">Fuera del país</label>
@@ -119,10 +120,10 @@
 				<h3 class=mt-4>Datos de Proyecto</h3>
 				<div class="form-group">
 					<label for="presentacion">13. Tu proyecto de título será presentado por: </label>
-						<label for="presentacion">Solo por mí (trabajé de manera individual)</label>
+						<br><label class="ml-3" for="presentacion">Solo por mí (trabajé de manera individual)</label>
 						<input type="radio" name="presentacion" id="presentacion" value="1" required>
 						
-						<label for="presentacion">Presentaré en grupo (en este proyecto participaron otros(as) compañeros(as) )</label>
+						<br><label class="ml-3" for="presentacion">Presentaré en grupo (en este proyecto participaron otros(as) compañeros(as) )</label>
 						<input type="radio" name="presentacion" id="presentacion" value="0" required>
 			  	</div>
 
@@ -134,14 +135,14 @@
 			    	
 					<div class="mb-2">
 					<label for="areaProyecto">15. Seleccione el área principal que considere tu proyecto: </label>
-						<select class="rounded" id="areaProyecto" name="areaProyecto" required>
+						<select class="rounded" id="areaProyecto" name="areaProyecto"  required>
 							@foreach(['Automatización','Business Inteligence','Ciberseguridad','Circularidad de Residuos','Construcción',
 								'Control de Genstión','Data Science','Diseño','EComerce','Economía','Energía','Emprendimiento','Estadistíca',
 								'Evaluación de Proyectos','Finanzas','Física','Geotecnia','Gestión de Calidad','Gestión de Operaciones',
 								'Innovación','Hidráulica','Inteligencia Artificial (IA)','Inteligencia de Negocios','Microbiología','Mineria de Datos',
 								'Obras Civiles','Operaciones','Optimización de Procesos','Planificación','Tendencias en la industria de la Construcción',
 								'Tratamiento de Señales','Ventas','Otras'] as $opcion)
-								<option value="{{ $opcion }}">{{ $opcion }}</option>
+								<option value="{{ $opcion }}" @if($proyecto->areaProyecto == $opcion) selected @endif>{{ $opcion }}</option>
 							@endforeach
 						</select>
 					</div>
@@ -154,7 +155,7 @@
 						<label for="informeProyecto" class="form-label">17. Sube Tu Informe De Tu Proyecto (Formato PDF o ZIP)</label>
 						<p>El nombre del archivo debe ser unicamente tu numero de RUT sin puntos y con guion (ej.: 1234578-9)</p>
 						<input class="form-control" name='informeProyecto' type="file" id="informeProyecto" required>
-						<p class="text-right">Límite de tamaño del archivo individual: 2M Tipos de archivo permitidos: PDF</p>
+						<p class="text-right">Límite de tamaño del archivo individual: 10M Tipos de archivo permitidos: PDF</p>
 					</div>
 					
 					<label for="comentarios">18. Comentarios Generales/Sugerencias (OPCIONAL)</label>
