@@ -66,8 +66,8 @@
         @foreach($proyectos as $proyecto)
             <tr>
                 <td>{{$proyecto->idProyecto}}</td>
-                <td style="background-color: #fff; left:0; z-index: 9999; position: sticky;">{{$proyecto->pasantia->alumno->rut}}</td>
-                <td style="background-color: #fff; left: 110px !important; position: sticky; z-index: 9998;">{{$proyecto->pasantia->alumno->getCompleteNameAttribute()}}</td>
+                <td style="background-color: #fff; left:0;  position: sticky;">{{$proyecto->pasantia->alumno->rut}}</td>
+                <td style="background-color: #fff; left: 110px; position: sticky; ">{{$proyecto->pasantia->alumno->getCompleteNameAttribute()}}</td>
                 <td>{{$proyecto->carrera}}</td>
                 <td>{{$proyecto->dobleTitulacion}}</td>
                 <td>{{$proyecto->segundaCarrera}}</td>

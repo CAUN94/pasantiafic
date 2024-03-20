@@ -65,8 +65,8 @@ class AdminController extends Controller
     $alumno = User::where('rut', $request->rut)->first(); 
     $pasantia = Pasantia::where('idAlumno', $alumno->idUsuario)->where('actual',1)->first();
     $proyecto = new Proyecto([
-      'idPasantia'=> $pasantia->idPasantia,
-      'status' => 2,
+        'idPasantia'=> $pasantia->idPasantia,
+        'status' => 2,
 				'telefono' => $request->telefono,
 				'correoPersonal' => $request->correoPersonal,
 				'certificado' => $alumno->rut. '_Certificado_' .time() . '_' . $request->certificado->getClientOriginalName(),
@@ -85,6 +85,8 @@ class AdminController extends Controller
 				'descripcion' => $request->descripcionProyecto,
 				'informe' => $alumno->rut. '_Informe_' .time() . '_' . $request->informeProyecto->getClientOriginalName(),
 				'presentacion' => $request->presentacion,
+        'comentario' => $request->comentarios,
+
     ]);
 
     if($request->hasFile('certificado')){
