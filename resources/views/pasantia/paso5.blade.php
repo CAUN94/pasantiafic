@@ -50,7 +50,7 @@
 					<div class="mb-3">
 						<label for="carrera">4. Selecciona tu carrera: </label>
 						<select class="rounded" id="carrera" name="carrera" required>
-							@foreach(['Ingeniería Civil Bioingeniería', 'Ingeniería Civil', 'Ingeniería Civil Energía y Medioambiente', 
+							@foreach(['Selecciona una Carrera','Ingeniería Civil Bioingeniería', 'Ingeniería Civil', 'Ingeniería Civil Energía y Medioambiente', 
 										'Ingeniería Civil Mecanica','Ingeniería Civil en Minería', 'Ingeniería Civil Industrial',
 										'Ingeniería Civil Informática'] as $opcion)
 								<option value="{{$opcion}}" @if($proyecto->carrera == $opcion) selected @endif>{{ $opcion }}</option>
@@ -68,7 +68,7 @@
 						<label for="dobleTitulacion_no">No:</label>
 					</div>
 
-					<div class="mb-3" id="segundaCarreraContainer" style="display: none;">
+					<div class="mb-3" id="segundaCarreraContainer" style="display: block;">
 						<label for="segundaCarrera">6. Selecciona tu segunda carrera:</label>
 						<select class="segundaCarrera" id="segundaCarrera" name="segundaCarrera">
 							@foreach(['Ninguna','Ingeniería Civil Bioingeniería', 'Ingeniería Civil', 'Ingeniería Civil Energía y Medioambiente', 
