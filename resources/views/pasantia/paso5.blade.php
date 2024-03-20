@@ -35,9 +35,9 @@
 				</div>
 
 				<div class="ml-3 mb-3 form-group">
-					<label for="certificado" class="form-label">3. Adjunte Aqui Su Certificado De Nacimiento (Disponible en <a target="_blank" href="https://www.registrocivil.cl/principal/servicios-en-linea">https://www.registrocivil.cl/principal/servicios-en-linea</a>)</label>
+					<label for="certificado" class="form-label">3. Adjunte aquí su Certificado de Nacimiento (Disponible en <a target="_blank" href="https://www.registrocivil.cl/principal/servicios-en-linea">https://www.registrocivil.cl/principal/servicios-en-linea</a>)</label>
 					<input class="form-control" name='certificado' type="file" id="certificado" required>
-					<p class="mt-1 text-right">Límite de tamaño del archivo individual: 10MB Tipos de archivo permitidos: PDF</p>
+					<p class="mt-1 text-right">Límite de tamaño del archivo individual: 10 MB. Tipos de archivo permitidos: PDF</p>
 				</div>
 				  
 				<h3 class=mt-4>Acta de tu Defensa</h3>
@@ -48,7 +48,7 @@
 
 				<div class="ml-3 form-group">
 					<div class="mb-3">
-						<label for="carrera">4. Selecciona una tu carrera: </label>
+						<label for="carrera">4. Selecciona tu carrera: </label>
 						<select class="rounded" id="carrera" name="carrera" required>
 							@foreach(['Ingeniería Civil Bioingeniería', 'Ingeniería Civil', 'Ingeniería Civil Energía y Medioambiente', 
 										'Ingeniería Civil Mecanica','Ingeniería Civil en Minería', 'Ingeniería Civil Industrial',
@@ -70,7 +70,7 @@
 
 					<div class="mb-3" id="segundaCarreraContainer" style="display: none;">
 						<label for="segundaCarrera">6. Selecciona tu segunda carrera:</label>
-						<select class="segundaCarrera" id="segundaCarrera" name="segundaCarrera" required>
+						<select class="segundaCarrera" id="segundaCarrera" name="segundaCarrera">
 							@foreach(['Ninguna','Ingeniería Civil Bioingeniería', 'Ingeniería Civil', 'Ingeniería Civil Energía y Medioambiente', 
 										'Ingeniería Civil Mecanica','Ingeniería Civil en Minería', 'Ingeniería Civil Industrial',
 										'Ingeniería Civil Informática'] as $opcion)
@@ -152,7 +152,7 @@
 					<textarea class="form-control mt-2" id="descripcion" name="descripcion" rows="6" placeholder="Descripcion del proyecto" value="{{$proyecto->descripcion}}">{{$proyecto->descripcion}}</textarea>
 
 					<div class="mt-3 form-group">
-						<label for="informeProyecto" class="form-label">17. Sube Tu Informe De Tu Proyecto (Formato PDF o ZIP)</label>
+						<label for="informeProyecto" class="form-label">17. Sube el Informe De Tu Proyecto (Formato PDF o ZIP)</label>
 						<p>El nombre del archivo debe ser unicamente tu numero de RUT sin puntos y con guion (ej.: 1234578-9)</p>
 						<input class="form-control" name='informeProyecto' type="file" id="informeProyecto" required>
 						<p class="text-right">Límite de tamaño del archivo individual: 10M Tipos de archivo permitidos: PDF</p>
