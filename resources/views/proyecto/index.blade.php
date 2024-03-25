@@ -14,7 +14,7 @@
 </div>
 @endif
 
-<table class="table table-hover w-auto text-nowrap" id="myTable" >
+<table class="table table-hover w-auto text-nowrap" id="myTable" data-sort-name="Rut" data-sort-order="desc">
     <thead class="bg-primary text-white">
         <tr>
             <th scope="col" data-field="ID" data-sortable="true">
@@ -53,6 +53,9 @@
             <th scope="col" data-field="Area" data-sortable="true">
 				<div class="th-inner">Area</div>
 			</th>
+            <th scope="col" data-field="Última Edición" data-sortable="true">
+				<div class="th-inner">Última Edición</div>
+			</th>
             <th scope="col" data-field="Informe" data-sortable="true">
 				<div class="th-inner">Informe</div>
 			</th>
@@ -77,7 +80,8 @@
                 <td>{{$proyecto->correoSupervisor}}</td>
                 <td>{{$proyecto->nombreProyecto}}</td>
                 <td>{{$proyecto->areaProyecto}}</td>
-                <td><a href="/documents/{{$proyecto->informe}}">Informe</a></td>
+                <td>{{$proyecto->updated_at->format('d-m-Y')}}</td>
+                <td><a href="/documents/{{$proyecto->informe}}" target="_blank">Informe</a></td>
                 <!-- Adjust width td -->
                 <td class="w-25">
                     <form action="/admin/listadoProyectos/{{$proyecto->idProyecto}}" method="POST">
