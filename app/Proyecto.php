@@ -35,11 +35,14 @@ protected $primaryKey = 'idProyecto';
     'nombreSupervisor',
     'cargoSupervisor',
     'correoSupervisor',
+    'nombreProyecto',
+    'areaProyecto',
     'nombre',
     'area',
     'descripcion',
     'informe',
-    'presentacion'
+    'presentacion',
+    'sugerencias'
 	];
 
   public function pasantia(){

@@ -76,7 +76,7 @@
                 <td>{{$proyecto->cargoSupervisor}}</td>
                 <td>{{$proyecto->correoSupervisor}}</td>
                 <td>{{$proyecto->nombreProyecto}}</td>
-                <td>{{$proyecto->area}}</td>
+                <td>{{$proyecto->areaProyecto}}</td>
                 <td><a href="/documents/{{$proyecto->informe}}">Informe</a></td>
                 <!-- Adjust width td -->
                 <td class="w-25">

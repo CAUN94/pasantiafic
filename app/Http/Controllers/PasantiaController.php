@@ -681,15 +681,15 @@ class PasantiaController extends Controller{
 			$proyecto->nombreSupervisor = $request->nombreSupervisor;
 			$proyecto->cargoSupervisor = $request->cargoSupervisor;
 			$proyecto->correoSupervisor = $request->correoSupervisor;
-			$proyecto->nombre = $request->nombre;
-			$proyecto->area = $request->areaProyecto;
+			$proyecto->nombreProyecto = $request->nombre;
+			$proyecto->areaProyecto = $request->areaProyecto;
 			$proyecto->descripcion = $request->descripcion;
-			$proyecto->comentario = $request->comentarios;
+			$proyecto->sugerencias = $request->comentarios;
 			$proyecto->informe = Auth::user()->rut. '_Informe_' .time() . '_' . $request->informeProyecto->getClientOriginalName();
 			$proyecto->presentacion = $request->presentacion;
 
 			if (!$request->telefono || !$request->correoPersonal || !$request->certificado || !$request->carrera || !$request->segundaCarrera || !$request->mecanismoTitulacion
-			 || !$request->nombreEmpresa || !$request->nombre 
+			 || !$request->nombreEmpresa || !$request->nombre
 			 || !$request->areaProyecto || !$request->descripcion || !$request->informeProyecto || is_null($request->dobleTitulacion) || is_null($request->lugarPasantia) || is_null($request->presentacion)){
 				$proyecto->status = '1';
 				$pasantia->statusPaso5 = '1';
