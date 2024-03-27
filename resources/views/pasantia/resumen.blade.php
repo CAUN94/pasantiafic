@@ -76,7 +76,7 @@
                     Los datos de tu defensa están incompletos. <a href="{{route('inscripcion.5.view')}}" role="button">Completar</a>
                 </li>
 			@elseif($statusPaso5==2)
-				<li class="list-group-item list-group-item-primary"><i class="fas fa-user"></i> Los datos de tu defensa están guarados pero aún no ha sido aprobada.</li>
+				<li class="list-group-item list-group-item-primary"><i class="fas fa-user"></i> Los datos de tu defensa están guardados pero aún no ha sido aprobada.</li>
 			@elseif($statusPaso5==3)
 				<li class="list-group-item list-group-item-danger"><i class="fas fa-times"></i> Tu defensa ha sido objetada. <a href="{{route('inscripcion.5.view')}}">Has click aquí para revisarlo</a></li>
 			@elseif($statusPaso5==4)
