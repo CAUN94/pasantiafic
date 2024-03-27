@@ -45,6 +45,9 @@
             <th scope="col" data-field="Datos Adicionales" data-sortable="true">
 				<div class="th-inner">Datos Adicionales</div>
 			</th>
+            <th scope="col" data-field="Acciones">
+            <div class="th-inner">Acciones</div>
+            </th>
         </tr>
     </thead>
 
@@ -64,17 +67,105 @@
                 <!-- <td><button class="btn btn-primary">Zoom</button></td> -->
                 <td>No Disponible</td>
                 <td><a href="#" data-toggle="modal" data-target="#datosAdicionales{{$defensa->idDefensa}}">Ver detalles</a></td>
+                <td>
+                    <button type="button" class="btn btn-warning mr-1" data-toggle="modal" data-target="#editarDefensa{{$defensa->idDefensa}}">Editar</button>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#eliminarDefensa{{$defensa->idDefensa}}">Eliminar</button>
+                </td>
             </tr>
             @endforeach
         
     </tbody>
 </table>
 
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#inscripcionDefensa">Crear Defensa</button>
+
+<div class ="modal fade" id="inscripcionDefensa" tabindex="0" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h3 class="modal-title text-white text-center">Crear defensa</h3>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{{ route('listadoDefensas.crearDefensa') }}" class="text-left">
+                    <fieldset>
+                    @csrf
+                    <h3>Información Defensa</h3>
+                    <div class="ml-3  form-group">
+                        <label for="rut">1. RUT Alumno</label>
+                            <input class="form-control w-75 mb-2" id="rut" name="rut" placeholder="11.111.111-1" required>
+                        <label for="fecha">2. Fecha a Defender</label>
+                            <input type="date" class="form-control w-50 mb-2" id="fecha" name="fecha" placeholder="Fecha" value="" required>
+                        <label for="hora">3. Hora de la Defensa</label>
+                            <input type="time"class="form-control w-25 mb-2" id="hora" name="hora" placeholder="Hora" value="" required>
+                        <label for="reunion">4. Enlace de Reunion</label>
+                            <input class="form-control w-75" id="reunion" name="reunion" placeholder="Enlace de reunion" value="">
+                    </div>
+                    
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Inscribir</button>
+                </fieldset>
+                </form>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@foreach($defensas as $defensa)
+<div class ="modal fade" id="editarDefensa{{$defensa->idDefensa}}" tabindex="0" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary"><h3 class="modal-title text-white text-center">Cambiar datos defensa</h3></div>
+            <div class="modal-body">
+            <form method="post" action="{{ route('listadoDefensas.edit') }}" class="text-left">
+                    @csrf
+                    <h3>Información defensa</h3>
+                    <div class="ml-3  form-group">
+                        <label for="fecha">1. Fecha a Defender</label>
+                            <input type="date" class="form-control w-50 mb-2" id="fecha" name="fecha" placeholder="Fecha" value="{{$defensa->fecha}}">
+                        <label for="hora">2. Hora de la Defensa</label>
+                            <input type="time"class="form-control w-25 mb-2" id="hora" name="hora" placeholder="Hora" value="{{$defensa->hora}}">
+                        <label for="reunion">3. Enlace de Reunion</label>
+                            <input class="form-control w-75" id="reunion" name="reunion" placeholder="Enlace de reunion" value="{{$defensa->zoom}}">
+                        <input type="hidden" name="idDefensa" value="{{$defensa->idDefensa}}">
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Enviar cambios</button>
+                </form>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
+
+@foreach($defensas as $defensa)
+<div class ="modal fade" id="eliminarDefensa{{$defensa->idDefensa}}" tabindex="0" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary"><h3 class="modal-title text-white text-center">Eliminar defensa</h3></div>
+            <div class="modal-body">¿Realmente desea eliminar esta defensa?</div>
+            <form action="{{ route('listadoDefensas.destroy', $defensa->idDefensa) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <input type="hidden" name="idDefensa" value="{{$defensa->idDefensa}}">
+            <div class="modal-footer">
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+            </form>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
 
 @foreach($defensas as $defensa)
 <div class="modal fade" id="datosAdicionales{{$defensa->idDefensa}}" tabindex="0" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
 	<div class="modal-dialog" role="document">
         <div class="modal-content">
+            
             <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -95,7 +186,7 @@
                         <tr>
                             <td>Informe Final</td>
                             <!-- storage public\documents get this file $defensa->proyecto->informe -->
-                            <td><a href="/documents/{{$defensa->proyecto->informe}}">{{$defensa->proyecto->informe}}</a></td>
+                            <td><a href="/documents/{{$defensa->proyecto->informe}}" target=”_blank”>{{$defensa->proyecto->informe}}</a></td>
                         </tr>
 
                     </tbody>
@@ -348,6 +439,8 @@
     </div>
 </div>
 @endforeach
+
+
 
 <script>
     $(document).ready( function () {

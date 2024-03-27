@@ -10,6 +10,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\User;
 use App\Defensa;
 use App\Profesor;
+use App\Pasantia;
 use App\Empresa;
 use App\Proyecto;
 use App\AuthUsers;
@@ -56,4 +57,39 @@ class ListadoDefensasController extends Controller
       'end' => $end
     ]);
   }
+
+  public function inscribirDefensa(Request $request){
+    $alumno = User::where('rut', $request->rut)->first(); 
+    $pasantia = Pasantia::where('idAlumno', $alumno->idUsuario)->where('actual',1)->first();
+    $proyecto = Proyecto::where('idPasantia', $pasantia->idPasantia)->first();
+
+    $defensa = new Defensa([
+      'idAlumno' => $alumno->idUsuario,
+      'idProyecto' => $proyecto->idProyecto,
+      'Fecha' => $request->fecha,
+      'Hora' => $request->hora,
+      'zoom' => $request->enlace
+    ]);
+
+    $defensa->save();
+    return redirect()->back();
+  }
+
+  public function editarDefensa(Request $request){
+    $defensa = Defensa::find($request->idDefensa);
+    $defensa->fecha = $request->fecha;
+    $defensa->hora = $request->hora;
+    $defensa->zoom = $request->zoom;
+
+    $defensa->save();
+    return redirect()->back();
+  }
+
+  public function eliminarDefensa($id){
+		if (Auth::user()->rol >=4){
+			$defensa = Defensa::where('idDefensa', $id)->first();
+			$defensa->delete();
+      return redirect()->back();
+		}
+	}
 }

@@ -61,8 +61,12 @@ Route::get('/admin/listadoInscripcion/{nombresUsuario}/idPasantia/{idPasantia}',
 
 Route::resource('/admin/listadoProyectos', 'ProyectoController')->middleware('auth', 'administrador');
 
+
 // Ruta de Listado Defensas
 Route::resource('/admin/listadoDefensas', 'ListadoDefensasController')->middleware('auth', 'admin');
+Route::post('/admin/listadoDefensas/inscribir', 'ListadoDefensasController@inscribirDefensa')->name('listadoDefensas.crearDefensa')->middleware('auth', 'admin');
+Route::post('/admin/listadoDefensas/editar', 'ListadoDefensasController@editarDefensa')->name('listadoDefensas.edit')->middleware('auth', 'admin');
+Route::delete('/admin/listadoDefensas/eliminar/{id}', 'ListadoDefensasController@eliminarDefensa')->name('listadoDefensas.destroy')->middleware('auth', 'admin');
 Route::get('/admin/comision', 'PortalDefensasController@comision')->middleware('auth');
 Route::post('/admin/addComision', 'PortalDefensasController@addComision')->middleware('auth');
 Route::post('/admin/defensas', 'PortalDefensasController@store')->name('defensas.store')->middleware('auth');
