@@ -186,7 +186,12 @@
                         <tr>
                             <td>Informe Final</td>
                             <!-- storage public\documents get this file $defensa->proyecto->informe -->
-                            <td><a href="/documents/{{$defensa->proyecto->informe}}" target=”_blank”>{{$defensa->proyecto->informe}}</a></td>
+                            <td>@if($defensa->proyecto)
+                                <a href="/documents/{{ $defensa->proyecto->informe }}" target="_blank">{{ $defensa->proyecto->informe }}</a>
+                                @else
+                                    No hay informe disponible
+                                @endif
+                            </td>
                         </tr>
 
                     </tbody>
