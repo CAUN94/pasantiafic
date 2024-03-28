@@ -35,6 +35,30 @@
 			<th scope="col" data-field="pais" data-sortable="true">
 				<div class="th-inner">País</div>
 			</th>
+			<th scope="col" data-field="nombreProyecto" data-sortable="true"> 
+				<div class="th-inner">Nombre proyecto</div>
+			</th>
+			<th scope="col" data-field="areaProyecto" data-sortable="true"> 
+				<div class="th-inner">Área proyecto</div>
+			</th>
+			<th scope="col" data-field="disciplinaProyecto" data-sortable="true"> 
+				<div class="th-inner">Disciplina proyecto</div>
+			</th>
+			<th scope="col" data-field="problematicaProyecto" data-sortable="true"> 
+				<div class="th-inner">Problematica proyecto</div>
+			</th>
+			<th scope="col" data-field="objetivoProyecto" data-sortable="true"> 
+				<div class="th-inner">Objetivo proyecto</div>
+			</th>
+			<th scope="col" data-field="medidasProyecto" data-sortable="true"> 
+				<div class="th-inner">Medidas proyecto</div>
+			</th>
+			<th scope="col" data-field="metodologiaProyecto" data-sortable="true"> 
+				<div class="th-inner">Metodología proyecto</div>
+			</th>
+			<th scope="col" data-field="planificacionProyecto" data-sortable="true"> 
+				<div class="th-inner">Planificación proyecto</div>
+			</th>
 			<th scope="col" data-field="statuspaso0" data-sortable="true">
 				<div class="th-inner">Estado paso 0</div>
 			</th>
@@ -46,9 +70,6 @@
 			</th>
 			<th scope="col" data-field="statuspaso3" data-sortable="true">
 				<div class="th-inner">Estado paso 3</div>
-			</th>
-			<th scope="col" data-field="nombreProyecto" data-sortable="true"> 
-				<div class="th-inner">Nombre proyecto</div>
 			</th>
 			<th scope="col" data-field="statuspaso4" data-sortable="true">
 				<div class="th-inner">Estado paso 4</div>
@@ -110,8 +131,15 @@
 			<td>{{$datosPasantia['statusPaso2Pasantia']}}</td>
 			<!-- Paso 3 -->
 			<td>{{$datosPasantia['statusPaso3Pasantia']}}</td>
-			<!-- Nombre proyecto -->
+			<!-- Datos proyecto -->
 			<td class="text-wrap">{{$datosPasantia['nombreProyecto']}}</td>
+			<td>{{$datosPasantia['areaProyecto']}}</td>
+			<td>{{$datosPasantia['disciplinaProyecto']}}</td>
+			<td>{{$datosPasantia['problematicaProyecto']}}</td>
+			<td>{{$datosPasantia['objetivoProyecto']}}</td>
+			<td>{{$datosPasantia['medidasProyecto']}}</td>
+			<td>{{$datosPasantia['metodologiaProyecto']}}</td>
+			<td>{{$datosPasantia['planificacionProyecto']}}</td>
 			<!-- Paso 4 -->
 			<td>
 				{{$datosPasantia['statusPaso4Pasantia']}}

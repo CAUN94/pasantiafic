@@ -144,6 +144,7 @@ class PasantiasRepository
     $proyecto = $this->checkProyecto($proyecto);
     $empresas = $this->checkEmpresas($empresas);
 
+    
     $pasantiaDatos = array(
       //Atributos Pasantia
       'idPasantia' => $pasantia->idPasantia,
@@ -167,6 +168,15 @@ class PasantiasRepository
       'idProyecto' => $proyecto->idProyecto,
       'statusProyecto' => $proyecto->status,
       'nombreProyecto' => $proyecto->nombre,
+
+      'areaProyecto' => "",
+      'disciplinaProyecto' => "",
+      'problematicaProyecto' => "",
+      'objetivoProyecto' => "",
+      'medidasProyecto' => "",
+      'metodologiaProyecto' => "",
+      'planificacionProyecto' => "",
+
       //Atributos Empresa
       'idEmpresa' => $empresas->idEmpresa,
       'nombreEmpresa' => $empresas->nombre,
@@ -187,6 +197,17 @@ class PasantiasRepository
       'emailUsuario' => $usuarios->email,
       'tipoMallaUsuario' => $usuarios->tipoMalla,
     );
+      //Atributos Proyecto
+      if(!is_null($proyecto->idProyecto)){
+        $pasantiaDatos['areaProyecto'] = $proyecto->area;
+        $pasantiaDatos['disciplinaProyecto'] = $proyecto->disciplina;
+        $pasantiaDatos['problematicaProyecto'] = $proyecto->problematica;
+        $pasantiaDatos['objetivoProyecto'] = $proyecto->objetivo;
+        $pasantiaDatos['medidasProyecto'] = $proyecto->medidas;
+        $pasantiaDatos['metodologiaProyecto'] = $proyecto->objetivo;
+        $pasantiaDatos['planificacionProyecto'] = $proyecto->objetivo;
+      }
+    
     return $pasantiaDatos;
   }
 
