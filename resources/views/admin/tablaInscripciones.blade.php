@@ -122,15 +122,6 @@
 			<td>{{$datosPasantia['horasSemanalesPasantia']}}</td>
 			<td>{{$datosPasantia['ciudadPasantia']}}</td>
 			<td>{{$datosPasantia['paisPasantia']}}</td>
-
-			<!-- Paso 0 -->
-			<td>{{$datosPasantia['statusPaso0Pasantia']}}</td>
-			<!-- Paso 1 -->
-			<td>{{$datosPasantia['statusPaso1Pasantia']}}</td>
-			<!-- Paso 2 -->
-			<td>{{$datosPasantia['statusPaso2Pasantia']}}</td>
-			<!-- Paso 3 -->
-			<td>{{$datosPasantia['statusPaso3Pasantia']}}</td>
 			<!-- Datos proyecto -->
 			<td class="text-wrap">{{$datosPasantia['nombreProyecto']}}</td>
 			<td>{{$datosPasantia['areaProyecto']}}</td>
@@ -140,6 +131,15 @@
 			<td>{{$datosPasantia['medidasProyecto']}}</td>
 			<td>{{$datosPasantia['metodologiaProyecto']}}</td>
 			<td>{{$datosPasantia['planificacionProyecto']}}</td>
+			<!-- Paso 0 -->
+			<td>{{$datosPasantia['statusPaso0Pasantia']}}</td>
+			<!-- Paso 1 -->
+			<td>{{$datosPasantia['statusPaso1Pasantia']}}</td>
+			<!-- Paso 2 -->
+			<td>{{$datosPasantia['statusPaso2Pasantia']}}</td>
+			<!-- Paso 3 -->
+			<td>{{$datosPasantia['statusPaso3Pasantia']}}</td>
+			
 			<!-- Paso 4 -->
 			<td>
 				{{$datosPasantia['statusPaso4Pasantia']}}
