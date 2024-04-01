@@ -80,7 +80,7 @@
 			@elseif($statusPaso5==3)
 				<li class="list-group-item list-group-item-danger"><i class="fas fa-times"></i> Tu defensa ha sido objetada. <a href="{{route('inscripcion.5.view')}}">Has click aquí para revisarlo</a></li>
 			@elseif($statusPaso5==4)
-				<li class="list-group-item list-group-item-success"><i class="fas fa-check"></i> Tu defensa está aprobada.</li>
+				<li class="list-group-item list-group-item-success"><i class="fas fa-check"></i> Estás aprobado/a para defender.</li>
 			@endif
 		</ul>
 	</div>
