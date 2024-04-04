@@ -39,8 +39,11 @@
             <th scope="col" data-field="Comision" data-sortable="true">
 				<div class="th-inner">Comisión</div>
 			</th>
-            <th scope="col" data-field="Link Zoom" data-sortable="true">
-				<div class="th-inner">Link Zoom</div>
+            <th scope="col" data-field="Modalidad" data-sortable="true">
+				<div class="th-inner">Modalidad</div>
+			</th>
+            <th scope="col" data-field="Sala" data-sortable="true">
+				<div class="th-inner">Sala</div>
 			</th>
             <th scope="col" data-field="Datos Adicionales" data-sortable="true">
 				<div class="th-inner">Datos Adicionales</div>
@@ -61,11 +64,12 @@
                 <td>{{$defensa->fecha}}</td>
                 <td>{{$defensa->hora}}</td>
                 <td>
-                    
+                    -
                 </td>
                 <td><a href="#" data-toggle="modal" data-target="#comisionDetalles{{$defensa->idDefensa}}">Ver Detalles</a></td>
                 <!-- <td><button class="btn btn-primary">Zoom</button></td> -->
-                <td>No Disponible</td>
+                <td>@if($defensa->modalidad == 1) Presencial @else Remota @endif</td>
+                <td>@if(is_null($defensa->zoom)) Pendiente @else {{$defensa->zoom}} @endif</td>
                 <td><a href="#" data-toggle="modal" data-target="#datosAdicionales{{$defensa->idDefensa}}">Ver detalles</a></td>
                 <td>
                     <button type="button" class="btn btn-warning mr-1" data-toggle="modal" data-target="#editarDefensa{{$defensa->idDefensa}}">Editar</button>
@@ -95,9 +99,19 @@
                             <input class="form-control w-75 mb-2" id="rut" name="rut" placeholder="11.111.111-1" required>
                         <label for="fecha">2. Fecha a Defender</label>
                             <input type="date" class="form-control w-50 mb-2" id="fecha" name="fecha" placeholder="Fecha" value="" required>
+
                         <label for="hora">3. Hora de la Defensa</label>
                             <input type="time"class="form-control w-25 mb-2" id="hora" name="hora" placeholder="Hora" value="" required>
-                        <label for="reunion">4. Enlace de Reunion</label>
+
+                        <label for="dobleTitulacion">4. Modalidad</label>
+						<br>
+                        <label class="ml-3" for="dobleTitulacion_si">Presencial:</label>
+						<input type="radio" name="modalidad" id="modalidad_presencial" value="1" required>
+						
+                        <label class="ml-1" for="dobleTitulacion_no">Remota:</label>
+						<input type="radio" name="modalidad" id="modalidad_remota" value="0" required><br>
+						
+                        <label for="reunion">5. Lugar de Reunion</label>
                             <input class="form-control w-75" id="reunion" name="reunion" placeholder="Enlace de reunion" value="">
                     </div>
                     
@@ -126,7 +140,16 @@
                             <input type="date" class="form-control w-50 mb-2" id="fecha" name="fecha" placeholder="Fecha" value="{{$defensa->fecha}}">
                         <label for="hora">2. Hora de la Defensa</label>
                             <input type="time"class="form-control w-25 mb-2" id="hora" name="hora" placeholder="Hora" value="{{$defensa->hora}}">
-                        <label for="reunion">3. Enlace de Reunion</label>
+                        
+                            <label for="dobleTitulacion">3. Modalidad</label>
+						<br>
+                        <label class="ml-3" for="dobleTitulacion_si">Presencial:</label>
+						<input type="radio" name="modalidad" id="modalidad_presencial" value="1" required>
+						
+                        <label class="ml-1" for="dobleTitulacion_no">Remota:</label>
+						<input type="radio" name="modalidad" id="modalidad_remota" value="0" required><br>
+
+                        <label for="reunion">4. Lugar de Reunion</label>
                             <input class="form-control w-75" id="reunion" name="reunion" placeholder="Enlace de reunion" value="{{$defensa->zoom}}">
                         <input type="hidden" name="idDefensa" value="{{$defensa->idDefensa}}">
                     </div>

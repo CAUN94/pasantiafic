@@ -29,6 +29,7 @@ class Defensa extends Model
             'idProyecto',
             'Fecha',
             'Hora',
+            'modalidad',
             'zoom'
 	];
 

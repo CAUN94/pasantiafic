@@ -68,7 +68,8 @@ class ListadoDefensasController extends Controller
       'idProyecto' => $proyecto->idProyecto,
       'Fecha' => $request->fecha,
       'Hora' => $request->hora,
-      'zoom' => $request->enlace
+      'modalidad' => $request->modalidad,
+      'zoom' => $request->reunion
     ]);
 
     $defensa->save();
@@ -79,7 +80,8 @@ class ListadoDefensasController extends Controller
     $defensa = Defensa::find($request->idDefensa);
     $defensa->fecha = $request->fecha;
     $defensa->hora = $request->hora;
-    $defensa->zoom = $request->zoom;
+    $defensa->modalidad = $request->modalidad;
+    $defensa->zoom = $request->reunion;
 
     $defensa->save();
     return redirect()->back();

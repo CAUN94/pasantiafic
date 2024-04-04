@@ -191,7 +191,8 @@
                                     <th scope="col">Comision</th>
                                     <th scope="col">Rubrica</th>
                                     <th scope="col">Estado</th>
-                                    <th scope="col">Link de Zoom</th>
+                                    <th scope="col">Modalidad</th>
+                                    <th scope="col">Sala</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -223,7 +224,18 @@
                                         @else Pendiente  @endif
                                     </td>
                                     <td>
+                                      @if(Auth::user()->defensaEstudiante()->modalidad == 1)
+                                        Presencial
+                                      @else
+                                        Remota
+                                      @endif
+                                    </td>
+                                    <td>
+                                      @if(Auth::user()->defensaEstudiante()->modalidad == 1)
+                                        @if(is_null(Auth::user()->defensaEstudiante()->zoom)) Pendiente @else {{Auth::user()->defensaEstudiante()->zoom}} @endif
+                                      @else
                                         <a target="_blank" href="{{Auth::user()->defensaEstudiante()->zoom}}">Entrar</a>
+                                      @endif
                                     </td>
                                 </tr>
                             </tbody>

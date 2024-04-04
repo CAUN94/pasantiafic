@@ -27,10 +27,16 @@ Route::resource('/admin/estadisticas', 'GraficasController')->middleware('auth',
 //Importar listado de alumnos autorizados para usar la plataforma
 Route::resource('/admin/importarlista', 'ListadoController')->middleware('auth', 'admin');
 //Asignar alumnos a los profesores correspondientes
+//Tabla admin proyectos
 Route::get('/admin/asignarProyectos', 'AdminController@asignarProyectosView')->name('admin.asignarProyectos')->middleware('auth', 'admin');
 Route::get('/admin/asignarProyectos/{id}', 'AdminController@asignarProyectosManual')->middleware('auth', 'admin');
 Route::get('/admin/asignarProyectos/{idProf}/{idProy}/{action}', 'AdminController@asignarProyectoQuick')->middleware('auth', 'admin');
+// Ruta para inscribir nuevo proyecto
 Route::post('/admin/listadoProyectos/inscribir', 'AdminController@inscribirProyecto')->name('admin.inscribirProyecto.post')->middleware('auth', 'admin');
+// Ruta para adjuntar informe
+Route::post('/admin/listadoProyectos/adjuntarInforme', 'AdminController@subirInforme')->name('admin.adjuntorInforme.post')->middleware('auth', 'admin');
+// Ruta de exportacion de excel - tabla admin proyectos
+Route::get('/admin/listadoProyectos/export', 'AdminController@asignarProyectosExcel')->name( 'tablaProyectos.export')->middleware('auth', 'admin');
 
 // Rutas de Listado Inscripcion
 // Ruta de Destroy Paso 2

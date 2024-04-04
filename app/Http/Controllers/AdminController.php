@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Proyecto;
 use App\Pasantia;
+use App\Exports\ExportViews;
+use Maatwebsite\Excel\Facades\Excel;
 use Auth;
 
 class AdminController extends Controller
@@ -30,8 +32,44 @@ class AdminController extends Controller
     return view('admin.asignarProyectos', compact('profesores'));
   }
 
-  public function asignarProyectosExcel(){
+  public function asignarProyectosExcel(Request $request){
     // TODO: Template excel y sistema de guardado
+    $downloadExcel = TRUE;
+
+      // if request has empty start and empty end
+      if (is_null($request->start) && is_null($request->end)) {
+        $datosProyectos = Proyecto::all();
+      } else {
+        $datosProyectos = Proyecto::whereBetween('updated_at',[$request->start,$request->end]) ->orderBy('updated_at', 'desc');
+      }
+
+      // carrera
+      if(!is_null($request->carrera)){
+        $datosProyectos = $datosProyectos->where('carrera',$request->carrera);
+      }
+
+      // mecanismoTitulacion
+      if(!is_null($request->mecanismoTitulacion)){
+        $datosProyectos = $datosProyectos->where('mecanismoTitulacion',$request->mecanismoTitulacion);
+      }
+
+      // dobleTitulacion 
+      if(!is_null($request->dobleTitulacion)){
+        $datosProyectos = $datosProyectos->where('dobleTitulacion',$request->dobleTitulacion);
+      }
+      
+      // segundaCarrera
+      if(!is_null($request->segundaCarrera)){
+        $datosProyectos = $datosProyectos->where('segundaCarrera',$request->segundaCarrera);
+      }
+
+      $datosProyectos = $datosProyectos->get();
+      $datosProyectos = $datosProyectos->toArray();
+      dd($datosProyectos);
+    return Excel::download(new ExportViews('proyecto.index', [
+      'downloadExcel' => $downloadExcel,
+      'proyectos' => $datosProyectos,
+    ]), 'Proyectos.xlsx');
   }
 
   public function asignarProyectosManual($id){
@@ -100,6 +138,24 @@ class AdminController extends Controller
       $informeProyecto->move(public_path('documents'), $fileName);
     } 
     $proyecto->save();
+    return redirect()->back();
+  }
+
+  public function subirInforme(Request $request){
+    $proyecto = Proyecto::where('idProyecto', $request->idProyecto)->first();
+    $pasantia = Pasantia::where('idPasantia', $proyecto->idPasantia)->first();
+    $alumno = User::where('idUsuario', $pasantia->idAlumno)->first(); 
+    
+    if($request->hasFile('informeProyecto')){
+      $informeProyecto = $request->file('informeProyecto');
+      $fileName = $alumno->rut. '_Informe_' .time() . '_' . $informeProyecto->getClientOriginalName();
+      $informeProyecto->move(public_path('documents'), $fileName);
+              // $request->file('informeProyecto')->storeAs('public', $fileName);
+    }
+
+    $proyecto->informe = $alumno->rut. '_Informe_' .time() . '_' . $request->informeProyecto->getClientOriginalName();
+    $proyecto->save();
+
     return redirect()->back();
   }
 
