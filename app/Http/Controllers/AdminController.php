@@ -34,15 +34,11 @@ class AdminController extends Controller
 
   public function asignarProyectosExcel(Request $request){
     // TODO: Template excel y sistema de guardado
-    $downloadExcel = TRUE;
-
-      // if request has empty start and empty end
-      if (is_null($request->start) && is_null($request->end)) {
-        $datosProyectos = Proyecto::all();
-      } else {
-        $datosProyectos = Proyecto::whereBetween('updated_at',[$request->start,$request->end]) ->orderBy('updated_at', 'desc');
-      }
-
+    if (is_null($request->start) && is_null($request->end)) {
+      $datosProyectos = Proyecto::orderBy('updated_at', 'desc')->get();
+    } else {
+      $datosProyectos = Proyecto::whereBetween('updated_at',[$request->start,$request->end])->orderBy('updated_at', 'desc');
+      
       // carrera
       if(!is_null($request->carrera)){
         $datosProyectos = $datosProyectos->where('carrera',$request->carrera);
@@ -62,14 +58,26 @@ class AdminController extends Controller
       if(!is_null($request->segundaCarrera)){
         $datosProyectos = $datosProyectos->where('segundaCarrera',$request->segundaCarrera);
       }
-
+      
       $datosProyectos = $datosProyectos->get();
-      $datosProyectos = $datosProyectos->toArray();
-      dd($datosProyectos);
-    return Excel::download(new ExportViews('proyecto.index', [
-      'downloadExcel' => $downloadExcel,
-      'proyectos' => $datosProyectos,
-    ]), 'Proyectos.xlsx');
+    }
+
+    if ($request->submit == 'filter') {
+      $downloadExcel = FALSE;
+
+      return view('proyecto.index', [
+        'downloadExcel' => $downloadExcel,
+        'proyectos' => $datosProyectos,
+      ]);
+    } elseif ($request->submit == 'export') {
+
+      $downloadExcel = TRUE;
+      
+      return Excel::download(new ExportViews('proyecto.index', [
+        'downloadExcel' => $downloadExcel,
+        'proyectos' => $datosProyectos,
+      ]), 'Proyectos.xlsx');
+    }
   }
 
   public function asignarProyectosManual($id){

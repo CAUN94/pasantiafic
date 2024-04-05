@@ -12,6 +12,43 @@
         <small>{{ session('success') }}</small>
     @endif
 </div>
+
+<!-- <form class="form" action="{{ route('listadoDefensas.export') }}" method="GET">
+	<div class="row">
+		<div class="form-group mx-sm-3 col">
+			<input type="date" class="form-control" name="start" value="{{ $start ?? old('start') }}">
+			<small class="form-text text-muted">Rango Inicio Fecha</small>
+		</div>
+		<div class="form-group mx-sm-3 col">
+			<input type="date" class="form-control" name="end" value="{{ $end ?? old('end') }}">
+			<small class="form-text text-muted">Rango Última Fecha</small>
+		</div>
+		
+
+		<div class="form-group mx-sm-3 col">
+			<select class="form-control" name="modaliadad">
+				<option selected value> -- Modalidad -- </option>
+                <option value="1">Presencial</option>
+				<option value="0">Remota</option>
+			</select>
+			<small class="form-text text-muted">Modalidad</small>
+		</div>
+
+    </div>
+
+	<div class="d-flex justify-content-end">
+		<div class="form-group mx-sm-3">
+			<a href="/admin/listadoInscripcion" class="btn btn-warning">Borrar Filtros</a>
+		</div>
+		<div class="form-group mx-sm-3">
+			<button type="submit" class="btn btn-primary" name="submit" value="filter">Filtrar</button>
+		</div>
+		<div class="form-group mx-sm-3">
+			<button type="submit" class="btn btn-secondary ml-2" name="submit" value="export">Exportar a Excel</button>
+		</div>
+	</div>
+</form> -->
+
 <table class="table table-hover w-auto text-nowrap" id="myTable" >
     <thead class="bg-primary text-white">
         <tr>
@@ -162,9 +199,9 @@
         </div>
     </div>
 </div>
-@endforeach
 
-@foreach($defensas as $defensa)
+
+
 <div class ="modal fade" id="eliminarDefensa{{$defensa->idDefensa}}" tabindex="0" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -182,9 +219,7 @@
         </div>
     </div>
 </div>
-@endforeach
 
-@foreach($defensas as $defensa)
 <div class="modal fade" id="datosAdicionales{{$defensa->idDefensa}}" tabindex="0" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
 	<div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -209,10 +244,10 @@
                         <tr>
                             <td>Informe Final</td>
                             <!-- storage public\documents get this file $defensa->proyecto->informe -->
-                            <td>@if($defensa->proyecto)
-                                <a href="/documents/{{ $defensa->proyecto->informe }}" target="_blank">{{ $defensa->proyecto->informe }}</a>
+                            <td>@if(is_null($defensa->proyecto->informe))
+                                    <a href="#" data-toggle="modal" data-target="#subirInforme{{$defensa->idProyecto}}">Adjuntar Informe </a>
                                 @else
-                                    No hay informe disponible
+                                    <a href="/documents/{{ $defensa->proyecto->informe }}" target="_blank">{{ $defensa->proyecto->informe }}</a>
                                 @endif
                             </td>
                         </tr>
@@ -223,9 +258,7 @@
         </div>
     </div>
 </div>
-@endforeach
 
-@foreach($defensas as $defensa)
 <div class="modal fade row" id="comisionDetalles{{$defensa->idDefensa}}" tabindex="0" role="dialog" aria-labelledby="modelTitleId2" aria-hidden="true">
 	<div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -297,9 +330,6 @@
     </div>
 </div>
 
-@endforeach
-
-@foreach($defensas as $defensa)
 <div class="modal fade" id="infoRubrica{{$defensa->idDefensa}}" tabindex="0" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
 	<div class="modal-dialog" role="document">
         <div class="modal-header bg-primary">
@@ -465,6 +495,37 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class ="modal fade" id="subirInforme{{$defensa->idProyecto}}" tabindex="1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h5 class="modal-title text-white">Adjuntar Informe</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post" enctype="multipart/form-data" action="{{ route('admin.adjuntorInforme.post') }}" class="text-left">
+            <fieldset>
+            @csrf
+            <div class="form-group">
+                <input type="hidden" name="idProyecto" value="{{$defensa->idProyecto}}">
+                <label for="informeProyecto" class="form-label">Adjunte el Informe a continuación:</label>
+                <input class="form-control" name='informeProyecto' type="file" id="informeProyecto" required>
+                <p class="text-right">Tipos de archivo permitidos: PDF</p>
+            </div>
+            
+      </div>
+      <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Adjuntar</button>
+            </fieldset>
+        </form>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>
 @endforeach
 

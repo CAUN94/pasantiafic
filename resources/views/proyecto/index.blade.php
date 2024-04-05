@@ -232,6 +232,8 @@
   </div>
 </div>
 @endforeach
+
+
 <div class="modal fade" id="inscripcionProyecto" tabindex="0" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
 	<div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -248,9 +250,9 @@
                     <label for="rut">1. RUT Alumno</label>
                         <input class="form-control mb-2" id="rut" name="rut" placeholder="11.111.111-1" required>
                         <label for="telefono">2. Teléfono Celular</label>
-                        <input class="form-control mb-2" id="telefono" name="telefono" placeholder="teléfono" value="{{$proyecto->telefono}}" required>
+                        <input class="form-control mb-2" id="telefono" name="telefono" placeholder="teléfono" required>
                         <label for="correoPersonal">3. Correo Personal</label>
-                        <input class="form-control" id="correoPersonal" name="correoPersonal" placeholder="Correo" value="{{$proyecto->correoPersonal}}" required>
+                        <input class="form-control" id="correoPersonal" name="correoPersonal" placeholder="Correo" required>
                     </div>
 
                     <div class="ml-3 mb-3 form-group">
@@ -306,7 +308,7 @@
                     <h3 class=mt-5>Datos de Empresa</h3>
                     <div class="ml-3 form-group">
                         <label for="nombreEmpresa">9. Nombre empresa</label>
-                        <input class="form-control mb-2" id="nombreEmpresa" name="nombreEmpresa" placeholder="empresa" value="{{$proyecto->nombreEmpresa}}" required>
+                        <input class="form-control mb-2" id="nombreEmpresa" name="nombreEmpresa" placeholder="empresa" required>
 
                         <div class="mb-3">
                             <label for="lugarPasantia">10. Lugar de pasantía/emprendimiento: </label>
@@ -318,13 +320,13 @@
                         </div>
 
                             <label for="nombreSupervisor">11. Nombre de supervisor(a)</label>
-                            <input class="mb-2 form-control" id="nombreSupervisor" name="nombreSupervisor" placeholder="Supervisor" value="{{$proyecto->nombreSupervisor}}" required>
+                            <input class="mb-2 form-control" id="nombreSupervisor" name="nombreSupervisor" placeholder="Supervisor" required>
         
                             <label for="cargoSupervisor">12. Cargo de supervisor(a)</label>
-                            <input class="mb-2 form-control" id="cargoSupervisor" name="cargoSupervisor" placeholder="Cargo Supervisor" value="{{$proyecto->cargoSupervisor}}" required>
+                            <input class="mb-2 form-control" id="cargoSupervisor" name="cargoSupervisor" placeholder="Cargo Supervisor" required>
         
                             <label for="correoSupervisor">13. Correo Instutucional supervisor(a)</label>
-                            <input class="mb-2 form-control" id="correoSupervisor" name="correoSupervisor" placeholder="Correo Supervisor" value="{{$proyecto->correoSupervisor}}" required>
+                            <input class="mb-2 form-control" id="correoSupervisor" name="correoSupervisor" placeholder="Correo Supervisor" required>
 
                     </div>
 
@@ -343,7 +345,7 @@
                     <div class="form-group">
                         <div class='mb-3'>
                             <label for="nombre">15. Nombre Proyecto</label>
-                            <input class="form-control mb-2" id="nombre" name="nombre" placeholder="Nombre del proyecto" value="{{$proyecto->nombre}}" required>
+                            <input class="form-control mb-2" id="nombre" name="nombre" placeholder="Nombre del proyecto" required>
                         </div>
                         
                         <div class="mb-2">
@@ -362,7 +364,7 @@
 
                         <label for="descripcion">17. Descripción Proyecto</label>
                         
-                        <textarea class="form-control mt-2" id="descripcion" name="descripcion" rows="6" placeholder="Descripcion del proyecto" value="{{$proyecto->descripcion}}">{{$proyecto->descripcion}}</textarea>
+                        <textarea class="form-control mt-2" id="descripcion" name="descripcion" rows="6" placeholder="Descripcion del proyecto"></textarea>
 
                         <div class="mt-3 form-group">
                             <label for="informeProyecto" class="form-label">18. Informe De Tu Proyecto</label>
@@ -385,5 +387,4 @@
         </div>
     </div>
 </div>
-
 @endsection

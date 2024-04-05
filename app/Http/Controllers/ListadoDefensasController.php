@@ -38,24 +38,21 @@ class ListadoDefensasController extends Controller
     return view('defensas.index', compact('defensas','profesors'));
   }
 
-  public function index2()
-  {
+  public function exportDefensas(Request $request){
+    dd($request);
     $downloadExcel = FALSE;
     // PasantiasRepository::getAllFilterPasantias($request->start, $request->end) filro inicial fechas de este año principio hasta fecha actual
 
-    // Iniciio de año formato Y-m-d
-    $start = date('Y') . '-01-01';
-    // Fecha actual formato Y-m-d
-    $end = date('Y-m-d');
+    
 
     $datosDefensas = Defensa::get();
-
-    return view('admin.listadoDefensas', [
+    $profesors = Profesor::all();
+    
+    return Excel::download(new ExportViews('defensas.index', [
       'downloadExcel' => $downloadExcel,
-      'datosDefensas' => $datosDefensas,
-      'start' => $start,
-      'end' => $end
-    ]);
+      'defensas' => $datosDefensas,
+      'profesors' => $profesors,
+    ]), 'defensas.xlsx');
   }
 
   public function inscribirDefensa(Request $request){
