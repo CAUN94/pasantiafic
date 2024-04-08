@@ -200,7 +200,11 @@
                                     <td>{{Auth::user()->defensaEstudiante()->fecha}}</td>
                                     <td>{{Auth::user()->defensaEstudiante()->hora}}</td>
                                     <td>
-                                        - 
+                                      {{Auth::user()->defensaEstudiante()->proyecto->carrera}}
+                                      @if(Auth::user()->defensaEstudiante()->proyecto->dobleTitulacion == 1)
+                                        <br>{{Auth::user()->defensaEstudiante()->proyecto->segundaCarrera}}
+                                      @else
+                                      @endif
                                     </td>
                                     <td>
                                         @if(Auth::user()->defensaEstudiante()->presidente() == false)
@@ -214,7 +218,7 @@
                                             {{$comision->getCompleteNameAttribute()}} <br>
                                         @endforeach
                                     </td>
-                                    <td><a target="_blank" href="#">-</a></td>
+                                    <td><a target="_blank" href="/documents/rubricaDefensa.pdf">Rubrica</a></td>
                                     <td>
                                         @if(Auth::user()->defensaEstudiante()->hasRubrica()) {{Auth::user()->defensaEstudiante()->defensaStatus()}} 
                                         @elseif(Auth::user()->defensaEstudiante()->Nota >= 4)
