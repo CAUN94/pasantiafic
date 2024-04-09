@@ -8,7 +8,7 @@
     <h1>Defensas</h1>
 </div>
 <div class="row justify-content-md-center mb-5">
-    <h3><a href="/admin/comision">Defensas inscritas {{Auth::user()->defensas->count()}}</a></h3>
+    <h3><a href="/admin/comision">Defensas inscritas {{Auth::user()->defensas->where('Nota','==', 0.00)->count()}}</a></h3>
 </div>
 <!-- 
 <div class="row">
