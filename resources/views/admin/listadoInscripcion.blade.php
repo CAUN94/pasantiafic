@@ -46,9 +46,9 @@
 				<option value="1" @if(($statusGeneral ?? '') == 1) selected @endif>Pasantia validada</option>
 			</select>
 			<small class="form-text text-muted">Validación</small>
-		</div>
-		
+		</div>		
 	</div>
+	
 	<div class="row">
 		<div class="form-group mx-sm-3 col">
 			<input type="date" class="form-control" name="starti" value="{{ $starti ?? '' ?? old('starti') }}">

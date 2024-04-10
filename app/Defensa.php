@@ -29,6 +29,7 @@ class Defensa extends Model
             'idProyecto',
             'Fecha',
             'Hora',
+            'sede',
             'modalidad',
             'zoom'
 	];
@@ -96,6 +97,17 @@ class Defensa extends Model
 
     return 'Reprobado';
 
+  }
+
+  public function comisionStatus(){
+    $comision = $this->comision;
+    if($this->hasPresident() and ($this->comision->count() == 3)){
+      return "ready";
+    }elseif($this->hasPresident()){
+      return "pending";
+    }
+
+    return "empty";
   }
   
 }

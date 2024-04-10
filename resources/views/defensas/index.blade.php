@@ -13,7 +13,7 @@
     @endif
 </div>
 
-<!-- <form class="form" action="{{ route('listadoDefensas.export') }}" method="GET">
+<form class="form" action="/admin/listadoDefensas/export" method="GET">
 	<div class="row">
 		<div class="form-group mx-sm-3 col">
 			<input type="date" class="form-control" name="start" value="{{ $start ?? old('start') }}">
@@ -38,7 +38,7 @@
 
 	<div class="d-flex justify-content-end">
 		<div class="form-group mx-sm-3">
-			<a href="/admin/listadoInscripcion" class="btn btn-warning">Borrar Filtros</a>
+			<a href="/admin/listadoDefensas" class="btn btn-warning">Borrar Filtros</a>
 		</div>
 		<div class="form-group mx-sm-3">
 			<button type="submit" class="btn btn-primary" name="submit" value="filter">Filtrar</button>
@@ -47,7 +47,7 @@
 			<button type="submit" class="btn btn-secondary ml-2" name="submit" value="export">Exportar a Excel</button>
 		</div>
 	</div>
-</form> -->
+</form>
 
 <table class="table table-hover w-auto text-nowrap" id="myTable" >
     <thead class="bg-primary text-white">
@@ -105,7 +105,7 @@
                 </td>
                 <td><a href="#" data-toggle="modal" data-target="#comisionDetalles{{$defensa->idDefensa}}">Ver Detalles</a></td>
                 <!-- <td><button class="btn btn-primary">Zoom</button></td> -->
-                <td>@if($defensa->modalidad == 1) Presencial @else Remota @endif</td>
+                <td>@if($defensa->modalidad == 1) Presencial - <br>{{$defensa->sede}} @else Remota @endif</td>
                 <td>@if(is_null($defensa->zoom)) Pendiente @else {{$defensa->zoom}} @endif</td>
                 <td><a href="#" data-toggle="modal" data-target="#datosAdicionales{{$defensa->idDefensa}}">Ver detalles</a></td>
                 <td>
@@ -135,20 +135,27 @@
                         <label for="rut">1. RUT Alumno</label>
                             <input class="form-control w-75 mb-2" id="rut" name="rut" placeholder="11.111.111-1" required>
                         <label for="fecha">2. Fecha a Defender</label>
-                            <input type="date" class="form-control w-50 mb-2" id="fecha" name="fecha" placeholder="Fecha" value="" required>
+                            <input type="date"class="form-control w-25 mb-2" id="fecha" name="fecha" placeholder="Fecha" value="">
 
                         <label for="hora">3. Hora de la Defensa</label>
-                            <input type="time"class="form-control w-25 mb-2" id="hora" name="hora" placeholder="Hora" value="" required>
+                            <input type="time"class="form-control w-25 mb-2" id="hora" name="hora" placeholder="Hora" value="">
 
                         <label for="dobleTitulacion">4. Modalidad</label>
 						<br>
                         <label class="ml-3" for="dobleTitulacion_si">Presencial:</label>
-						<input type="radio" name="modalidad" id="modalidad_presencial" value="1" required>
+						<input type="radio" name="modalidad" id="modalidad_presencial" value="1">
 						
                         <label class="ml-1" for="dobleTitulacion_no">Remota:</label>
-						<input type="radio" name="modalidad" id="modalidad_remota" value="0" required><br>
+						<input type="radio" name="modalidad" id="modalidad_remota" value="0"><br>
+
+                        <label for="reunion">5. Sede (Si aplica)</label>
+                        <select class="form-control w-75" name="sede">
+                            <option selected value> -- Sede -- </option>
+                            <option value="Peñalolén">Peñalolén</option>
+                            <option value="Viña del Mar">Viña del Mar</option>
+                        </select>
 						
-                        <label for="reunion">5. Lugar de Reunion</label>
+                        <label for="reunion">6. Lugar de Reunion</label>
                             <input class="form-control w-75" id="reunion" name="reunion" placeholder="Enlace de reunion" value="">
                     </div>
                     
@@ -181,12 +188,19 @@
                             <label for="dobleTitulacion">3. Modalidad</label>
 						<br>
                         <label class="ml-3" for="dobleTitulacion_si">Presencial:</label>
-						<input type="radio" name="modalidad" id="modalidad_presencial" value="1" required>
+						<input type="radio" name="modalidad" id="modalidad_presencial" value="1" @if($defensa->modalidad == 1) checked  @endif>
 						
                         <label class="ml-1" for="dobleTitulacion_no">Remota:</label>
-						<input type="radio" name="modalidad" id="modalidad_remota" value="0" required><br>
+						<input type="radio" name="modalidad" id="modalidad_remota" value="0" @if($defensa->modalidad == 0) checked @endif><br>
 
-                        <label for="reunion">4. Lugar de Reunion</label>
+                        <label for="reunion">4. Sede (Si aplica)</label>
+                        <select class="form-control w-75" name="sede">
+                            <option selected value> -- Sede -- </option>
+                            <option value="Peñalolén" @if($defensa->sede == "Peñalolén") selected @endif>Peñalolén</option>
+                            <option value="Viña del Mar" @if($defensa->sede == "Viña del Mar") selected @endif>Viña del Mar</option>
+                        </select>
+
+                        <label for="reunion">5. Lugar de Reunion</label>
                             <input class="form-control w-75" id="reunion" name="reunion" placeholder="Enlace de reunion" value="{{$defensa->zoom}}">
                         <input type="hidden" name="idDefensa" value="{{$defensa->idDefensa}}">
                     </div>
@@ -244,7 +258,7 @@
                         <tr>
                             <td>Informe Final</td>
                             <!-- storage public\documents get this file $defensa->proyecto->informe -->
-                            <td>@if(is_null($defensa->proyecto->informe))
+                            <td>@if(is_null($defensa->proyecto))
                                     <a href="#" data-toggle="modal" data-target="#subirInforme{{$defensa->idProyecto}}">Adjuntar Informe </a>
                                 @else
                                     <a href="/documents/{{ $defensa->proyecto->informe }}" target="_blank">{{ $defensa->proyecto->informe }}</a>

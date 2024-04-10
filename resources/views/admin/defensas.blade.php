@@ -65,7 +65,10 @@
                         <br>{{$defensa->proyecto->segundaCarrera}}
                     @endif
                 </td>
-                <td><a href="#" data-toggle="modal" data-target="#comisionDetalles{{$defensa->idDefensa}}">Ver Detalles</a></td>
+                <td>@foreach($defensa->comision as $comision)
+                        @if($comision->pivot->EsPresidente) Presidente @else Miembro @endif
+                         - {{$comision->getCompleteNameAttribute()}}<br>
+                        @endforeach</td>
                 <!-- <td><button class="btn btn-primary">Zoom</button></td> -->
                 <td><a href="{{$defensa->zoom}}" target=”_blank” class="btn btn-primary">Enlace Zoom</a></td>
                 <td><a href="#" data-toggle="modal" data-target="#datosAdicionales{{$defensa->idDefensa}}">Ver detalles</a></td>

@@ -36,7 +36,7 @@ Route::post('/admin/listadoProyectos/inscribir', 'AdminController@inscribirProye
 // Ruta para adjuntar informe
 Route::post('/admin/listadoProyectos/adjuntarInforme', 'AdminController@subirInforme')->name('admin.adjuntorInforme.post')->middleware('auth', 'admin');
 // Ruta de exportacion de excel - tabla admin proyectos
-Route::get('/admin/listadoProyectos/export', 'AdminController@asignarProyectosExcel')->name( 'tablaProyectos.export')->middleware('auth', 'admin');
+Route::get('/admin/listadoProyectos/export', 'ProyectoController@asignarProyectosExcel')->name( 'tablaProyectos.export')->middleware('auth', 'admin');
 
 // Rutas de Listado Inscripcion
 // Ruta de Destroy Paso 2
@@ -70,7 +70,7 @@ Route::resource('/admin/listadoProyectos', 'ProyectoController')->middleware('au
 
 // Ruta de Listado Defensas
 Route::resource('/admin/listadoDefensas', 'ListadoDefensasController')->middleware('auth', 'admin');
-Route::get('/admin/listadoDefensas/export', 'ListadoDefensasController@exportDefensas')->name('listadoDefensas.export')->middleware('auth', 'admin');
+Route::get('/admin/listadoDefensas/export', 'ListadoDefensasController@exportDefensas')->middleware('auth', 'admin');
 Route::post('/admin/listadoDefensas/inscribir', 'ListadoDefensasController@inscribirDefensa')->name('listadoDefensas.crearDefensa')->middleware('auth', 'admin');
 Route::post('/admin/listadoDefensas/editar', 'ListadoDefensasController@editarDefensa')->name('listadoDefensas.edit')->middleware('auth', 'admin');
 Route::delete('/admin/listadoDefensas/eliminar/{id}', 'ListadoDefensasController@eliminarDefensa')->name('listadoDefensas.destroy')->middleware('auth', 'admin');

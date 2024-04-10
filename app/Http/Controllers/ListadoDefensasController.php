@@ -63,9 +63,11 @@ class ListadoDefensasController extends Controller
     $defensa = new Defensa([
       'idAlumno' => $alumno->idUsuario,
       'idProyecto' => $proyecto->idProyecto,
+      'Nota' => 0,
       'Fecha' => $request->fecha,
       'Hora' => $request->hora,
       'modalidad' => $request->modalidad,
+      'sede' => $request->sede,
       'zoom' => $request->reunion
     ]);
 
@@ -78,6 +80,7 @@ class ListadoDefensasController extends Controller
     $defensa->fecha = $request->fecha;
     $defensa->hora = $request->hora;
     $defensa->modalidad = $request->modalidad;
+    $defensa->sede = $request->sede;
     $defensa->zoom = $request->reunion;
 
     $defensa->save();

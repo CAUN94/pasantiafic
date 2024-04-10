@@ -77,6 +77,9 @@
 			<th scope="col" data-field="statusGeneral" data-sortable="true">
 				<div class="th-inner">Status General</div>
 			</th>
+			<th scope="col" data-field="StatusPasantia" data-sortable="true">
+				<div class="th-inner">Status Pasantia</div>
+			</th>
 			<th scope="col" data-field="rolPariente">
 				<div class="th-inner">Familiar</div>
 			</th>
@@ -163,6 +166,7 @@
 			</td>
 			<!-- Status General -->
 			<td>{{$datosPasantia['statusGeneralPasantia']}}</td>
+			<td>@if($datosPasantia['statusActualPasantia'] == 0) Inactiva @else Activa @endif</td>
 
 			<td class="@if ($datosPasantia['statusPaso2Pasantia'] == 'Pendiente por pariente') table-danger @endif">
 				@if ($datosPasantia['rolParientePasantia'] != null)

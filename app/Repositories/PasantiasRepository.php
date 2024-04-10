@@ -164,6 +164,7 @@ class PasantiasRepository
       'statusPaso2Pasantia' => $pasantia->statusPaso2,
       'statusPaso3Pasantia' => $pasantia->statusPaso3,
       'statusPaso4Pasantia' => $pasantia->statusPaso4,
+      'statusActualPasantia' => $pasantia->actual,
       //Atributos Proyecto
       'idProyecto' => $proyecto->idProyecto,
       'statusProyecto' => $proyecto->status,

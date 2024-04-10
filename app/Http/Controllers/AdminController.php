@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Proyecto;
 use App\Pasantia;
-use App\Exports\ExportViews;
-use Maatwebsite\Excel\Facades\Excel;
 use Auth;
 
 class AdminController extends Controller
@@ -30,54 +28,6 @@ class AdminController extends Controller
       $profesor["Proyectos"] = $count;
     }
     return view('admin.asignarProyectos', compact('profesores'));
-  }
-
-  public function asignarProyectosExcel(Request $request){
-    // TODO: Template excel y sistema de guardado
-    if (is_null($request->start) && is_null($request->end)) {
-      $datosProyectos = Proyecto::orderBy('updated_at', 'desc')->get();
-    } else {
-      $datosProyectos = Proyecto::whereBetween('updated_at',[$request->start,$request->end])->orderBy('updated_at', 'desc');
-      
-      // carrera
-      if(!is_null($request->carrera)){
-        $datosProyectos = $datosProyectos->where('carrera',$request->carrera);
-      }
-
-      // mecanismoTitulacion
-      if(!is_null($request->mecanismoTitulacion)){
-        $datosProyectos = $datosProyectos->where('mecanismoTitulacion',$request->mecanismoTitulacion);
-      }
-
-      // dobleTitulacion 
-      if(!is_null($request->dobleTitulacion)){
-        $datosProyectos = $datosProyectos->where('dobleTitulacion',$request->dobleTitulacion);
-      }
-      
-      // segundaCarrera
-      if(!is_null($request->segundaCarrera)){
-        $datosProyectos = $datosProyectos->where('segundaCarrera',$request->segundaCarrera);
-      }
-      
-      $datosProyectos = $datosProyectos->get();
-    }
-
-    if ($request->submit == 'filter') {
-      $downloadExcel = FALSE;
-
-      return view('proyecto.index', [
-        'downloadExcel' => $downloadExcel,
-        'proyectos' => $datosProyectos,
-      ]);
-    } elseif ($request->submit == 'export') {
-
-      $downloadExcel = TRUE;
-      
-      return Excel::download(new ExportViews('proyecto.index', [
-        'downloadExcel' => $downloadExcel,
-        'proyectos' => $datosProyectos,
-      ]), 'Proyectos.xlsx');
-    }
   }
 
   public function asignarProyectosManual($id){
