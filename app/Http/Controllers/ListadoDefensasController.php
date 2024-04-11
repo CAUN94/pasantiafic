@@ -34,8 +34,8 @@ class ListadoDefensasController extends Controller
     // All Profesor
     $profesors = Profesor::all();
 
-    $modalidad = false;
-    return view('defensas.index', compact('defensas','profesors','modalidad'));
+    $downloadExcel = false;
+    return view('defensas.index', compact('defensas','profesors','downloadExcel'));
   }
 
   public function exportDefensas(Request $request){
