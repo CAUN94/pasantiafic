@@ -25,14 +25,28 @@
 		</div>
 		
 
-		<div class="form-group mx-sm-3 col">
-			<select class="form-control" name="modaliadad">
-				<option selected value> -- Modalidad -- </option>
+        <div class="form-group mx-sm-3 col">
+                <select class="form-control" name="estado">
+                    <option selected value> -- Estado -- </option>
+                    <option value="aprobado">Aprobado</option>
+                    <option value="reprobado">Reprobado</option>
+                    <option value="pendiente">Pendiente</option>
+                </select>
+                <small class="form-text text-muted">Estado</small>
+            </div>
+        </div>
+    </div>
+
+<!--<div class="row">
+        <div class="form-group mx-sm-3 col">
+            <select class="form-control w-25" name="modaliadad">
+                <option selected value> -- Modalidad -- </option>
                 <option value="1">Presencial</option>
-				<option value="0">Remota</option>
-			</select>
-			<small class="form-text text-muted">Modalidad</small>
-		</div>
+                <option value="0">Remota</option>
+            </select>
+            <small class="form-text text-muted">Modalidad</small>
+        </div>
+    </div> -->
 
     </div>
 
@@ -49,74 +63,9 @@
 	</div>
 </form>
 
-<table class="table table-hover w-auto text-nowrap" id="myTable" >
-    <thead class="bg-primary text-white">
-        <tr>
-            <th scope="col" data-field="ID" data-sortable="true">
-				<div class="th-inner">ID</div>
-			</th>
-			<th scope="col" data-field="Estado" data-sortable="true">
-				<div class="th-inner">Estado</div>
-			</th>
-            <th scope="col" data-field="RUT" data-sortable="true">
-				<div class="th-inner">RUT</div>
-			</th>
-            <th scope="col" data-field="Nombre" data-sortable="true">
-				<div class="th-inner">Nombre</div>
-			</th>
-            <th scope="col" data-field="Fecha" data-sortable="true">
-				<div class="th-inner">Fecha</div>
-			</th>
-            <th scope="col" data-field="Hora" data-sortable="true">
-				<div class="th-inner">Hora</div>
-			</th>
-            <th scope="col" data-field="Carrera" data-sortable="true">
-                <div class="th-inner">Carrera</div>
-            </th>
-            <th scope="col" data-field="Comision" data-sortable="true">
-				<div class="th-inner">Comisión</div>
-			</th>
-            <th scope="col" data-field="Modalidad" data-sortable="true">
-				<div class="th-inner">Modalidad</div>
-			</th>
-            <th scope="col" data-field="Sala" data-sortable="true">
-				<div class="th-inner">Sala</div>
-			</th>
-            <th scope="col" data-field="Datos Adicionales" data-sortable="true">
-				<div class="th-inner">Datos Adicionales</div>
-			</th>
-            <th scope="col" data-field="Acciones">
-            <div class="th-inner">Acciones</div>
-            </th>
-        </tr>
-    </thead>
-
-    <tbody>
-            @foreach($defensas as $defensa)
-            <tr>
-                <td>{{$defensa->idDefensa}}</td>
-                <td>@if($defensa->Estado) Realizada @else Pendiente @endif</td>
-                <td>{{App\User::find($defensa->idAlumno)->rut}}</td>
-                <td>{{App\User::find($defensa->idAlumno)->getCompleteNameAttribute()}}</td>
-                <td>{{$defensa->fecha}}</td>
-                <td>{{$defensa->hora}}</td>
-                <td>
-                    -
-                </td>
-                <td><a href="#" data-toggle="modal" data-target="#comisionDetalles{{$defensa->idDefensa}}">Ver Detalles</a></td>
-                <!-- <td><button class="btn btn-primary">Zoom</button></td> -->
-                <td>@if($defensa->modalidad == 1) Presencial - <br>{{$defensa->sede}} @else Remota @endif</td>
-                <td>@if(is_null($defensa->zoom)) Pendiente @else {{$defensa->zoom}} @endif</td>
-                <td><a href="#" data-toggle="modal" data-target="#datosAdicionales{{$defensa->idDefensa}}">Ver detalles</a></td>
-                <td>
-                    <button type="button" class="btn btn-warning mr-1" data-toggle="modal" data-target="#editarDefensa{{$defensa->idDefensa}}">Editar</button>
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#eliminarDefensa{{$defensa->idDefensa}}">Eliminar</button>
-                </td>
-            </tr>
-            @endforeach
-        
-    </tbody>
-</table>
+<div class="table-responsive bootstrap-table" style="overflow-x:auto;">
+	@include('defensas.tablaDefensa')
+</div>
 
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#inscripcionDefensa">Crear Defensa</button>
 
@@ -542,22 +491,6 @@
   </div>
 </div>
 @endforeach
-
-
-
-<script>
-    $(document).ready( function () {
-        $('#myTable').DataTable({
-            // scroll y 600
-            scrollY: 600,
-            // moving headers
-            scrollCollapse: true,
-            // headers move with scroll
-            scrollX: true,
-            fixedHeader: true,
-        });
-    } );
-</script>
 
 <div class="d-flex justify-content-end">
     <a class="btn btn-primary mb-3" href="/admin/portalDefensas">Volver</a>

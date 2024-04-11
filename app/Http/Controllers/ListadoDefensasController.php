@@ -34,25 +34,53 @@ class ListadoDefensasController extends Controller
     // All Profesor
     $profesors = Profesor::all();
 
-
-    return view('defensas.index', compact('defensas','profesors'));
+    $modalidad = false;
+    return view('defensas.index', compact('defensas','profesors','modalidad'));
   }
 
   public function exportDefensas(Request $request){
-    dd($request);
-    $downloadExcel = FALSE;
-    // PasantiasRepository::getAllFilterPasantias($request->start, $request->end) filro inicial fechas de este año principio hasta fecha actual
 
-    
-
-    $datosDefensas = Defensa::get();
     $profesors = Profesor::all();
-    
-    return Excel::download(new ExportViews('defensas.index', [
-      'downloadExcel' => $downloadExcel,
-      'defensas' => $datosDefensas,
-      'profesors' => $profesors,
-    ]), 'defensas.xlsx');
+
+    if (is_null($request->start) && is_null($request->end)) {
+      $datosDefensas = Defensa::orderBy('idDefensa', 'desc')->get();
+    } else {
+      $datosDefensas = Defensa::whereBetween('fecha',[$request->start,$request->end])->orderBy('fecha', 'desc');
+      
+      // modalidad
+      if(!is_null($request->modalidad)){
+        $datosDefensas = $datosDefensas->where('modalidad',$request->modalidad);
+      }
+
+      if($request->estado=="aprobado"){
+        $datosDefensas = $datosDefensas->where('nota',">=",4);
+      }elseif($request->estado=="reprobado"){
+        $datosDefensas = $datosDefensas->where('nota','<', 4)->where('nota', '<', 0);
+      }elseif($request->estado=="pendiente"){
+        $datosDefensas = $datosDefensas->where('nota',0);
+      }
+
+    $datosDefensas = $datosDefensas->get();
+    if ($request->submit == 'filter') {
+      $downloadExcel = FALSE;
+      return view('defensas.index', [
+        'downloadExcel' => $downloadExcel,
+        'defensas' => $datosDefensas,
+        'profesors' => $profesors,
+        'start' => $request->start,
+        'end' => $request->end,
+      ]);
+    } elseif ($request->submit == 'export') {
+
+      $downloadExcel = TRUE;
+      
+      return Excel::download(new ExportViews('defensas.tablaDefensa', [
+        'downloadExcel' => $downloadExcel,
+        'defensas' => $datosDefensas,
+        'profesors' => $profesors,
+      ]), 'Defensas.xlsx');
+    }
+  }
   }
 
   public function inscribirDefensa(Request $request){
