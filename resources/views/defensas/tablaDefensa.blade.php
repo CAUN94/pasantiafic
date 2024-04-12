@@ -61,6 +61,10 @@
                 <td>{{$defensa->hora}}</td>
                 <td>
                     {{$defensa->proyecto->carrera}}
+                    @if($defensa->proyecto->dobleTitulacion)
+                        <br>{{$defensa->proyecto->segundaCarrera}}
+                    @endif
+                </td>
                 </td>
                 @if($downloadExcel == TRUE)
 			    @elseif ($downloadExcel == FALSE)
