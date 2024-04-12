@@ -233,6 +233,17 @@ class User extends Authenticatable{
         $defensa = Defensa::find($idDefensa);
         $proyecto = $defensa->proyecto;
         $areas = $this->president();
+
+        if($defensa->hasPresident()){
+            foreach($defensa->presidente()->areas() as $areaPresidente){
+                foreach($areas as $area){
+                    if($areaPresidente == $area){
+                        return false;
+                    }
+                }
+            }
+        }
+
         // check areas if one is equal tto carrera in proyecto
         foreach($areas as $area){
             if($area == $proyecto->carrera or $area == $proyecto->segundaCarrera){
