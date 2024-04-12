@@ -30,6 +30,9 @@
             <th scope="col" data-field="Hora" data-sortable="true">
 				<div class="th-inner">Hora</div>
 			</th>
+            <th scope="col" data-field="Modalidad" data-sortable="true">
+				<div class="th-inner">Modalidad</div>
+			</th>
             <th scope="col" data-field="Carrera" data-sortable="true">
 				<div class="th-inner">Carrera</div>
 			</th>
@@ -59,6 +62,7 @@
                 <td>{{App\User::find($defensa->idAlumno)->getCompleteNameAttribute()}}</td>
                 <td>{{$defensa->fecha}}</td>
                 <td>{{$defensa->hora}}</td>
+                <td>@if($defensa->modalidad==1) Presencial @else Remoto @endif</td>
                 <td>
                     {{$defensa->proyecto->carrera}}
                     @if($defensa->proyecto->dobleTitulacion)

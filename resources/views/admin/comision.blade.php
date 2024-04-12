@@ -7,10 +7,11 @@
 <div class="row justify-content-md-center mb-5">
     <h1>Defensas</h1>
 </div>
+<!-- 
 <div class="row justify-content-md-center mb-5">
     <h3><a href="/admin/comision">Defensas inscritas {{Auth::user()->defensas->where('Nota','==', 0.00)->count()}}</a></h3>
 </div>
-<!-- 
+
 <div class="row">
     <div class="form-group mx-sm-3 col">
         <select class="form-control">
@@ -59,6 +60,9 @@
                 </th>
                 <th scope="col" data-field="Hora" data-sortable="true" style="text-align:center">
                     <div class="th-inner">Hora</div>
+                </th>
+                <th scope="col" data-field="Modalidad" data-sortable="true" style="text-align:center">
+                    <div class="th-inner">Modalidad</div>
                 </th>
                 <th scope="col" data-field="Carreras" data-sortable="true" style="text-align:center">
                     <div class="th-inner">Carrera(s)</div>
@@ -112,6 +116,7 @@
                 <td>{{$defensa->idDefensa}}</td>
                 <td>{{\Carbon\Carbon::parse($defensa->fecha)->format('d/m/Y')}}</td>
                 <td>{{\Carbon\Carbon::parse($defensa->hora)->format('H:i')}}</td>
+                <td>@if($defensa->modalidad==1) Presencial @else Remoto @endif</td>
                 <td>
                     {{$defensa->proyecto->carrera}}
                     @if($defensa->proyecto->dobleTitulacion)
