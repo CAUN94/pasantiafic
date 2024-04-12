@@ -62,7 +62,7 @@
                 <td>{{App\User::find($defensa->idAlumno)->getCompleteNameAttribute()}}</td>
                 <td>{{$defensa->fecha}}</td>
                 <td>{{$defensa->hora}}</td>
-                <td>@if($defensa->modalidad==1) Presencial @else Remoto @endif</td>
+                <td>@if($defensa->modalidad == 1) Presencial - <br>{{$defensa->sede}} @else Remota @endif</td>
                 <td>
                     {{$defensa->proyecto->carrera}}
                     @if($defensa->proyecto->dobleTitulacion)

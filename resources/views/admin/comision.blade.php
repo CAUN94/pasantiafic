@@ -116,7 +116,7 @@
                 <td>{{$defensa->idDefensa}}</td>
                 <td>{{\Carbon\Carbon::parse($defensa->fecha)->format('d/m/Y')}}</td>
                 <td>{{\Carbon\Carbon::parse($defensa->hora)->format('H:i')}}</td>
-                <td>@if($defensa->modalidad==1) Presencial @else Remoto @endif</td>
+                <td>@if($defensa->modalidad == 1) Presencial - <br>{{$defensa->sede}} @else Remota @endif</td>
                 <td>
                     {{$defensa->proyecto->carrera}}
                     @if($defensa->proyecto->dobleTitulacion)
