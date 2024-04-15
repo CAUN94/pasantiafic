@@ -30,7 +30,7 @@ class ListadoDefensasController extends Controller
   */
   public function index()
   {
-    $defensas = Defensa::all();
+    $defensas = Defensa::where('idDefensa', '!=', 678)->where('idDefensa', '!=', 678)->get();
     // All Profesor
     $profesors = Profesor::all();
 
