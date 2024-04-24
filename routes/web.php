@@ -90,6 +90,17 @@ Route::get('/profesor', 'ProfesorController@index')->name('profesor.index')->mid
 Route::get('/profesor/proyecto/{id}', 'ProfesorController@verProyecto')->name('profesor.verProyecto')->middleware('auth', 'noAlumno');
 Route::post('/profesor/proyecto/{id}/feedback', 'ProfesorController@feedbackProyecto')->middleware('auth', 'noAlumno');
 
+//Rutas Admin Profesores
+Route::get('/admin/listadoProfesores', 'ProfesorController@vistaAdminProfesores')->name('profesor.tablaProfesores')->middleware('auth', 'admin');
+// Admin Profesor Añadir
+Route::post('/admin/listadoProfesores/añadir', 'ProfesorController@addProfesores')->name('profesor.add')->middleware('auth', 'admin');
+// Admin Profesor Editar
+Route::post('/admin/listadoProfesores/editar', 'ProfesorController@editProfesores')->name('profesor.edit')->middleware('auth', 'admin');
+// Admin Profesor Elmininar
+Route::delete('/admin/listadoProfesores/eliminar/{id}', 'ProfesorController@deleteProfesor')->name('profesor.destroy')->middleware('auth', 'admin');
+// Ruta de exportacion de excel
+Route::get('/admin/listadoProfesores/export', 'ProfesorController@exportProfesores')->name('profesor.export')->middleware('auth', 'admin');
+
 Route::get('/admin/loginAs', 'AdminController@loginAs')->middleware('auth', 'admin');
 Route::post('/admin/doLoginAs', 'LoginController@doLoginAs')->name('admin.doLoginAs')->middleware('auth', 'admin');
 

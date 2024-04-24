@@ -13,7 +13,8 @@ class Profesor extends Model{
     'idProfesor',
     'area_I',
     'area_II',
-    'area_III'
+    'area_III',
+    'habilitado'
 	];
 
     // user

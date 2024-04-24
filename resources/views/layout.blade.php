@@ -115,6 +115,11 @@
 						<i class="fas fa-cog"></i> Todas las Defensas
 					</a>
 					@endif
+					@if(Auth::user()->rol == 5)
+					<a href="/admin/listadoProfesores" class="list-group-item list-group-item-action ">
+						<i class="fas fa-cog"></i> Todos los Profesores
+					</a>
+					@endif
 
 					@if(Auth::user()->rol >= 4)
 					<a href="/admin" class="list-group-item list-group-item-action ">
