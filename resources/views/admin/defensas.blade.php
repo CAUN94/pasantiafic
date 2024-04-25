@@ -74,7 +74,7 @@
                          - {{$comision->getCompleteNameAttribute()}}<br>
                         @endforeach</td>
                 <!-- <td><button class="btn btn-primary">Zoom</button></td> -->
-                <td><a href="{{$defensa->zoom}}" target=”_blank” class="btn btn-primary">Enlace Zoom</a></td>
+                <td><a href="{{$defensa->zoom}}" target=”_blank” class="btn btn-primary">Enlace Reunion</a></td>
                 <td><a href="#" data-toggle="modal" data-target="#datosAdicionales{{$defensa->idDefensa}}">Ver detalles</a></td>
                 <td>
                     <a href="/download-ics/{{$defensa->idDefensa}}" class="btn btn-primary">Agregar a Calendario</a>
