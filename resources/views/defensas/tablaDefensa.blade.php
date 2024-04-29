@@ -72,7 +72,12 @@
                 @endif
                 <!-- <td><button class="btn btn-primary">Zoom</button></td> -->
                 <td>@if($defensa->modalidad == 1) Presencial - <br>{{$defensa->sede}} @else Remota @endif</td>
-                <td>@if(is_null($defensa->zoom)) Pendiente @elseif(str_starts_with($defensa->zoom, 'https')) Teams @else {{$defensa->zoom}} @endif</td>
+                <td>@if(is_null($defensa->zoom))
+                        Pendiente 
+                    @else 
+                        {{$defensa->zoom}} 
+                    @endif
+                </td>
                 <td>
                     @if($defensa->Nota >= 4)
                     Aprobado

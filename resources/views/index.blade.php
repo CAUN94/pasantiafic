@@ -229,7 +229,7 @@
                                     </td>
                                     <td>
                                       @if(Auth::user()->defensaEstudiante()->modalidad == 1)
-                                        Presencial
+                                        Presencial - <br>{{Auth::user()->defensaEstudiante()->sede}}
                                       @else
                                         Remota
                                       @endif
