@@ -203,6 +203,7 @@
                         <tr>
                             <td>Rubrica</td>
                             <td><a href="#" data-toggle="modal" data-target="#infoRubrica{{$defensa->idDefensa}}">Rubrica_2024</a></td>
+                            
                         </tr>
                         <tr>
                             <td>Informe Final</td>
@@ -211,6 +212,18 @@
                                     <a href="#" data-toggle="modal" data-target="#subirInforme{{$defensa->idProyecto}}">Adjuntar Informe </a>
                                 @else
                                     <a href="/documents/{{ $defensa->proyecto->informe }}" target="_blank">{{ $defensa->proyecto->informe }}</a>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Nota</td>
+                            <td>
+                                @if($defensa->Nota == 0.0)
+                                    Pendiente
+                                @elseif($defensa->Nota < 4.0)
+                                    Reprobado
+                                @else
+                                    {{$defensa->Nota}}
                                 @endif
                             </td>
                         </tr>
