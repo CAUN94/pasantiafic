@@ -7,6 +7,9 @@
                 <th scope="col" data-field="Nombre" data-sortable="true">
                     <div class="th-inner">Nombre</div>
                 </th>
+                <th scope="col" data-field="Email" data-sortable="true">
+                    <div class="th-inner">Email</div>
+                </th>
                 <th scope="col" data-field="area_I" data-sortable="true">
                     <div class="th-inner">Área I</div>
                 </th>
@@ -33,6 +36,7 @@
             <tr>
                 <td>{{$profesor->idProfesor}}</td>
                 <td>{{$profesor->user->getCompleteNameAttribute()}}</td>
+                <td>{{$profesor->user->email}}</td>
                 <td>{{$profesor->area_I}}</td>
                 <td>{{$profesor->area_II}}</td>
                 <td>{{$profesor->area_III}}</td>
