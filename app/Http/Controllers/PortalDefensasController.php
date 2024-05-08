@@ -37,11 +37,6 @@ class PortalDefensasController extends Controller
         return redirect()->back()->with('success','Defensa eliminada correctamente');
     }
 
-    public function adminDefensasDestroy(Request $request){
-        DB::table('defensa_user')->where('defensa_id', $request->idDefensa)->where('user_id', $request->idProfesor)->delete();
-        return redirect()->back()->with('success','Defensa eliminada correctamente');
-    }
-
     public function comision(){ 
         $defensas = Auth::user()->defensas()->orderby('Estado','asc')->orderby('fecha','asc')->orderby('hora','asc')->get();
         // iterar todas las defensas y obtener su proyecto, de su proyecto obtener su pasantia y solo guardar las defensas que tienen valor de pasantia actual = 1

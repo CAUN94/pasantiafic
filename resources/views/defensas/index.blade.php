@@ -153,10 +153,69 @@
                             <input class="form-control w-75" id="reunion" name="reunion" placeholder="Enlace de reunion" value="{{$defensa->zoom}}">
                         <input type="hidden" name="idDefensa" value="{{$defensa->idDefensa}}">
                     </div>
-            </div>
-            <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">Enviar cambios</button>
-                </form>
+            </form>
+            <label class="ml-3 mt-2" for="reunion">6. Comisión</label>
+            <table class="table table-hover w-auto text-wrap" id="table" data-toggle="table">
+                <tbody>
+                    @foreach($defensa->comision as $comision)
+                        <tr>
+                            <td>@if($comision->pivot->EsPresidente) Presidente @else Miembro @endif</td>
+                            <td>{{$comision->getCompleteNameAttribute()}}</td>
+                            <td>
+                                @foreach($comision->areas() as $area)
+                                    {{$area}}<br>
+                                @endforeach
+                            </td>
+                            <td class="text-center">
+                                <form action="{{ route('adminComisionDefensa.destroy')}}" method="Post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <input type="hidden" name="idProfesor" value="{{$comision->idUsuario}}">
+                                    <input type="hidden" name="idDefensa" value="{{$defensa->idDefensa}}">
+                                    <button class="btn btn-danger" type="submit">X</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            
+            @if($defensa->comision->count() < 3)
+                <label for="idUsuario">Añadir Miembro</label>
+                <table class="table table-hover w-auto text-wrap" id="table" data-toggle="table">
+                    <tbody>
+                        <tr>
+                            <form action="/admin/addComision" method="POST">
+                            @csrf
+                            <td>
+                                <div class="form-group">
+                                    
+                                        <select class="form-control" name="idUsuario" id="idUsuario">
+                                            @foreach($profesors as $profesor)
+                                                <option value="{{$profesor->idProfesor}}">{{$profesor->user->getCompleteNameAttribute()}}</option>
+                                            @endforeach
+                                        </select>
+                                        
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="EsPresidente" id="EsPresidente" value="1">
+                                        <label for="EsPresidente" class="form-check-label">Presidente</label>
+                                </div>
+                                    <!--hidden defensa->idDefensa -->
+                                <input type="hidden" name="idDefensa" value="{{$defensa->idDefensa}}">
+                            </td>
+                            <td>
+                                <button type="submit" class="btn btn-primary">+</button>
+                            </td>
+                            </form>
+                        </tr>
+                    </tbody>
+                </table>
+                @endif
+            </div>
+
+            <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver</button>
             </div>
         </div>
@@ -230,77 +289,6 @@
 
                     </tbody>
                 </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade row" id="comisionDetalles{{$defensa->idDefensa}}" tabindex="0" role="dialog" aria-labelledby="modelTitleId2" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-        <div class="modal-content">
-
-            <div class="modal-body">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <br>
-
-                <table class="table table-hover w-auto text-wrap" id="table" data-toggle="table">
-                    <thead class="bg-primary text-white">
-                            <th style="text-align: center" scope="col" colspan="4" data-field="datosAdicionales">
-                                <div class="th-inner">Comisión</div>
-                            </th>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>Rol</th>
-                            <th>Nombre</th>
-                            <th>Área</th>
-                            <th>Borrar</th>
-                        </tr>
-                        @foreach($defensa->comision as $comision)
-                        
-                        <tr>
-                            <td>@if($comision->pivot->EsPresidente) Presidente @else Miembro @endif</td>
-                            <td>{{$comision->getCompleteNameAttribute()}}</td>
-                            <td>
-                                @foreach($comision->areas() as $area)
-                                    {{$area}}<br>
-                                @endforeach
-                            </td>
-                            <td>
-                                <form action="{{ route('adminDefensas.destroy')}}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <input type="hidden" name="idProfesor" value="{{$comision->idUsuario}}">
-                                    <input type="hidden" name="idDefensa" value="{{$defensa->idDefensa}}">
-                                    <button class="btn btn-danger" type="submit">Borrar</button>
-                                </form>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-                <br>
-                <form action="/admin/addComision" method="POST">
-                    <!-- checkbox Presidente -->
-                    @csrf
-                    <div class="form-group">
-                    <label for="idUsuario">Miembro</label>
-                        <select class="form-control" name="idUsuario" id="idUsuario">
-                            @foreach($profesors as $profesor)
-                                <option value="{{$profesor->idProfesor}}">{{$profesor->user->getCompleteNameAttribute()}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="EsPresidente" id="EsPresidente" value="1">
-                        <label for="EsPresidente" class="form-check-label">Presidente</label>
-                    </div>
-                    <!-- hidden defensa->idDefensa -->
-                    <input type="hidden" name="idDefensa" value="{{$defensa->idDefensa}}">
-                    <button type="submit" class="btn btn-primary">Inscribir</button>
-                </form>
             </div>
         </div>
     </div>

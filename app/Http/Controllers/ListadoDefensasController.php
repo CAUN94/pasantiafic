@@ -122,4 +122,9 @@ class ListadoDefensasController extends Controller
       return redirect()->back();
 		}
 	}
+
+  public function adminDefensasDestroy(Request $request){
+    DB::table('defensa_user')->where('defensa_id', $request->idDefensa)->where('user_id', $request->idProfesor)->delete();
+    return redirect()->back()->with('success','Defensa eliminada correctamente');
+  }
 }

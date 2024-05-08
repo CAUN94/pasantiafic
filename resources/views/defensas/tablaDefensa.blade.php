@@ -57,8 +57,8 @@
                 <td>@if($defensa->Estado) Realizada @else Pendiente @endif</td>
                 <td>{{App\User::find($defensa->idAlumno)->rut}}</td>
                 <td>{{App\User::find($defensa->idAlumno)->getCompleteNameAttribute()}}</td>
-                <td>{{$defensa->fecha}}</td>
-                <td>{{$defensa->hora}}</td>
+                <td>{{date('d-m-Y', strtotime($defensa->fecha))}}</td>
+                <td>{{date('H:i', strtotime($defensa->hora))}}</td>
                 <td>
                     {{$defensa->proyecto->carrera}}
                     @if($defensa->proyecto->dobleTitulacion)
@@ -68,7 +68,11 @@
                 </td>
                 @if($downloadExcel == TRUE)
 			    @elseif ($downloadExcel == FALSE)
-                <td><a href="#" data-toggle="modal" data-target="#comisionDetalles{{$defensa->idDefensa}}">Ver Detalles</a></td>
+                <td>
+                    @foreach($defensa->comision as $comision)
+                        @if($comision->pivot->EsPresidente) Presidente @else Miembro @endif - {{$comision->getCompleteNameAttribute()}}<br>
+                    @endforeach
+                </td>
                 @endif
                 <!-- <td><button class="btn btn-primary">Zoom</button></td> -->
                 <td>@if($defensa->modalidad == 1) Presencial - <br>{{$defensa->sede}} @else Remota @endif</td>

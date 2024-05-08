@@ -77,9 +77,9 @@ Route::delete('/admin/listadoDefensas/eliminar/{id}', 'ListadoDefensasController
 Route::get('/admin/comision', 'PortalDefensasController@comision')->middleware('auth');
 Route::post('/admin/addComision', 'PortalDefensasController@addComision')->middleware('auth');
 Route::post('/admin/defensas', 'PortalDefensasController@store')->name('defensas.store')->middleware('auth');
-Route::delete('/admin/defensas','PortalDefensasController@adminDefensasDestroy')->name('adminDefensas.destroy')->middleware('auth');
 Route::delete('/admin/defensas/{id}','PortalDefensasController@destroy')->name('defensas.destroy')->middleware('auth');
 Route::get('/admin/defensas', 'PortalDefensasController@defensas')->name('defensas.index')->middleware('auth');
+Route::delete('/admin/defensas','ListadoDefensasController@adminDefensasDestroy')->name('adminComisionDefensa.destroy')->middleware('auth');
 // 'esprofesor')
 Route::post('/admin/rubrica', 'PortalDefensasController@rubrica')->name('admin.defensa.rubrica')->middleware('auth');
 
