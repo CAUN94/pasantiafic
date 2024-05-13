@@ -7,10 +7,10 @@
 			<th scope="col" data-field="Estado" data-sortable="true">
 				<div class="th-inner">Estado</div>
 			</th>
-            <th scope="col" data-field="RUT" data-sortable="true">
+            <th scope="col" data-field="RUT" data-sortable="true" @if($downloadExcel == FALSE) style="background-color: #007bff; left:0;  position: sticky; z-index: 1;" @endif>
 				<div class="th-inner">RUT</div>
 			</th>
-            <th scope="col" data-field="Nombre" data-sortable="true">
+            <th scope="col" data-field="Nombre" data-sortable="true" @if($downloadExcel == FALSE) style="background-color: #007bff; left: 90px; position: sticky; z-index: 1;" @endif>
 				<div class="th-inner">Nombre</div>
 			</th>
             <th scope="col" data-field="Fecha" data-sortable="true">
@@ -22,12 +22,9 @@
             <th scope="col" data-field="Carrera" data-sortable="true">
                 <div class="th-inner">Carrera</div>
             </th>
-            @if($downloadExcel == TRUE)
-			@elseif ($downloadExcel == FALSE)
             <th scope="col" data-field="Comision" data-sortable="true">
 				<div class="th-inner">Comisión</div>
 			</th>
-            @endif
             <th scope="col" data-field="Modalidad" data-sortable="true">
 				<div class="th-inner">Modalidad</div>
 			</th>
@@ -43,10 +40,9 @@
 				<div class="th-inner">Datos Adicionales</div>
 			</th>
             <th scope="col" data-field="Acciones">
-            <div class="th-inner">Acciones</div>
+                <div class="th-inner">Acciones</div>
             </th>
             @endif
-            
         </tr>
     </thead>
 
@@ -55,8 +51,8 @@
             <tr>
                 <td>{{$defensa->idDefensa}}</td>
                 <td>@if($defensa->Estado) Realizada @else Pendiente @endif</td>
-                <td>{{App\User::find($defensa->idAlumno)->rut}}</td>
-                <td>{{App\User::find($defensa->idAlumno)->getCompleteNameAttribute()}}</td>
+                <td @if($downloadExcel == FALSE) style="background-color: #fff; left:0;  position: sticky;" @endif>{{App\User::find($defensa->idAlumno)->rut}}</td>
+                <td @if($downloadExcel == FALSE) style="background-color: #fff; left: 110px; position: sticky;" @endif>{{App\User::find($defensa->idAlumno)->getCompleteNameAttribute()}}</td>
                 <td>{{date('d-m-Y', strtotime($defensa->fecha))}}</td>
                 <td>{{date('H:i', strtotime($defensa->hora))}}</td>
                 <td>
@@ -65,18 +61,13 @@
                         <br>{{$defensa->proyecto->segundaCarrera}}
                     @endif
                 </td>
-                </td>
-                @if($downloadExcel == TRUE)
-			    @elseif ($downloadExcel == FALSE)
                 <td>
                     @foreach($defensa->comision as $comision)
                         @if($comision->pivot->EsPresidente) Presidente @else Miembro @endif - {{$comision->getCompleteNameAttribute()}}<br>
                     @endforeach
                 </td>
-                @endif
-                <!-- <td><button class="btn btn-primary">Zoom</button></td> -->
                 <td>@if($defensa->modalidad == 1) Presencial - <br>{{$defensa->sede}} @else Remota @endif</td>
-                <td>@if(is_null($defensa->zoom))
+                <td @if($downloadExcel == FALSE) class="overflow-auto" style="max-width: 175px;  overflow-y: scroll;" @endif>@if(is_null($defensa->zoom))
                         Pendiente 
                     @else 
                         {{$defensa->zoom}} 

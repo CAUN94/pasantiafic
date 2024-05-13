@@ -190,15 +190,15 @@
                                     <th scope="col">Presidente</th>
                                     <th scope="col">Comision</th>
                                     <th scope="col">Rubrica</th>
-                                    <th scope="col">Estado</th>
+                                    <th scope="col">Calificación</th>
                                     <th scope="col">Modalidad</th>
                                     <th scope="col">Sala</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{{Auth::user()->defensaEstudiante()->fecha}}</td>
-                                    <td>{{Auth::user()->defensaEstudiante()->hora}}</td>
+                                    <td>{{date('d-m-Y', strtotime(Auth::user()->defensaEstudiante()->fecha))}}</td>
+                                    <td>{{date('H:i', strtotime(Auth::user()->defensaEstudiante()->hora))}}</td>
                                     <td>
                                       {{Auth::user()->defensaEstudiante()->proyecto->carrera}}
                                       @if(Auth::user()->defensaEstudiante()->proyecto->dobleTitulacion == 1)
@@ -218,8 +218,8 @@
                                             {{$comision->getCompleteNameAttribute()}} <br>
                                         @endforeach
                                     </td>
-                                    <td><a target="_blank" href="/documents/rubricaDefensa.pdf">Rubrica</a></td>
-                                    <td>
+                                    <td class="text-center"><a target="_blank" href="/documents/rubricaDefensa.pdf">Rubrica</a></td>
+                                    <td class="text-center">
                                         @if(Auth::user()->defensaEstudiante()->hasRubrica()) {{Auth::user()->defensaEstudiante()->defensaStatus()}} 
                                         @elseif(Auth::user()->defensaEstudiante()->Nota >= 4)
                                         {{round(Auth::user()->defensaEstudiante()->Nota,1)}}

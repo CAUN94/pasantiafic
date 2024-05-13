@@ -295,168 +295,159 @@
 </div>
 
 <div class="modal fade" id="infoRubrica{{$defensa->idDefensa}}" tabindex="0" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-	<div class="modal-dialog" role="document">
+	<div class="modal-dialog modal-xl" role="document">
         <div class="modal-header bg-primary">
-            <h3 class="modal-title text-white text-center">Rubrica</h3>
+            <h3 class="modal-title text-white text-center">Rubrica de {{App\User::find($defensa->idAlumno)->getCompleteNameAttribute()}}</h3>
         </div>
         <div class="modal-content">
-        <h4 class="ml-3 mt-3">Defensa de {{App\User::find($defensa->idAlumno)->getCompleteNameAttribute()}}</h4>
-            @foreach(DB::table('rubrica')->where('idDefensa', $defensa->idDefensa)->get() as $rubrica)
-                <div class="m-4">
-                <h4>Resultados</h4>
-                    <div class="th-inner">@if($rubrica->resultados == 1) Aprobado @else Reprobado @endif</div>
-                <h4>Motivos</h4>
-                    <div class="th-inner">{{$rubrica->motivos}}</div>
-                <h4>Nota</h4>
-                    <div class="th-inner">{{$rubrica->nota}}</div>
-                <h4>Comentarios</h4>
-                    <div class="th-inner">{{$rubrica->comentarios}}</div>
-                <h4>Diagnostico</h4>
-                    <div class="th-inner">
-                        @if($rubrica->diagnostico == 1)
-                            <label class="text-danger" for="beginning">BEGINNING (1):</label><br>
-                            <p class="ml-5">Diagnóstico del problema muy débil; no se entiende la conexión entre el contexto de la
-                    empresa y el problema; los objetivos están desalineados</p>
-                        @elseif($rubrica->diagnostico == 2)
-                            <label class="text-warning" for="development">DEVELOPMENT (2):</label><br>
-                            <p class="ml-5">El diagnóstico no especifica la necesidad; las restricciones no coindicen con los objetivos;
-                    no hay identificación de las causas; no se definen variables apropiadas para abordar la propuesta</p>
-                        @elseif($rubrica->diagnostico == 3)
-                            <label class="text-primary" for="proficient">PROFICIENT (3):</label><br>
-                            <p class="ml-5">Diagnóstico limitado; no se desarrollan adecuadamente todas las causas que explican el
-                    problema; algunos objetivos no están alineados con los criterios de medición.</p>
-                        @elseif($rubrica->diagnostico == 4)
-                            <label class="text-success" for="mastery">MASTERY (4): </label>
-                            <p class="ml-5">Identifica adecuadamente las causas del problema y declara las necesidades y objetivos a
-                    cumplir desarrollando criterios de aceptabilidad y evaluación.</p>
-                        @endif
-                    </div>
-                <h4>Metodología</h4>
-                    <div class="th-inner">
-                        @if($rubrica->metodologia == 1)
-                            <label class="text-danger" for="beginning">BEGINNING (1)</label><br>
-                            <p class="ml-5">No se plantean soluciones acordes al objetivo planteado para el proyecto; no existen
-                    alternativas ni propuestas viables según las restricciones planteadas</p>
-                        @elseif($rubrica->metodologia == 2)
-                            <label class="text-warning" for="development">DEVELOPMENT (2):</label><br>
-                            <p class="ml-5">Solo hay diseño de un sistema, componente o proceso sin respaldarlo bajo un marco
-                    teórico adecuado; no hay una metodología clara.</p>
-                        @elseif($rubrica->metodologia == 3)
-                            <label class="text-primary" for="proficient">PROFICIENT (3)</label><br>
-                            <p class="ml-5">Diseña un sistema, componente o proceso integrando conocimientos de distintas áreas bajo
-                    un marco teórico, sin comparar con otras alternativas existentes; aplica una metodología débil para el problema.</p>
-                        @elseif($rubrica->metodologia == 4)
-                            <label class="text-success" for="mastery">MASTERY (4): </label>
-                            <p class="ml-5">Diseña sistemas, componentes o procesos alternativos y desarrolla una solución, a través de una
-                    metodología adecuada al problema respaldada de un marco teórico profundo.</p>
-                        @endif
-                    </div>
-                <h4>Solución</h4>
-                    <div class="th-inner">
-                        @if($rubrica->solucion == 1)
-                            <label class="text-danger" for="beginning">BEGINNING (1)</label><br>
-                            <p class="ml-5">No existe implementación de alguna solución; propuesta no genera relación entre las
-                    necesidades y los objetivos del proyecto.</p>
-                        @elseif($rubrica->solucion == 2)
-                            <label class="text-warning" for="development">DEVELOPMENT (2):</label><br>
-                            <p class="ml-5">No hay mayor análisis de la aplicabilidad de la solución planteada; no se entienden los
-                alcances del proyecto; no hay implementación adecuada de la solución.</p>
-                        @elseif($rubrica->solucion == 3)
-                            <label class="text-primary" for="proficient">PROFICIENT (3)</label><br>
-                            <p class="ml-5">No hay una implementación completa; el alcance de la propuesta está bajo el marco de las
-                    restricciones y la mayoría de los objetivos planteados.</p>
-                        @elseif($rubrica->solucion == 4)
-                            <label class="text-success" for="mastery">MASTERY (4): </label>
-                            <p class="ml-5">Implementa una solución en un contexto real, entendiendo el alcance de la propuesta bajo el
-                    marco de las restricciones y objetivos planteados.</p>
-                        @endif
-                    </div>
-                <h4>Impacto</h4>
-                    <div class="th-inner">
-                        @if($rubrica->impacto == 1)
-                            <label class="text-danger" for="beginning">BEGINNING (1)</label><br>
-                            <p class="ml-5">No hay análisis ni interpretación de los resultados obtenidos por la solución.</p>
-                        @elseif($rubrica->impacto == 2)
-                            <label class="text-warning" for="development">DEVELOPMENT (2):</label><br>
-                            <p class="ml-5">No hay profundidad en el análisis realizado; La justificación de los resultados es precaria y
-                le falta interpretación.</p>
-                        @elseif($rubrica->impacto == 3)
-                            <label class="text-primary" for="proficient">PROFICIENT (3)</label><br>
-                            <p class="ml-5">El análisis podría ser mejor en su calidad de ingeniería; Interpreta los resultados desde un
-                punto de vista de la factibilidad de los objetivos</p>
-                        @elseif($rubrica->impacto == 4)
-                            <label class="text-success" for="mastery">MASTERY (4): </label>
-                            <p class="ml-5">Analiza e interpreta el resultado, justificando la factibilidad de la solución obtenida y midiendo
-                correctamente el impacto obtenido.</p>
-                        @endif
-                    </div>
-                <h4>Presentación</h4>
-                    <div class="th-inner">
-                        @if($rubrica->presentacion == 1)
-                            <label class="text-danger" for="beginning">BEGINNING (1)</label><br>
-                            <p class="ml-5">Bajo volumen o energía; ritmo muy acelerado o lento; mala dicción; gestos o posturas distraen;
-                apariencia personal no profesional; ayudas visuales y materiales mal utilizados.</p>
-                        @elseif($rubrica->presentacion == 2)
-                            <label class="text-warning" for="development">DEVELOPMENT (2):</label><br>
-                            <p class="ml-5">Mayor volumen o energía se requiere en ciertos momentos; ritmo muy acelerado o lento;
-                algunos gestos o posturas distraen; apariencia personal adecuada; ayudas visuales podrían mejorarse</p>
-                        @elseif($rubrica->presentacion == 3)
-                            <label class="text-primary" for="proficient">PROFICIENT (3)</label><br>
-                            <p class="ml-5">El volumen y energía es adecuado; en general, buen ritmo y dicción; apariencia personal
-                profesional; las ayudas visuales son utilizadas correctamente.</p>
-                        @elseif($rubrica->presentacion == 4)
-                            <label class="text-success" for="mastery">MASTERY (4): </label>
-                            <p class="ml-5">Buen volumen y energía; ritmo y dicción adecuados; evita gestos o posturas que distraigan;
-                apariencia personal profesional; las ayudas visuales son utilizadas con eficacia.</p>
-                        @endif
-                    </div>
-                <h4>Ética</h4>
-                    <div class="th-inner">
-                        @if($rubrica->etica == 1)
-                            <label class="text-danger" for="beginning">BEGINNING (1)</label><br>
-                            <p class="ml-5"> El alumno no considera dimensiones éticas en su análisis o solución propuesta</p>
-                        @elseif($rubrica->etica == 2)
-                            <label class="text-warning" for="development">DEVELOPMENT (2):</label><br>
-                            <p class="ml-5"> El alumno entiende las dimensiones éticas involucradas en el planteamiento, pero falla en
-                    considerarlas en su solución propuesta.</p>
-                        @elseif($rubrica->etica == 3)
-                            <label class="text-primary" for="proficient">PROFICIENT (3)</label><br>
-                            <p class="ml-5"> El alumno considera de manera global dimensiones éticas en su análisis o solución propuesta
-                    para el problema</p>
-                        @elseif($rubrica->etica == 4)
-                            <label class="text-success" for="mastery">MASTERY (4): </label>
-                            <p class="ml-5"> El alumno aborda dimensiones éticas relacionadas con la solución propuesta para el problema,
-                    las incorpora con éxito a sus recomendaciones</p>
-                        @elseif($rubrica->etica == 5)
-                            <label class="text-dark" for="mastery">NO APLICA: </label>
-                            <p class="ml-5">El proyecto no debe considerar dimensiones de ética.</p>
-                        @endif
-                    </div>
-                <h4>Conciencia</h4>
-                    <div class="th-inner">
-                        @if($rubrica->conciencia == 1)
-                            <label class="text-danger" for="beginning">BEGINNING (1)</label><br>
-                            <p class="ml-5">No reconoce la importancia de las soluciones planteadas en el contexto de la ingeniería.
-                    Tampoco comprende dichas soluciones en un contexto regional ni global</p>
-                        @elseif($rubrica->conciencia == 2)
-                            <label class="text-warning" for="development">DEVELOPMENT (2):</label><br>
-                            <p class="ml-5"> No reconoce completamente la importancia de las soluciones planteadas en el contexto de
-                        la ingeniería.</p>
-                        @elseif($rubrica->conciencia == 3)
-                            <label class="text-primary" for="proficient">PROFICIENT (3)</label><br>
-                            <p class="ml-5">Reconoce la importancia de las soluciones en ingeniería considerando necesidades regionales.</p>
-                        @elseif($rubrica->conciencia == 4)
-                            <label class="text-success" for="mastery">MASTERY (4): </label>
-                            <p class="ml-5">Reconoce la importancia de las soluciones en ingeniería considerando necesidades económicas,
-                    sociales y medioambientales, tanto regionales como globales.</p><br>
-                        @endif
-                    </div>  
-            </div>
-            </div>
-            @endforeach
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver</button>
-            </div>
+            <table class="table">
+                <thead>
+                    <tr>                    
+                        <th>Diagnostico</th>
+                        <th>Metodología</th>
+                        <th>Impacto</th>
+                        <th>Solución</th>
+                        <th>Presentación</th>
+                        <th>Ética</th>
+                        <th>Conciencia</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(DB::table('rubrica')->where('idDefensa', $defensa->idDefensa)->get() as $rubrica)
+                    <tr>
+                        <td class="small">@if($rubrica->diagnostico == 1)
+                                <label class="text-danger" for="beginning">BEGINNING (1):</label><br>
+                            >Diagnóstico del problema muy débil; no se entiende la conexión entre el contexto de la
+                        empresa y el problema; los objetivos están desalineados
+                            @elseif($rubrica->diagnostico == 2)
+                                <label class="text-warning" for="development">DEVELOPMENT (2):</label><br>
+                                El diagnóstico no especifica la necesidad; las restricciones no coindicen con los objetivos;
+                        no hay identificación de las causas; no se definen variables apropiadas para abordar la propuesta
+                            @elseif($rubrica->diagnostico == 3)
+                                <label class="text-primary" for="proficient">PROFICIENT (3):</label><br>
+                                Diagnóstico limitado; no se desarrollan adecuadamente todas las causas que explican el
+                        problema; algunos objetivos no están alineados con los criterios de medición.
+                            @elseif($rubrica->diagnostico == 4)
+                                <label class="text-success" for="mastery">MASTERY (4): </label>
+                                Identifica adecuadamente las causas del problema y declara las necesidades y objetivos a
+                        cumplir desarrollando criterios de aceptabilidad y evaluación.
+                            @endif</td>
+                        <td class="small">@if($rubrica->metodologia == 1)
+                                <label class="text-danger" for="beginning">BEGINNING (1)</label><br>
+                                No se plantean soluciones acordes al objetivo planteado para el proyecto; no existen
+                        alternativas ni propuestas viables según las restricciones planteadas
+                            @elseif($rubrica->metodologia == 2)
+                                <label class="text-warning" for="development">DEVELOPMENT (2):</label><br>
+                                Solo hay diseño de un sistema, componente o proceso sin respaldarlo bajo un marco
+                        teórico adecuado; no hay una metodología clara.
+                            @elseif($rubrica->metodologia == 3)
+                                <label class="text-primary" for="proficient">PROFICIENT (3)</label><br>
+                                Diseña un sistema, componente o proceso integrando conocimientos de distintas áreas bajo
+                        un marco teórico, sin comparar con otras alternativas existentes; aplica una metodología débil para el problema.
+                            @elseif($rubrica->metodologia == 4)
+                                <label class="text-success" for="mastery">MASTERY (4): </label>
+                                Diseña sistemas, componentes o procesos alternativos y desarrolla una solución, a través de una
+                        metodología adecuada al problema respaldada de un marco teórico profundo.
+                            @endif</td>
+                        <td class="small">@if($rubrica->solucion == 1)
+                                <label class="text-danger" for="beginning">BEGINNING (1)</label><br>
+                                No existe implementación de alguna solución; propuesta no genera relación entre las
+                        necesidades y los objetivos del proyecto.
+                            @elseif($rubrica->solucion == 2)
+                                <label class="text-warning" for="development">DEVELOPMENT (2):</label><br>
+                                No hay mayor análisis de la aplicabilidad de la solución planteada; no se entienden los
+                    alcances del proyecto; no hay implementación adecuada de la solución.
+                            @elseif($rubrica->solucion == 3)
+                                <label class="text-primary" for="proficient">PROFICIENT (3)</label><br>
+                                No hay una implementación completa; el alcance de la propuesta está bajo el marco de las
+                        restricciones y la mayoría de los objetivos planteados.
+                            @elseif($rubrica->solucion == 4)
+                                <label class="text-success" for="mastery">MASTERY (4): </label>
+                                Implementa una solución en un contexto real, entendiendo el alcance de la propuesta bajo el
+                        marco de las restricciones y objetivos planteados.
+                            @endif</td>
+                        <td class="small">@if($rubrica->impacto == 1)
+                                <label class="text-danger" for="beginning">BEGINNING (1)</label><br>
+                                No hay análisis ni interpretación de los resultados obtenidos por la solución.
+                            @elseif($rubrica->impacto == 2)
+                                <label class="text-warning" for="development">DEVELOPMENT (2):</label><br>
+                                No hay profundidad en el análisis realizado; La justificación de los resultados es precaria y
+                    le falta interpretación.
+                            @elseif($rubrica->impacto == 3)
+                                <label class="text-primary" for="proficient">PROFICIENT (3)</label><br>
+                                El análisis podría ser mejor en su calidad de ingeniería; Interpreta los resultados desde un
+                    punto de vista de la factibilidad de los objetivos
+                            @elseif($rubrica->impacto == 4)
+                                <label class="text-success" for="mastery">MASTERY (4): </label>
+                                Analiza e interpreta el resultado, justificando la factibilidad de la solución obtenida y midiendo
+                    correctamente el impacto obtenido.
+                            @endif</td>
+                        <td class="small">@if($rubrica->presentacion == 1)
+                                <label class="text-danger" for="beginning">BEGINNING (1)</label><br>
+                                Bajo volumen o energía; ritmo muy acelerado o lento; mala dicción; gestos o posturas distraen;
+                    apariencia personal no profesional; ayudas visuales y materiales mal utilizados.
+                            @elseif($rubrica->presentacion == 2)
+                                <label class="text-warning" for="development">DEVELOPMENT (2):</label><br>
+                                Mayor volumen o energía se requiere en ciertos momentos; ritmo muy acelerado o lento;
+                    algunos gestos o posturas distraen; apariencia personal adecuada; ayudas visuales podrían mejorarse
+                            @elseif($rubrica->presentacion == 3)
+                                <label class="text-primary" for="proficient">PROFICIENT (3)</label><br>
+                                El volumen y energía es adecuado; en general, buen ritmo y dicción; apariencia personal
+                    profesional; las ayudas visuales son utilizadas correctamente.
+                            @elseif($rubrica->presentacion == 4)
+                                <label class="text-success" for="mastery">MASTERY (4): </label>
+                                Buen volumen y energía; ritmo y dicción adecuados; evita gestos o posturas que distraigan;
+                    apariencia personal profesional; las ayudas visuales son utilizadas con eficacia.
+                            @endif</td>
+                        <td class="small">@if($rubrica->etica == 1)
+                                <label class="text-danger" for="beginning">BEGINNING (1)</label><br>
+                                 El alumno no considera dimensiones éticas en su análisis o solución propuesta
+                            @elseif($rubrica->etica == 2)
+                                <label class="text-warning" for="development">DEVELOPMENT (2):</label><br>
+                                 El alumno entiende las dimensiones éticas involucradas en el planteamiento, pero falla en
+                        considerarlas en su solución propuesta.
+                            @elseif($rubrica->etica == 3)
+                                <label class="text-primary" for="proficient">PROFICIENT (3)</label><br>
+                                 El alumno considera de manera global dimensiones éticas en su análisis o solución propuesta
+                        para el problema
+                            @elseif($rubrica->etica == 4)
+                                <label class="text-success" for="mastery">MASTERY (4): </label>
+                                 El alumno aborda dimensiones éticas relacionadas con la solución propuesta para el problema,
+                        las incorpora con éxito a sus recomendaciones</p>
+                            @elseif($rubrica->etica == 5)
+                                <label class="text-dark" for="mastery">NO APLICA: </label>
+                                El proyecto no debe considerar dimensiones de ética.
+                            @endif</td>
+                        <td class="small">@if($rubrica->conciencia == 1)
+                                <label class="text-danger" for="beginning">BEGINNING (1)</label><br>
+                                No reconoce la importancia de las soluciones planteadas en el contexto de la ingeniería.
+                        Tampoco comprende dichas soluciones en un contexto regional ni global
+                            @elseif($rubrica->conciencia == 2)
+                                <label class="text-warning" for="development">DEVELOPMENT (2):</label><br>
+                                 No reconoce completamente la importancia de las soluciones planteadas en el contexto de
+                            la ingeniería.
+                            @elseif($rubrica->conciencia == 3)
+                                <label class="text-primary" for="proficient">PROFICIENT (3)</label><br>
+                                Reconoce la importancia de las soluciones en ingeniería considerando necesidades regionales.
+                            @elseif($rubrica->conciencia == 4)
+                                <label class="text-success" for="mastery">MASTERY (4): </label>
+                                Reconoce la importancia de las soluciones en ingeniería considerando necesidades económicas,
+                        sociales y medioambientales, tanto regionales como globales.<br>
+                            @endif</td>
+                    </tr>
+                    <tr>
+                        <td>Evaluador: <span>{{App\User::find($rubrica->idProfesor)->getCompleteNameAttribute()}}</span></td>
+                        <td>Resultados: <span>@if($rubrica->resultados == 1) Aprobado @else Reprobado @endif</span></td>
+                        <td>Motivos: <span>{{$rubrica->motivos}}</span></td>
+                        <td>Nota: <span>{{$rubrica->nota}}</span></td>
+                        <td style="max-width 75px;">Comentarios: <div class="small" style="overflow-y: scroll;  height: 90px;">{{$rubrica->comentarios}}</div></td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>           
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver</button>
         </div>
     </div>
 </div>

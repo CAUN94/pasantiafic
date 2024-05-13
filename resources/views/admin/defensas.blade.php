@@ -36,6 +36,9 @@
             <th scope="col" data-field="Carrera" data-sortable="true">
 				<div class="th-inner">Carrera</div>
 			</th>
+            <th scope="col" data-field="Presidencia" data-sortable="true">
+				<div class="th-inner">Presidencia</div>
+			</th>
             <th scope="col" data-field="Comision" data-sortable="true">
 				<div class="th-inner">Comisión</div>
 			</th>
@@ -69,6 +72,7 @@
                         <br>{{$defensa->proyecto->segundaCarrera}}
                     @endif
                 </td>
+                <td>@if(Auth::user()->isPresident($defensa->idDefensa)) Eres Presidente @else No eres presidente @endif</td>
                 <td>@foreach($defensa->comision as $comision)
                         @if($comision->pivot->EsPresidente) Presidente @else Miembro @endif
                          - {{$comision->getCompleteNameAttribute()}}<br>

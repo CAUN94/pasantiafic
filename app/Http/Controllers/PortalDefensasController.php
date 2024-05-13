@@ -110,6 +110,6 @@ class PortalDefensasController extends Controller
         $defensa->save();
         $rubrica->save();
         // return $rubrica;
-        return redirect('/admin/comision');
+        return redirect()->back()->with('success','Rubrica Enviada Exitosamente');
     }
 }
