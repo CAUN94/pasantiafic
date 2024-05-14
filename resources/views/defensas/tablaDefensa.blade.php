@@ -10,7 +10,7 @@
             <th scope="col" data-field="RUT" data-sortable="true" @if($downloadExcel == FALSE) style="background-color: #007bff; left:0;  position: sticky; z-index: 1;" @endif>
 				<div class="th-inner">RUT</div>
 			</th>
-            <th scope="col" data-field="Nombre" data-sortable="true" @if($downloadExcel == FALSE) style="background-color: #007bff; left: 90px; position: sticky; z-index: 1;" @endif>
+            <th scope="col" data-field="Nombre" data-sortable="true" @if($downloadExcel == FALSE) style="background-color: #007bff; left: 104px; position: sticky; z-index: 1;" @endif>
 				<div class="th-inner">Nombre</div>
 			</th>
             <th scope="col" data-field="Fecha" data-sortable="true">
@@ -39,7 +39,7 @@
             <th scope="col" data-field="Datos Adicionales" data-sortable="true">
 				<div class="th-inner">Datos Adicionales</div>
 			</th>
-            <th scope="col" data-field="Acciones">
+            <th style="background-color: #007bff; right: 0px; position: sticky; z-index: 1;" scope="col" data-field="Acciones">
                 <div class="th-inner">Acciones</div>
             </th>
             @endif
@@ -51,8 +51,8 @@
             <tr>
                 <td>{{$defensa->idDefensa}}</td>
                 <td>@if($defensa->Estado) Realizada @else Pendiente @endif</td>
-                <td @if($downloadExcel == FALSE) style="background-color: #fff; left:0;  position: sticky;" @endif>{{App\User::find($defensa->idAlumno)->rut}}</td>
-                <td @if($downloadExcel == FALSE) style="background-color: #fff; left: 110px; position: sticky;" @endif>{{App\User::find($defensa->idAlumno)->getCompleteNameAttribute()}}</td>
+                <td @if($downloadExcel == FALSE) style="background-color: #fff; left:0;  position: sticky; border-left: 1px solid lightgrey;" @endif>{{App\User::find($defensa->idAlumno)->rut}}</td>
+                <td @if($downloadExcel == FALSE) style="background-color: #fff; left: 104px; position: sticky; border-right: 1px solid lightgrey;" @endif>{{App\User::find($defensa->idAlumno)->getCompleteNameAttribute()}}</td>
                 <td>{{date('d-m-Y', strtotime($defensa->fecha))}}</td>
                 <td>{{date('H:i', strtotime($defensa->hora))}}</td>
                 <td>
@@ -83,7 +83,7 @@
                 @if($downloadExcel == TRUE)
 			    @elseif ($downloadExcel == FALSE)
                 <td><a href="#" data-toggle="modal" data-target="#datosAdicionales{{$defensa->idDefensa}}">Ver detalles</a></td>
-                <td>
+                <td style="background-color: #fff; right: 0px; position: sticky; border-left: 1px solid lightgrey;">
                     <button type="button" class="btn btn-warning mr-1" data-toggle="modal" data-target="#editarDefensa{{$defensa->idDefensa}}">Editar</button>
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#eliminarDefensa{{$defensa->idDefensa}}">Eliminar</button>
                 </td>
