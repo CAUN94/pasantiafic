@@ -61,7 +61,14 @@
             @foreach($defensas as $defensa)
             <tr>
                 <td>{{$defensa->idDefensa}}</td>
-                <td>@if($defensa->Estado) Realizada @else Pendiente @if(DB::table('defensa_user')->where('user_id',Auth::user()->idUsuario)->where('defensa_id', $defensa->idDefensa)->first()->esPresidente == 1)<br>@if(is_null(DB::table('rubrica')->where('idProfesor',Auth::user()->idUsuario)->where('idDefensa',$defensa->idDefensa)->first()))<a href="#" data-toggle="modal" data-target="#rubrica{{$defensa->idDefensa}}">Evaluar</a>@endif @endif @endif</td>
+                <td>@if($defensa->Estado == 2) 
+                        Cancelada 
+                    @elseif($defensa->Estado == 1)
+                        Realizada                        
+                    @else
+                        Pendiente @if(Auth::user()->isPresident($defensa->idDefensa))<br>@if(is_null(DB::table('rubrica')->where('idProfesor',Auth::user()->idUsuario)->where('idDefensa',$defensa->idDefensa)->first()))<a href="#" data-toggle="modal" data-target="#rubrica{{$defensa->idDefensa}}">Evaluar</a>@endif @endif 
+                    @endif
+                </td>
                 <td>{{App\User::find($defensa->idAlumno)->getCompleteNameAttribute()}}</td>
                 <td>{{$defensa->fecha}}</td>
                 <td>{{$defensa->hora}}</td>

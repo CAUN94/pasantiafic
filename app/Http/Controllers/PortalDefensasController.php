@@ -76,6 +76,13 @@ class PortalDefensasController extends Controller
         return view('admin.comision',compact('defensas'));
     }
 
+    public function cancelarDefensa(Request $request){
+        $defensa = Defensa::find($request->idDefensa);
+        $defensa->Estado = 2;
+        $defensa->save();
+        return redirect()->back();
+    }
+
     public function rubrica(Request $request){
         
         if($request->nota >= 10){
@@ -109,7 +116,7 @@ class PortalDefensasController extends Controller
         }
         $defensa->save();
         $rubrica->save();
-        // return $rubrica;
+        
         return redirect()->back()->with('success','Rubrica Enviada Exitosamente');
     }
 }

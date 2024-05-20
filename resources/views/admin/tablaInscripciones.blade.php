@@ -1,7 +1,7 @@
 <table class="table table-hover w-auto text-nowrap" id="myTable" >
 	<thead>
 		<tr>
-			<th scope="col" data-field="rut" data-sortable="true">
+			<th scope="col" data-field="rut" data-sortable="true" @if($downloadExcel == FALSE) style="background-color: #fff; border-right: 1px solid lightgrey; left:0;  position: sticky; z-index: 1;" @endif>
 				<div class="th-inner">RUT</div>
 			</th>
 			<th scope="col" data-field="rut_formated" data-sortable="true">
@@ -91,7 +91,7 @@
 			</th>
 			@if($downloadExcel == TRUE)
 			@elseif ($downloadExcel == FALSE)
-			<th scope="col" data-field="acciones">
+			<th scope="col" data-field="acciones" @if($downloadExcel == FALSE) style="background-color: #fff; border-left: 1px solid lightgrey; right: 17px;  position: sticky; z-index: 1;" @endif>
 				<div class="th-inner">Acciones</div>
 			</th>
 			@else @endif
@@ -104,7 +104,7 @@
 			<!-- Datos: arr['key'] -->
 
 			<!-- Datos Usuario -->
-			<td>{{$datosPasantia['rutUsuario']}}</td>
+			<td @if($downloadExcel == FALSE) style="background-color: #fff; left:0;  position: sticky; border-right: 1px solid lightgrey;" @endif>{{$datosPasantia['rutUsuario']}}</td>
 			
 			<td>{{$datosPasantia['rutUsuarioFormat']}}</td>
 			<td>{{$datosPasantia['dvUsuario']}}</td>
@@ -129,11 +129,51 @@
 			<td class="text-wrap">{{$datosPasantia['nombreProyecto']}}</td>
 			<td>{{$datosPasantia['areaProyecto']}}</td>
 			<td>{{$datosPasantia['disciplinaProyecto']}}</td>
-			<td>{{$datosPasantia['problematicaProyecto']}}</td>
-			<td>{{$datosPasantia['objetivoProyecto']}}</td>
-			<td>{{$datosPasantia['medidasProyecto']}}</td>
-			<td>{{$datosPasantia['metodologiaProyecto']}}</td>
-			<td>{{$datosPasantia['planificacionProyecto']}}</td>
+			<td class="text-wrap">
+                <span class="texto-corto">{{ Str::limit($datosPasantia['problematicaProyecto'], 50) }}</span>
+                <span class="texto-completo d-none">{{$datosPasantia['problematicaProyecto']}}</span>
+                @if(strlen($datosPasantia['problematicaProyecto']) > 50)
+                    <br><a href="#" class="ver-mas">Ver más</a>
+                @else
+                    Vacio
+                @endif
+            </td>
+			<td class="text-wrap">
+                <span class="texto-corto">{{ Str::limit($datosPasantia['objetivoProyecto'], 50) }}</span>
+                <span class="texto-completo d-none">{{$datosPasantia['objetivoProyecto']}}</span>
+                @if(strlen($datosPasantia['problematicaProyecto']) > 50)
+                    <br><a href="#" class="ver-mas">Ver más</a>
+                @else
+                    Vacio
+                @endif
+            </td>
+			<td class="text-wrap">
+                <span class="texto-corto">{{ Str::limit($datosPasantia['medidasProyecto'], 50) }}</span>
+                <span class="texto-completo d-none">{{$datosPasantia['medidasProyecto']}}</span>
+                @if(strlen($datosPasantia['medidasProyecto']) > 50)
+                    <br><a href="#" class="ver-mas">Ver más</a>
+                @else
+                    Vacio
+                @endif
+            </td>
+			<td class="text-wrap">
+                <span class="texto-corto">{{ Str::limit($datosPasantia['metodologiaProyecto'], 50) }}</span>
+                <span class="texto-completo d-none">{{$datosPasantia['metodologiaProyecto']}}</span>
+                @if(strlen($datosPasantia['metodologiaProyecto']) > 50)
+                    <br><a href="#" class="ver-mas">Ver más</a>
+                @else
+                    Vacio
+                @endif
+            </td>
+			<td class="text-wrap">
+                <span class="texto-corto">{{ Str::limit($datosPasantia['planificacionProyecto'], 50) }}</span>
+                <span class="texto-completo d-none">{{$datosPasantia['planificacionProyecto']}}</span>
+                @if(strlen($datosPasantia['planificacionProyecto']) > 50)
+                    <br><a href="#" class="ver-mas">Ver más</a>
+                @else
+                    Vacio
+                @endif
+            </td>
 			<!-- Paso 0 -->
 			<td>{{$datosPasantia['statusPaso0Pasantia']}}</td>
 			<!-- Paso 1 -->
@@ -212,7 +252,7 @@
 
 			@if($downloadExcel == TRUE)
 			@elseif ($downloadExcel == FALSE)
-			<td>
+			<td style="background-color: #fff; right: 0px; position: sticky; border-left: 1px solid lightgrey;">
 				{{$datosPasantia['statusPaso2Pasantia']}}
 				<a role="button" href="{{route('listadoInscripcion.validarTodo',
 						['nombresUsuario' => $datosPasantia['nombresUsuario'],
@@ -248,5 +288,18 @@
 			fixedHeader: true,
 		});
 	} );
+	$(document).on('click', '.ver-mas', function(e) {
+        e.preventDefault();
+        var $this = $(this);
+        var $row = $this.closest('tr');
+
+        $row.find('.texto-corto, .texto-completo').toggleClass('d-none');
+        // si Ver más es Ver más, entonces cambia a Ver menos y si es ver menos cambia a ver más if elseif
+        if($this.text() === 'Ver más'){
+            $this.text('Ver menos');
+        } else if ($this.text() === 'Ver menos'){
+            $this.text('Ver más');
+        }
+    });
 </script>
 </table>

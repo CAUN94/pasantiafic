@@ -50,7 +50,14 @@
             @foreach($defensas as $defensa)
             <tr>
                 <td>{{$defensa->idDefensa}}</td>
-                <td>@if($defensa->Estado) Realizada ({{DB::table('rubrica')->where('idDefensa', $defensa->idDefensa)->count()}}@if($defensa->proyecto->dobleTitulacion)/2) @else /1) @endif  @else Pendiente @endif</td>
+                <td>@if($defensa->Estado == 1)
+                        Realizada ({{DB::table('rubrica')->where('idDefensa', $defensa->idDefensa)->count()}}@if($defensa->proyecto->dobleTitulacion)/2) @else /1) @endif  
+                    @elseif($defensa->Estado == 2)
+                        Cancelado
+                    @else
+                        Pendiente 
+                    @endif
+                </td>
                 <td @if($downloadExcel == FALSE) style="background-color: #fff; left:0;  position: sticky; border-left: 1px solid lightgrey;" @endif>{{App\User::find($defensa->idAlumno)->rut}}</td>
                 <td @if($downloadExcel == FALSE) style="background-color: #fff; left: 104px; position: sticky; border-right: 1px solid lightgrey;" @endif>{{App\User::find($defensa->idAlumno)->getCompleteNameAttribute()}}</td>
                 <td>{{date('d-m-Y', strtotime($defensa->fecha))}}</td>

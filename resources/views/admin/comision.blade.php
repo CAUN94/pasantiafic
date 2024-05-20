@@ -139,8 +139,9 @@
                 <td>
                     {{$defensa->proyecto->nombreEmpresa}}
                 </td>
-                @if(($defensa->comision->count() < 3 and $defensa->isDobleTitulation()) or ($defensa->comision->count() < 2))
-                    @if(Auth::user()->canBePresident($defensa->idDefensa) and $defensa->hasPresident()) 
+                @if((($defensa->comision->count() < 3 and $defensa->isDobleTitulation()) or ($defensa->comision->count() < 2)) and !($defensa->Estado == 2))
+                    
+                @if(Auth::user()->canBePresident($defensa->idDefensa) and $defensa->hasPresident()) 
                         <td><a target="_blank" href="#" data-toggle="modal" data-target="#cupos{{$defensa->idDefensa}}">Inscribir</a></td>
                     @elseif(Auth::user()->canBePresident($defensa->idDefensa) and !$defensa->hasPresident())
                         <td><a target="_blank" href="#" data-toggle="modal" data-target="#cupos{{$defensa->idDefensa}}">Inscribir</a></td>

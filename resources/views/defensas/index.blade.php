@@ -213,6 +213,12 @@
                     </tbody>
                 </table>
                 @endif
+
+                <form action="{{ route('adminCancelarDefensa.destroy')}}" method="POST">
+                    @csrf
+                    <input type="hidden" name="idDefensa" value="{{$defensa->idDefensa}}">
+                    <button class="btn btn-danger" type="submit">Cancelar Defensa</button>
+                </form>
             </div>
 
             <div class="modal-footer">
