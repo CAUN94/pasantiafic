@@ -7,7 +7,7 @@
             <th scope="col" data-field="Rut" data-sortable="true" @if($downloadExcel == FALSE) style="background-color: #007bff; left:0;  position: sticky; z-index: 1;" @endif>
 				<div class="th-inner">Rut</div>
 			</th>
-            <th scope="col" data-field="Estudiante" data-sortable="true" @if($downloadExcel == FALSE) style="background-color: #007bff; left: 110px; position: sticky; z-index: 1;" @endif>
+            <th scope="col" data-field="Estudiante" data-sortable="true" @if($downloadExcel == FALSE) style="background-color: #007bff; left: 105px; position: sticky; z-index: 1;" @endif>
 				<div class="th-inner">Estudiante</div>
 			</th>
             <th scope="col" data-field="Carrera" data-sortable="true">
@@ -45,7 +45,7 @@
 			</th>
             @if($downloadExcel == TRUE)
 			@elseif ($downloadExcel == FALSE)
-            <th scope="col" data-field="Acciones" data-sortable="true">
+            <th scope="col" data-field="Acciones" data-sortable="true" @if($downloadExcel == FALSE) style="background-color: #007bff; right: 17px; position: sticky; z-index: 1;" @endif>
 				<div class="th-inner">Acciones</div>
 			</th>
             @endif
@@ -56,8 +56,8 @@
         @foreach($proyectos as $proyecto)
             <tr>
                 <td>{{$proyecto->idProyecto}}</td>
-                <td style="background-color: #fff; left:0;  position: sticky;">{{$proyecto->pasantia->alumno->rut}}</td>
-                <td style="background-color: #fff; left: 110px; position: sticky;">{{$proyecto->pasantia->alumno->getCompleteNameAttribute()}}</td>
+                <td style="background-color: #fff; left:0;  position: sticky; border-left: 1px solid lightgrey;">{{$proyecto->pasantia->alumno->rut}}</td>
+                <td style="background-color: #fff; left: 105px; position: sticky; border-right: 1px solid lightgrey;">{{$proyecto->pasantia->alumno->getCompleteNameAttribute()}}</td>
                 <td>{{$proyecto->carrera}}</td>
                 <td>{{$proyecto->dobleTitulacion}}</td>
                 <td>{{$proyecto->segundaCarrera}}</td>
@@ -82,7 +82,7 @@
                 <!-- Adjust width td -->
                 @if($downloadExcel == TRUE)
 			    @elseif ($downloadExcel == FALSE)
-                <td class="w-25">
+                <td class="w-25" style="background-color: #fff; right: 0px; position: sticky; border-left: 1px solid lightgrey;">
                     <form action="/admin/listadoProyectos/{{$proyecto->idProyecto}}" method="POST">
                         @csrf
                         @method('PUT')

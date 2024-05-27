@@ -80,12 +80,19 @@
                         {{$defensa->zoom}} 
                     @endif
                 </td>
-                <td>
-                    @if($defensa->Nota >= 4)
-                    Aprobado
-                    @elseif($defensa->Nota > 0)
-                    Reprobado
-                    @else Pendiente  @endif
+                <td class="text-center">
+                    @if(is_null(DB::table('rubrica')->where('idDefensa', $defensa->idDefensa)->first()))
+                        Pendiente
+                    @endif
+                    
+                    @foreach(DB::table('rubrica')->where('idDefensa', $defensa->idDefensa)->get() as $rubrica)
+                        @if($rubrica->nota >= 4)
+                            Aprobado
+                        @elseif($rubrica->nota > 0)
+                            R
+                        @endif
+                        <br>
+                    @endforeach
                 </td>
                 @if($downloadExcel == TRUE)
 			    @elseif ($downloadExcel == FALSE)
