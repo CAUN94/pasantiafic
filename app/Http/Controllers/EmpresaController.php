@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Empresa;
 use App\User;
+use App\Pasantia;
+use App\Proyecto;
+use App\EvalTutor;
 use Auth;
 
 
@@ -196,4 +199,39 @@ class EmpresaController extends Controller{
 			}
 
     }
+
+	public function evaluacionDesempeñoAlumno($id){
+		$pasantia = Pasantia::where('tokenCorreo', $id)->first();
+		$empresa = Empresa::find($pasantia->idEmpresa);
+		$alumno = User::where('idUsuario',$pasantia->idAlumno)->first();
+
+		return view('empresa.evaluate', compact('alumno','pasantia','empresa'));
+	}
+
+	public function storeEvaluacionAlumno(Request $request){
+		$proyecto = Proyecto::where('idPasantia', $request->idPasantia)->first();
+		$suma = $request->compromiso+$request->adaptabilidad+$request->comunicacion+$request->equipo+$request->liderazgo+$request->sobreponerse+$request->habilidades+$request->proactividad+$request->innovacion+$request->etica;
+		$promedio = $suma/10;
+
+		$evaltutor = new EvalTutor([
+			'idProyecto' => $proyecto->idProyecto,
+			'tokenCorreo' => $request->tokenCorreo,
+			'compromiso' => $request->compromiso,
+			'adaptabilidad' => $request->adaptabilidad,
+			'comunicacion' => $request->comunicacion,
+			'equipo' => $request->equipo,
+			'liderazgo' => $request->liderazgo,
+			'sobreponerse' => $request->sobreponerse,
+			'habilidades' => $request->habilidades,
+			'proactividad' => $request->proactividad,
+			'innovacion' => $request->innovacion,
+			'etica' => $request->etica,
+			'promedio' => $promedio,
+        	'comentarios' => $request->comentarios,
+			'certificadoTutor' => $request->verificacion
+		]);
+		
+        $evaltutor->save();
+		return $evaltutor;
+	}
 }

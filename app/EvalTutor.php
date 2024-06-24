@@ -11,6 +11,7 @@ class EvalTutor extends Model{
     protected $fillable = [
          'idEvalTutor',
          'idProyecto',
+         'tokenCorreo',
          'compromiso',
          'adaptabilidad',
          'comunicacion',

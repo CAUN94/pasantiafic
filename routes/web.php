@@ -142,3 +142,6 @@ Route::get('evaluacion/enviar/{idAlumno}', 'EvalTutorController@enviar');
 Route::post('evaluacion/enviar/enviarSeleccionados', 'EvalTutorController@enviarSeleccionados');
 Route::get('evaluacion/listado/{idProyecto}', 'EvalTutorController@listado')->name('EvalTutor.listado')->middleware('auth', 'noAlumno');
 Route::get('evaluacion/ver/{idEvaluacion}', 'EvalTutorController@ver')->middleware('auth', 'noAlumno');
+
+Route::get('/empresa/evaluacion/{id}', 'EmpresaController@evaluacionDesempeñoAlumno');
+Route::post('/empresa/evaluacion/store', 'EmpresaController@storeEvaluacionAlumno')->name('store.evaluacionAlumno');
