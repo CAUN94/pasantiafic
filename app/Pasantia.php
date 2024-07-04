@@ -50,8 +50,11 @@ class Pasantia extends Model{
 		elseif($this->statusPaso2 == 0){
 			return 2;
 		}
-		elseif($this->statusPaso3 == 0){
+		elseif($this->statusPaso3 > 0 and $this->statusPaso3 < 4){
 			return 3;
+		}
+		elseif($this->statusPaso3 == 0){
+			return 2;
 		}
 		elseif($this->statusPaso4 == 0){
 			return 4;
