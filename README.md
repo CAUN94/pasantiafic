@@ -27,4 +27,4 @@ La plataforma utiliza Laravel 7.x.
 
 ## Copyright
 
-Copyright 2020 © Universidad Adolfo Ibáñez
+Copyright 2024 © Universidad Adolfo Ibáñez

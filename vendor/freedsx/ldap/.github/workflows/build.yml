@@ -1,0 +1,62 @@
+name: Build
+on: [push, pull_request]
+jobs:
+  run:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [ubuntu-latest, windows-latest]
+        php-versions: ['7.1', '7.2', '7.3', '7.4', '8.0', '8.1']
+    name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          coverage: xdebug
+          tools: composer:v2.2
+
+      - name: Install OpenLDAP
+        if: runner.os == 'Linux' && matrix.php-versions >= '7.4'
+        run: sudo ./tests/resources/openldap/setup.sh
+
+    # Github Actions runner does not support reboots to work properly for this...
+    #- name: Install Active Directory
+    #  if: runner.os == 'Windows'
+    #  run: powershell .\tests\resources\activedirectory\Install-AD-Step1.ps1
+
+    # - name: Finish Active Directory Configuration
+    #   if: runner.os == 'Windows'
+    #   run: powershell .\tests\resources\activedirectory\Install-AD-Step2.ps1
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Install Composer dependencies
+        if: ${{ matrix.php-versions != '8.1' }}
+        run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
+
+      - name: Install Composer dependencies (8.1)
+        if: ${{ matrix.php-versions == '8.1' }}
+        run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader --ignore-platform-reqs
+
+      - name: Cache dependencies
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Run Specs
+        run: composer run-script test-spec
+
+      # Not ideal, but we run as root here because the LDAP server needs access to certs / keys system directories.
+      # For tests this seems fine, but in a real scenario this would be bad...
+      - name: Run Integration Tests
+        if: runner.os == 'Linux' && matrix.php-versions >= '7.4'
+        run: sudo composer run-script test-integration

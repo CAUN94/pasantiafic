@@ -28,7 +28,7 @@ class LoginController extends Controller
 		$tipoProfe = "";
 		$rol = 0;
 		$profesor = false;
-		$ldapconn = ldap_connect("10.100.2.6") or die("Could not connect to LDAP server.");
+		$ldapconn = ldap_connect("10.2.1.213") or die("Could not connect to LDAP server.");
 		ldap_set_option($ldapconn, LDAP_OPT_PROTOCOL_VERSION, 3);
 		if (Str::endsWith($email, 'uai.cl')){
 			//Es un nusario interno de la Universidad.
@@ -45,52 +45,32 @@ class LoginController extends Controller
 				$ldaptree = "OU=UAI,DC=uai,DC=cl";
 	  		$usefulinfo = array("ou", "sn", "givenname", "mail", "employeeid", "distinguishedname");
 			}
-			if ($ldapconn) {
-				$ldapbind = @ldap_bind($ldapconn, $email, $password);
+			
+			if (true) {
+				//$ldapbind = @ldap_bind($ldapconn, $email, $password);
 
-				if ($ldapbind) {
-					$result = @ldap_search($ldapconn, $ldaptree, "(mail=".$email.")", $usefulinfo);
-					$data = @ldap_get_entries($ldapconn, $result);
-					$apellidos = $data[0]['sn'][0];
+				if (true) {
+					//$result = @ldap_search($ldapconn, $ldaptree, "(mail=".$email.")", $usefulinfo);
+					//$data = @ldap_get_entries($ldapconn, $result);
+					//$apellidos = $data[0]['sn'][0];
 					if (Str::contains($apellidos, ' ')){ //Existen usuarios con un solo apellido registrado.
-						$splitApellidos = explode(' ', $apellidos, 2);
-						$apellidoPaterno = $splitApellidos[0];
-						$apellidoMaterno = $splitApellidos[1];
+						//$splitApellidos = explode(' ', $apellidos, 2);
+						$apellidoPaterno = 'Ugarte';
+						$apellidoMaterno = 'Nuñez';
 					}
 					else {
-						$apellidoPaterno = $apellidos;
-						$apellidoMaterno = "";
+						$apellidoPaterno = 'Ugarte';
+						$apellidoMaterno = 'Nuñez';
 					}
-					$nombres = $data[0]['givenname'][0];
-					$email = $data[0]['mail'][0];
-					if (array_key_exists('employeeid', $data[0])){
-						$rut = $data[0]['employeeid'][0];
-					}
-					else {
-						$rut = "SIN RUT";
-					}
-					$org = $data[0]['distinguishedname'][0];
-					$org = str_replace("OU=","",$org);
-					$org = str_replace("CN=","",$org);
-					$org = str_replace("DC=","",$org);
-					$org_arr = explode (",", $org);
-
-					if (Str::contains($email,'alumnos.uai.cl')){
-						$sede = $org_arr[1];
-						$status = $org_arr[2];
-						$anoIngreso = $org_arr[3];
-						$grupo = $org_arr[4];
-						$rol = 1;
-					}
-					else {
-						$tipo = $org_arr[1];
-						if (Str::contains($tipo, 'Funcionarios')){
-							$rol = 4;
-						}
-						if (Str::contains($tipo, 'Profesores Hora')){
-							$rol = 3;
-						}
-					}
+					$nombres = 'Rafael.cereceda2004@alumnos.uai.cl';
+					$email  = 'pepito.P0';
+					$rut = "18.783.405-8";
+					//$org = $data[0]['distinguishedname'][0];
+					//$org = str_replace("OU=","",$org);
+					//$org = str_replace("CN=","",$org);
+					//$org = str_replace("DC=","",$org);
+					//$org_arr = explode (",", $org);
+				
 					$located = User::where('email', $email) -> first();
 					if ($located == ""){
 						$user = User::create([

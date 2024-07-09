@@ -82,11 +82,10 @@ Route::post('/admin/listadoDefensas/editar', 'ListadoDefensasController@editarDe
 Route::delete('/admin/listadoDefensas/eliminar/{id}', 'ListadoDefensasController@eliminarDefensa')->name('listadoDefensas.destroy')->middleware('auth', 'admin');
 Route::get('/admin/comision', 'PortalDefensasController@comision')->middleware('auth');
 Route::post('/admin/addComision', 'PortalDefensasController@addComision')->middleware('auth');
-Route::post('/admin/cancelDefensa', 'PortalDefensasController@cancelarDefensa')->name('adminCancelarDefensa.destroy')->middleware('auth');
 Route::post('/admin/defensas', 'PortalDefensasController@store')->name('defensas.store')->middleware('auth');
+Route::delete('/admin/defensas','PortalDefensasController@adminDefensasDestroy')->name('adminDefensas.destroy')->middleware('auth');
 Route::delete('/admin/defensas/{id}','PortalDefensasController@destroy')->name('defensas.destroy')->middleware('auth');
 Route::get('/admin/defensas', 'PortalDefensasController@defensas')->name('defensas.index')->middleware('auth');
-Route::delete('/admin/defensas','ListadoDefensasController@adminDefensasDestroy')->name('adminComisionDefensa.destroy')->middleware('auth');
 // 'esprofesor')
 Route::post('/admin/rubrica', 'PortalDefensasController@rubrica')->name('admin.defensa.rubrica')->middleware('auth');
 
@@ -120,7 +119,7 @@ Route::post('/admin/doLoginAs', 'LoginController@doLoginAs')->name('admin.doLogi
 Route::get('/download-ics/{id}', 'CalendarController@downloadICS');
 
 Route::get('/login', function(){
-	return view('login');
+        return view('login');
 });
 
 Route::post('/login', 'LoginController@authenticate')->name('login');
@@ -141,6 +140,8 @@ Route::get('/inscripcion/cambiarSupervisor', 'PasantiaController@cambiarSupervis
 Route::get('/inscripcion/certificado', 'PasantiaController@descargarCert')->name('inscripcion.certificado')->middleware('auth');
 Route::get('/inscripcion/5', 'PasantiaController@paso5View')->name('inscripcion.5.view')->middleware('auth');
 Route::post('/inscripcion/5/post','PasantiaController@paso5Control')->name('inscripcion.5.post')->middleware('auth');
+// post route inscripcion/id/changePaso
+Route::post('/inscripcion/changePaso', 'PasantiaController@changePaso')->name('inscripcion.changePaso')->middleware('auth');
 
 Route::get('/pasantia', 'PortalPasantiasController@index')->middleware('auth');
 Route::get('/pasantia/bitacora', 'PortalPasantiasController@bitacora')->middleware('auth');
@@ -162,5 +163,4 @@ Route::post('evaluacion/enviar/enviarSeleccionados', 'EvalTutorController@enviar
 Route::get('evaluacion/listado/{idProyecto}', 'EvalTutorController@listado')->name('EvalTutor.listado')->middleware('auth', 'noAlumno');
 Route::get('evaluacion/ver/{idEvaluacion}', 'EvalTutorController@ver')->middleware('auth', 'noAlumno');
 
-Route::get('/empresa/evaluacion/{id}', 'EmpresaController@evaluacionDesempeñoAlumno');
-Route::post('/empresa/evaluacion/store', 'EmpresaController@storeEvaluacionAlumno')->name('store.evaluacionAlumno');
+Route::delete('/admin/defensas','ListadoDefensasController@adminDefensasDestroy')->name('adminComisionDefensa.destroy')->middleware('auth');

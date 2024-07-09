@@ -347,7 +347,7 @@ class PasantiaController extends Controller{
 			}
 			$pasantia->statusPaso3 = 3;
 			$pasantia->save();
-			Mail::to($pasantia->correoJefe)->send(new ConfTutor($pasantia, $user, $empresa));
+			// Mail::to($pasantia->correoJefe)->send(new ConfTutor($pasantia, $user, $empresa));
 		}
 		return redirect('/inscripcion/resumen');
 
@@ -764,10 +764,23 @@ class PasantiaController extends Controller{
 			} 
 			$proyecto->save();
 			return redirect('/inscripcion/resumen')->with('success', "Tus datos se han enviado exitosamente");
+		}		
+	}
+
+	// method post changePaso
+	public function changePaso(Request $request){
+		$pasantia = Pasantia::find($request->idPasantia);	
+		if ($request->paso == 2){
+			$pasantia->statusPaso3 = 0;
+		}
+		elseif ($request->paso == 4){
+			$pasantia->statusPaso3 = 4;
 		}
 
+		$pasantia->save();
+		return back();
 
-		
 	}
+
 
 }
