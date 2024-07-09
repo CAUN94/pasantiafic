@@ -4,7 +4,6 @@ namespace Illuminate\Cache;
 
 use Illuminate\Database\Connection;
 use Illuminate\Database\QueryException;
-use Illuminate\Support\Carbon;
 
 class DatabaseLock extends Lock
 {
@@ -93,7 +92,7 @@ class DatabaseLock extends Lock
      */
     protected function expiresAt()
     {
-        return $this->seconds > 0 ? time() + $this->seconds : Carbon::now()->addDays(1)->getTimestamp();
+        return $this->seconds > 0 ? time() + $this->seconds : now()->addDays(1)->getTimestamp();
     }
 
     /**
@@ -135,15 +134,5 @@ class DatabaseLock extends Lock
     protected function getCurrentOwner()
     {
         return optional($this->connection->table($this->table)->where('key', $this->name)->first())->owner;
-    }
-
-    /**
-     * Get the name of the database connection being used to manage the lock.
-     *
-     * @return string
-     */
-    public function getConnectionName()
-    {
-        return $this->connection->getName();
     }
 }

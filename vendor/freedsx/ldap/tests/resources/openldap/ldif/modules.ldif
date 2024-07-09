@@ -1,8 +1,0 @@
-dn: cn=module,cn=config
-cn: module
-objectClass: olcModuleList
-objectClass: top
-olcModulePath: /usr/lib/ldap
-olcModuleLoad: memberof.la
-olcModuleLoad: refint.la
-olcModuleLoad: sssvlv.la

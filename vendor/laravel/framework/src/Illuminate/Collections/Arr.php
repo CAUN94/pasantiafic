@@ -122,23 +122,6 @@ class Arr
     }
 
     /**
-     * Convert a flatten "dot" notation array into an expanded array.
-     *
-     * @param  iterable  $array
-     * @return array
-     */
-    public static function undot($array)
-    {
-        $results = [];
-
-        foreach ($array as $key => $value) {
-            static::set($results, $key, $value);
-        }
-
-        return $results;
-    }
-
-    /**
      * Get all of the given array except for a specified array of keys.
      *
      * @param  array  $array
@@ -411,19 +394,6 @@ class Arr
     }
 
     /**
-     * Determines if an array is a list.
-     *
-     * An array is a "list" if all array keys are sequential integers starting from 0 with no gaps in between.
-     *
-     * @param  array  $array
-     * @return bool
-     */
-    public static function isList($array)
-    {
-        return ! self::isAssoc($array);
-    }
-
-    /**
      * Get a subset of the items from the given array.
      *
      * @param  array  $array
@@ -439,7 +409,7 @@ class Arr
      * Pluck an array of values from an array.
      *
      * @param  iterable  $array
-     * @param  string|array|int|null  $value
+     * @param  string|array  $value
      * @param  string|array|null  $key
      * @return array
      */
@@ -510,7 +480,7 @@ class Arr
      * Get a value from the array, and remove it.
      *
      * @param  array  $array
-     * @param  string|int  $key
+     * @param  string  $key
      * @param  mixed  $default
      * @return mixed
      */
@@ -521,17 +491,6 @@ class Arr
         static::forget($array, $key);
 
         return $value;
-    }
-
-    /**
-     * Convert the array into a query string.
-     *
-     * @param  array  $array
-     * @return string
-     */
-    public static function query($array)
-    {
-        return http_build_query($array, '', '&', PHP_QUERY_RFC3986);
     }
 
     /**
@@ -645,7 +604,7 @@ class Arr
      * Sort the array using the given callback or "dot" notation.
      *
      * @param  array  $array
-     * @param  callable|array|string|null  $callback
+     * @param  callable|string|null  $callback
      * @return array
      */
     public static function sort($array, $callback = null)
@@ -683,26 +642,14 @@ class Arr
     }
 
     /**
-     * Conditionally compile classes from an array into a CSS class list.
+     * Convert the array into a query string.
      *
      * @param  array  $array
      * @return string
      */
-    public static function toCssClasses($array)
+    public static function query($array)
     {
-        $classList = static::wrap($array);
-
-        $classes = [];
-
-        foreach ($classList as $class => $constraint) {
-            if (is_numeric($class)) {
-                $classes[] = $constraint;
-            } elseif ($constraint) {
-                $classes[] = $class;
-            }
-        }
-
-        return implode(' ', $classes);
+        return http_build_query($array, '', '&', PHP_QUERY_RFC3986);
     }
 
     /**
@@ -715,19 +662,6 @@ class Arr
     public static function where($array, callable $callback)
     {
         return array_filter($array, $callback, ARRAY_FILTER_USE_BOTH);
-    }
-
-    /**
-     * Filter items where the value is not null.
-     *
-     * @param  array  $array
-     * @return array
-     */
-    public static function whereNotNull($array)
-    {
-        return static::where($array, function ($value) {
-            return ! is_null($value);
-        });
     }
 
     /**

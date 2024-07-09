@@ -60,30 +60,19 @@ class FactoryMakeCommand extends GeneratorCommand
      */
     protected function buildClass($name)
     {
-        $factory = class_basename(Str::ucfirst(str_replace('Factory', '', $name)));
-
         $namespaceModel = $this->option('model')
                         ? $this->qualifyModel($this->option('model'))
-                        : $this->qualifyModel($this->guessModelName($name));
+                        : $this->qualifyModel('Model');
 
         $model = class_basename($namespaceModel);
 
-        if (Str::startsWith($namespaceModel, $this->rootNamespace().'Models')) {
-            $namespace = Str::beforeLast('Database\\Factories\\'.Str::after($namespaceModel, $this->rootNamespace().'Models\\'), '\\');
-        } else {
-            $namespace = 'Database\\Factories';
-        }
-
         $replace = [
-            '{{ factoryNamespace }}' => $namespace,
             'NamespacedDummyModel' => $namespaceModel,
             '{{ namespacedModel }}' => $namespaceModel,
             '{{namespacedModel}}' => $namespaceModel,
             'DummyModel' => $model,
             '{{ model }}' => $model,
             '{{model}}' => $model,
-            '{{ factory }}' => $factory,
-            '{{factory}}' => $factory,
         ];
 
         return str_replace(
@@ -99,34 +88,13 @@ class FactoryMakeCommand extends GeneratorCommand
      */
     protected function getPath($name)
     {
-        $name = (string) Str::of($name)->replaceFirst($this->rootNamespace(), '')->finish('Factory');
+        $name = str_replace(
+            ['\\', '/'], '', $this->argument('name')
+        );
 
-        return $this->laravel->databasePath().'/factories/'.str_replace('\\', '/', $name).'.php';
-    }
+        $name = Str::finish($name, 'Factory');
 
-    /**
-     * Guess the model name from the Factory name or return a default model name.
-     *
-     * @param  string  $name
-     * @return string
-     */
-    protected function guessModelName($name)
-    {
-        if (Str::endsWith($name, 'Factory')) {
-            $name = substr($name, 0, -7);
-        }
-
-        $modelName = $this->qualifyModel(Str::after($name, $this->rootNamespace()));
-
-        if (class_exists($modelName)) {
-            return $modelName;
-        }
-
-        if (is_dir(app_path('Models/'))) {
-            return $this->rootNamespace().'Models\Model';
-        }
-
-        return $this->rootNamespace().'Model';
+        return $this->laravel->databasePath()."/factories/{$name}.php";
     }
 
     /**

@@ -1,11 +1,20 @@
 <?php
 
-namespace {{ factoryNamespace }};
+namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
+use {{ namespacedModel }};
 
-class {{ factory }}Factory extends Factory
+class {{ model }}Factory extends Factory
 {
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = {{ model }}::class;
+
     /**
      * Define the model's default state.
      *

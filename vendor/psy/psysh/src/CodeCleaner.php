@@ -25,6 +25,7 @@ use Psy\CodeCleaner\FinalClassPass;
 use Psy\CodeCleaner\FunctionContextPass;
 use Psy\CodeCleaner\FunctionReturnInWriteContextPass;
 use Psy\CodeCleaner\ImplicitReturnPass;
+use Psy\CodeCleaner\InstanceOfPass;
 use Psy\CodeCleaner\IssetPass;
 use Psy\CodeCleaner\LabelContextPass;
 use Psy\CodeCleaner\LeavePsyshAlonePass;
@@ -65,12 +66,17 @@ class CodeCleaner
      * @param bool               $yolo        run without input validation
      * @param bool               $strictTypes enforce strict types by default
      */
-    public function __construct(?Parser $parser = null, ?Printer $printer = null, ?NodeTraverser $traverser = null, bool $yolo = false, bool $strictTypes = false)
+    public function __construct(Parser $parser = null, Printer $printer = null, NodeTraverser $traverser = null, bool $yolo = false, bool $strictTypes = false)
     {
         $this->yolo = $yolo;
         $this->strictTypes = $strictTypes;
 
-        $this->parser = $parser ?? (new ParserFactory())->createParser();
+        if ($parser === null) {
+            $parserFactory = new ParserFactory();
+            $parser = $parserFactory->createParser();
+        }
+
+        $this->parser = $parser;
         $this->printer = $printer ?: new Printer();
         $this->traverser = $traverser ?: new NodeTraverser();
 
@@ -94,31 +100,16 @@ class CodeCleaner
      */
     private function getDefaultPasses(): array
     {
+        if ($this->yolo) {
+            return $this->getYoloPasses();
+        }
+
         $useStatementPass = new UseStatementPass();
         $namespacePass = new NamespacePass($this);
 
         // Try to add implicit `use` statements and an implicit namespace,
         // based on the file in which the `debug` call was made.
         $this->addImplicitDebugContext([$useStatementPass, $namespacePass]);
-
-        // A set of code cleaner passes that don't try to do any validation, and
-        // only do minimal rewriting to make things work inside the REPL.
-        //
-        // When in --yolo mode, these are the only code cleaner passes used.
-        $rewritePasses = [
-            new LeavePsyshAlonePass(),
-            $useStatementPass,        // must run before the namespace pass
-            new ExitPass(),
-            new ImplicitReturnPass(),
-            new MagicConstantsPass(),
-            $namespacePass,           // must run after the implicit return pass
-            new RequirePass(),
-            new StrictTypesPass($this->strictTypes),
-        ];
-
-        if ($this->yolo) {
-            return $rewritePasses;
-        }
 
         return [
             // Validation passes
@@ -129,8 +120,10 @@ class CodeCleaner
             new FinalClassPass(),
             new FunctionContextPass(),
             new FunctionReturnInWriteContextPass(),
+            new InstanceOfPass(),
             new IssetPass(),
             new LabelContextPass(),
+            new LeavePsyshAlonePass(),
             new ListPass(),
             new LoopContextPass(),
             new PassableByReferencePass(),
@@ -139,11 +132,47 @@ class CodeCleaner
             new ValidConstructorPass(),
 
             // Rewriting shenanigans
-            ...$rewritePasses,
+            $useStatementPass,        // must run before the namespace pass
+            new ExitPass(),
+            new ImplicitReturnPass(),
+            new MagicConstantsPass(),
+            $namespacePass,           // must run after the implicit return pass
+            new RequirePass(),
+            new StrictTypesPass($this->strictTypes),
 
             // Namespace-aware validation (which depends on aforementioned shenanigans)
             new ValidClassNamePass(),
             new ValidFunctionNamePass(),
+        ];
+    }
+
+    /**
+     * A set of code cleaner passes that don't try to do any validation, and
+     * only do minimal rewriting to make things work inside the REPL.
+     *
+     * This list should stay in sync with the "rewriting shenanigans" in
+     * getDefaultPasses above.
+     *
+     * @return CodeCleanerPass[]
+     */
+    private function getYoloPasses(): array
+    {
+        $useStatementPass = new UseStatementPass();
+        $namespacePass = new NamespacePass($this);
+
+        // Try to add implicit `use` statements and an implicit namespace,
+        // based on the file in which the `debug` call was made.
+        $this->addImplicitDebugContext([$useStatementPass, $namespacePass]);
+
+        return [
+            new LeavePsyshAlonePass(),
+            $useStatementPass,        // must run before the namespace pass
+            new ExitPass(),
+            new ImplicitReturnPass(),
+            new MagicConstantsPass(),
+            $namespacePass,           // must run after the implicit return pass
+            new RequirePass(),
+            new StrictTypesPass($this->strictTypes),
         ];
     }
 
@@ -175,7 +204,6 @@ class CodeCleaner
             }
 
             // Set up a clean traverser for just these code cleaner passes
-            // @todo Pass visitors directly to once we drop support for PHP-Parser 4.x
             $traverser = new NodeTraverser();
             foreach ($passes as $pass) {
                 $traverser->addVisitor($pass);
@@ -262,7 +290,7 @@ class CodeCleaner
      *
      * @param array|null $namespace (default: null)
      */
-    public function setNamespace(?array $namespace = null)
+    public function setNamespace(array $namespace = null)
     {
         $this->namespace = $namespace;
     }

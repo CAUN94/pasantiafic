@@ -243,7 +243,7 @@
 				@elseif ($downloadExcel == FALSE)
 				<!-- Boton accion empresa -->
 				<a class="btn btn-warning @if ($datosPasantia['idEmpresa'] == null) disabled @else @endif"
-					href="/empresas/{{$datosPasantia['idEmpresa']}}/edit" role="button">
+					href="{{route('empresas.edit', ['id' => $datosPasantia['idEmpresa']])}}" role="button">
 					Editar convenio
 				</a>
 				@else @endif
@@ -253,24 +253,7 @@
 			@if($downloadExcel == TRUE)
 			@elseif ($downloadExcel == FALSE)
 			<td style="background-color: #fff; right: 0px; position: sticky; border-left: 1px solid lightgrey;">
-				<div style="display: inline-block;">
-					{{$datosPasantia['statusPaso2Pasantia']}} <strong>en paso {{  App\Pasantia::find($datosPasantia['idPasantia'])->checkStatus()}}
-				<div>
-				@if(App\Pasantia::find($datosPasantia['idPasantia'])->checkStatus() == 3)
-					<form action="{{route('inscripcion.changePaso')}}" method="POST"  style="display: inline-block;">
-						@csrf
-						@method('POST')
-						<input type="hidden" name="idPasantia" value="{{$datosPasantia['idPasantia']}}">
-						<select class="btn btn-success" name="paso" id="status"
-						{{-- on change confirm and submit --}}
-						onchange="if(confirm('¿Está seguro de cambiar el estado de la pasantía?')){this.form.submit();}">
-								{{-- select value --}}
-								<option>Cambiar Paso</option>
-								<option value="2">Paso 2</option>
-								<option value="4">Paso 4</option>
-						</select>
-					</form>
-				@endif
+				{{$datosPasantia['statusPaso2Pasantia']}}
 				<a role="button" href="{{route('listadoInscripcion.validarTodo',
 						['nombresUsuario' => $datosPasantia['nombresUsuario'],
 						'idPasantia' => $datosPasantia['idPasantia']])}}" class="btn btn-primary
@@ -288,7 +271,6 @@
 					@method('DELETE')
 					<button class="btn btn-danger" type="submit">Eliminar</button>
 				</form>
-
 			</td>
 			@else @endif
 		</tr>

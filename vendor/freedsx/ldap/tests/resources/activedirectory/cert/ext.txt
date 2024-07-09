@@ -1,5 +1,0 @@
-basicConstraints = CA:FALSE
-keyUsage = digitalSignature,keyEncipherment
-extendedKeyUsage = serverAuth
-subjectKeyIdentifier = hash
-subjectAltName = DNS:appvyr-win.example.com, DNS:ldap.example.com, DNS:example.com

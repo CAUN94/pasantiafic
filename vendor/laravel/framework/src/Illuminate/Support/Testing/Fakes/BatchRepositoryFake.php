@@ -33,7 +33,6 @@ class BatchRepositoryFake implements BatchRepository
      */
     public function find(string $batchId)
     {
-        //
     }
 
     /**
@@ -48,11 +47,9 @@ class BatchRepositoryFake implements BatchRepository
             new QueueFake(Facade::getFacadeApplication()),
             $this,
             (string) Str::orderedUuid(),
-            $batch->name,
             count($batch->jobs),
             count($batch->jobs),
             0,
-            [],
             $batch->options,
             CarbonImmutable::now(),
             null,
@@ -69,7 +66,6 @@ class BatchRepositoryFake implements BatchRepository
      */
     public function incrementTotalJobs(string $batchId, int $amount)
     {
-        //
     }
 
     /**
@@ -104,7 +100,6 @@ class BatchRepositoryFake implements BatchRepository
      */
     public function markAsFinished(string $batchId)
     {
-        //
     }
 
     /**
@@ -115,7 +110,6 @@ class BatchRepositoryFake implements BatchRepository
      */
     public function cancel(string $batchId)
     {
-        //
     }
 
     /**
@@ -126,7 +120,6 @@ class BatchRepositoryFake implements BatchRepository
      */
     public function delete(string $batchId)
     {
-        //
     }
 
     /**

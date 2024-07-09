@@ -1,7 +1,0 @@
-parameters:
-    level: 6
-    paths:
-        - %currentWorkingDirectory%/src
-    checkMissingIterableValueType: false
-    treatPhpDocTypesAsCertain: false
-    checkGenericClassInNonGenericObjectType: false

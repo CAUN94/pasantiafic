@@ -14,8 +14,6 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Bridge\PersonalAccessGrant;
 use Laravel\Passport\Bridge\RefreshTokenRepository;
 use Laravel\Passport\Guards\TokenGuard;
-use Lcobucci\JWT\Configuration;
-use Lcobucci\JWT\Parser;
 use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\CryptKey;
 use League\OAuth2\Server\Grant\AuthCodeGrant;
@@ -50,6 +48,14 @@ class PassportServiceProvider extends ServiceProvider
             ], 'passport-views');
 
             $this->publishes([
+                __DIR__.'/../resources/js/components' => base_path('resources/js/components/passport'),
+            ], 'passport-components');
+
+            $this->publishes([
+                __DIR__.'/../database/factories' => database_path('factories'),
+            ], 'passport-factories');
+
+            $this->publishes([
                 __DIR__.'/../config/passport.php' => config_path('passport.php'),
             ], 'passport-config');
 
@@ -71,7 +77,7 @@ class PassportServiceProvider extends ServiceProvider
     protected function registerMigrations()
     {
         if (Passport::$runsMigrations && ! config('passport.client_uuids')) {
-            $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+            return $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         }
     }
 
@@ -88,7 +94,6 @@ class PassportServiceProvider extends ServiceProvider
 
         $this->registerAuthorizationServer();
         $this->registerClientRepository();
-        $this->registerJWTParser();
         $this->registerResourceServer();
         $this->registerGuard();
     }
@@ -212,8 +217,7 @@ class PassportServiceProvider extends ServiceProvider
             $this->app->make(Bridge\AccessTokenRepository::class),
             $this->app->make(Bridge\ScopeRepository::class),
             $this->makeCryptKey('private'),
-            app('encrypter')->getKey(),
-            Passport::$authorizationServerResponseType
+            app('encrypter')->getKey()
         );
     }
 
@@ -232,27 +236,15 @@ class PassportServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the JWT Parser.
-     *
-     * @return void
-     */
-    protected function registerJWTParser()
-    {
-        $this->app->singleton(Parser::class, function () {
-            return Configuration::forUnsecuredSigner()->parser();
-        });
-    }
-
-    /**
      * Register the resource server.
      *
      * @return void
      */
     protected function registerResourceServer()
     {
-        $this->app->singleton(ResourceServer::class, function ($container) {
+        $this->app->singleton(ResourceServer::class, function () {
             return new ResourceServer(
-                $container->make(Bridge\AccessTokenRepository::class),
+                $this->app->make(Bridge\AccessTokenRepository::class),
                 $this->makeCryptKey('public')
             );
         });
@@ -266,7 +258,7 @@ class PassportServiceProvider extends ServiceProvider
      */
     protected function makeCryptKey($type)
     {
-        $key = str_replace('\\n', "\n", $this->app->make(Config::class)->get('passport.'.$type.'_key') ?? '');
+        $key = str_replace('\\n', "\n", $this->app->make(Config::class)->get('passport.'.$type.'_key'));
 
         if (! $key) {
             $key = 'file://'.Passport::keyPath('oauth-'.$type.'.key');
@@ -285,7 +277,7 @@ class PassportServiceProvider extends ServiceProvider
         Auth::resolved(function ($auth) {
             $auth->extend('passport', function ($app, $name, array $config) {
                 return tap($this->makeGuard($config), function ($guard) {
-                    app()->refresh('request', $guard, 'setRequest');
+                    $this->app->refresh('request', $guard, 'setRequest');
                 });
             });
         });
