@@ -9,61 +9,77 @@
   @endif
 	@include('pasantia.pasos', ['statusPaso0'=>$statusPaso0, 'statusPaso1'=>$statusPaso1, 'statusPaso2'=>$statusPaso2, 'statusPaso3'=>$statusPaso3, 'statusPaso4'=>$statusPaso4])
 	<div class="row justify-content-md-center mb-5">
-		<h2>Paso 4: Proyecto</h2>
+		<h2>Paso 4: Inscripción Sección</h2>
 	</div>
 	<div class="row justify-content-md-center mb-5">
 		<div class="col-md-9">
-			@if($proyecto->status == 3)
-			<div class="alert alert-danger">
-	      Tu proyecto ha sido objetado por tu profesor. Por favor revisa sus comentarios.
-	    </div>
-			@elseif($proyecto->status == 4)
-			<div class="alert alert-success">
-	      Tu proyecto ha sido aprobado por tu profesor. No puedes volver a editarlo.
-	    </div>
-			@endif
-			<form method="post" action="{{ route('inscripcion.4.post') }}" class="text-center">
-				<fieldset @if($proyecto->status == 4)disabled @endif>
-				@csrf
+		<table class="table table-hover text-nowrap">
+			<thead class="bg-dark text-white border border-dark">
+				<tr>
+					<th scope="col" data-field="seccion" data-sortable="true">
+						<div class="th-inner text-center">Sección</div>
+					</th>
+					<th scope="col" data-field="modalidad" data-sortable="true">
+						<div class="th-inner">Part/Full Time</div>
+					</th>
+					<th scope="col" data-field="especialidad" data-sortable="true">
+						<div class="th-inner">Área/Especialidad</div>
+					</th>
+					<th scope="col" data-field="profesor" data-sortable="true">
+						<div class="th-inner">Profesor</div>
+					</th>
+					<th scope="col" data-field="accion" data-sortable="true">
+						<div class="th-inner"></div>
+					</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				@foreach($secciones as $seccion)
+					@if($seccion->especialidad && $seccion->idProfesor)
+					<tr>
+						<td class="text-center">{{$seccion->idSeccion}}</td>
+						<td>{{$seccion->modalidad}}</td>
+						<td>{{$seccion->especialidad}}</td>
+						<td>{{App\User::find($seccion->idProfesor)->getCompleteNameAttribute()}}</td>
+						<td class=""><a href="#" data-toggle="modal" data-target="#inscribir{{$seccion->idSeccion}}">Inscribir</a></td>
+					</tr>
+					@endif
+				@endforeach
+					
 				
-				<div class="form-group">
-					<label for="nombre">Nombre</label>
-					<input class="form-control" id="nombre" name="nombre" placeholder="Nombre del proyecto" value="{{$proyecto->nombre}}" required>
-				</div>
-					<div class="form-group">
-					<label for="nombre">Área</label>
-					<input class="form-control" id="area" name="area" placeholder="Area del proyecto" value="{{$proyecto->area}}" required>
-				</div>
-					<div class="form-group">
-						<label for="disciplina">Disciplina</label>
-					<input class="form-control" id="disciplina" name="disciplina" placeholder="Disciplina" value="{{$proyecto->disciplina}}" required>
-				</div>
-
-				<div class="form-group">
-					<label for="problematica">Visión</label>
-					<textarea class="form-control mb-2" id="problematica" name="problematica" rows="3" placeholder="Problemática del proyecto" required >{{$proyecto->problematica}}</textarea>
-					
-					<label for="problematica">Objetivo</label>
-					<textarea class="form-control mb-2" id="objetivo" name="objetivo" rows="2" placeholder="Objetivo del proyecto" required>{{$proyecto->objetivo}}</textarea>
-					
-					<label for="problematica">Medidas</label>
-					<textarea class="form-control mb-2" id="medidas" name="medidas" rows="2" placeholder="Medidas de desempeño" required >{{$proyecto->medidas}}</textarea>
-					
-					<label for="problematica">Metodología</label>
-					<textarea class="form-control mb-2" id="metodologia" name="metodologia" rows="2" placeholder="Metodología" required >{{$proyecto->metodologia}}</textarea>
-					
-					<label for="problematica">Planificación</label>
-					<textarea class="form-control mb-2" id="planificacion" name="planificacion" rows="6" placeholder="Planificación" required >{{$proyecto->planificacion}}</textarea>
-				</div>
-					
-				<h3>Comentarios de tu profesor:</h3>
-				<p></p>
-
-				<button type="submit" class="btn btn-primary">Continuar</button>
-				</fieldset>
-			</form>
+			</tbody>
+		</table>
+		
 		</div>
 	</div>
+	@foreach($secciones as $seccion)
+	<div class ="modal fade" id="inscribir{{$seccion->idSeccion}}" tabindex="0" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h3 class="modal-title text-white text-center">Confirmar Inscripción</h3>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="{{ route('inscripcion.4.add') }}" class="text-left">
+                        <fieldset>
+                        @csrf
+                        <div class="ml-3  form-group"> 
+                            <p>Esta sección se encuentra a cargo de {{App\User::find($seccion->idProfesor)->getCompleteNameAttribute()}}, con especialidad en {{$seccion->especialidad}}.</p>
+							<p>¿Desea confirmar su elección?</p>
+                            <input type="hidden" name="idSeccion" value="{{$seccion->idSeccion}}">
+                        </div>
+                </div>
+                <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Inscribir</button>
+                        </fielset>
+                    </form>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver</button>
+            </div>
+            </div>
+        </div>
+    </div>
+	@endforeach
 </div>
 
 

@@ -14,7 +14,10 @@ class CreateBitacoraTable extends Migration
     public function up()
     {
         Schema::create('bitacora', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id')->unsigned();
+            $table->integer('idPasantia')->unsigned();
+            $table->string('evalTipo');
+            $table->string('comentario');
             $table->timestamps();
         });
     }

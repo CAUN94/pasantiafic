@@ -5,14 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Mail\ProyectoAlumno;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ExportViews;
 use App\Proyecto;
 use App\Pasantia;
+use App\Bitacora;
 use App\Empresa;
 use App\User;
 use App\Profesor;
 use App\EvalTutor;
+use App\EvalPasantia;
+use App\Seccion;
 use Auth;
 
 class ProfesorController extends Controller
@@ -130,7 +134,63 @@ class ProfesorController extends Controller
         'profesors' => $profesors,
       ]), 'Profesores.xlsx');
     }
+  }
+
+  public function viewSecciones(){
+    $secciones = Seccion::where('idProfesor', Auth::id())->get();
+    return view('profesor.secciones', compact('secciones'));
+  }
+
+  public function viewSeccion($id){
+    $seccion = Seccion::where('idProfesor', Auth::id())->where('idSeccion',$id)->first();
+    $alumnos = $seccion->alumnos()->get();
     
+    return view('profesor.seccion', compact('seccion'), compact('alumnos'));
+  }
+  
+  public function viewBitacora($id){
+    $alumno = User::find($id);
+    $pasantia = $alumno->pasantias()->where('actual', 1)->first();
+    return view('profesor.bitacora', compact('alumno'), compact('pasantia'));
+  }
+  
+  public function evaluacionBitacora(Request $request){
+    $pasantia = Pasantia::where('idAlumno', $request->idUsuario)->where('actual', 1)->first();
+    $evaluacion = EvalPasantia::where('idPasantia', $pasantia->idPasantia)->first();
+
+    if($request->exists('notaPA1')){
+      $evaluacion->presentacionAvance_I = $request->notaPA1;
+    }
+
+    if($request->exists('notaInformeA1')){
+      $evaluacion->informeAvance_I = $request->notaInformeA1;
+    }
+
+    if($request->exists('notaPA2')){
+      $evaluacion->presentacionAvance_II = $request->notaPA2;
+    }
+
+    if($request->exists('notaInformeA2')){
+      $evaluacion->informeAvance_II = $request->notaInformeA2;
+    }
+
+    if($request->exists('notaInformeFinal')){
+      $evaluacion->informeFinal = $request->notaInformeFinal;
+    }
+
+    $evaluacion->save();
+    return redirect()->back()->with('success', 'Calificación agregada correctamente');
+  }
+
+  public function feedbackBitacora(Request $request){
+    $pasantia = Pasantia::where('idAlumno', $request->idUsuario)->where('actual', 1)->first();
+    $bitacora = new Bitacora([
+      'idPasantia' => $pasantia->idPasantia,
+      'evalTipo' => $request->evalTipo,
+      'comentario' => $request->comentario
+    ]);
+    $bitacora->save();
+    return redirect()->back()->with('success', 'Feedback enviado correctamente');
   }
 
 }

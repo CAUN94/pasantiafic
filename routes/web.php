@@ -67,6 +67,12 @@ Route::get('/admin/listadoInscripcion/{nombresUsuario}/idPasantia/{idPasantia}',
 
 Route::resource('/admin/listadoProyectos', 'ProyectoController')->middleware('auth', 'administrador');
 
+// Ruta de Admin Secciones
+Route::get('/admin/listadoSecciones', 'AdminController@AdminSeccion')->middleware('auth', 'admin');
+Route::post('/admin/listadoSecciones/añadir', 'AdminController@AdminAddSeccion')->name('adminSeccion.add')->middleware('auth', 'admin');
+Route::post('/admin/listadoSecciones/añadirAlumno', 'AdminController@AdminAddAlumno')->name('adminSeccion.addAlumno')->middleware('auth', 'admin');
+Route::post('/admin/listadoSecciones/editar', 'AdminController@AdminEditSeccion')->name('adminSeccion.edit')->middleware('auth', 'admin');
+Route::delete('/admin/listadoSecciones/eliminar({id}', 'AdminController@AdminDeleteSeccion')->name('adminSeccion.destroy')->middleware('auth', 'admin');
 
 // Ruta de Listado Defensas
 Route::get('/admin/listadoDefensas/export', 'ListadoDefensasController@exportDefensas')->middleware('auth', 'admin');
@@ -90,6 +96,11 @@ Route::resource('/perfil', 'PerfilController')->middleware('auth');
 Route::get('/profesor', 'ProfesorController@index')->name('profesor.index')->middleware('auth', 'noAlumno');
 Route::get('/profesor/proyecto/{id}', 'ProfesorController@verProyecto')->name('profesor.verProyecto')->middleware('auth', 'noAlumno');
 Route::post('/profesor/proyecto/{id}/feedback', 'ProfesorController@feedbackProyecto')->middleware('auth', 'noAlumno');
+Route::get('/profesor/secciones', 'ProfesorController@viewSecciones')->middleware('auth', 'noAlumno');
+Route::get('/profesor/secciones/{id}', 'ProfesorController@viewSeccion')->middleware('auth', 'noAlumno');
+Route::get('/profesor/bitacora/{id}', 'ProfesorController@viewBitacora')->middleware('auth', 'noAlumno');
+Route::post('/profesor/bitacora/evaluar', 'ProfesorController@evaluacionBitacora')->name('profesor.evaluarBitacora')->middleware('auth', 'noAlumno');
+Route::post('/profesor/bitacora/feedback', 'ProfesorController@feedbackBitacora')->name('profesor.feedbackBitacora')->middleware('auth', 'noAlumno');
 
 //Rutas Admin Profesores
 Route::get('/admin/listadoProfesores', 'ProfesorController@vistaAdminProfesores')->name('profesor.tablaProfesores')->middleware('auth', 'admin');
@@ -123,13 +134,21 @@ Route::get('/inscripcion/2', 'PasantiaController@paso2View')->name('inscripcion.
 Route::post('/inscripcion/2/post','PasantiaController@paso2Control')->name('inscripcion.2.post')->middleware('auth');
 Route::get('/inscripcion/3', 'PasantiaController@paso3View')->name('inscripcion.3.view')->middleware('auth');
 Route::post('/inscripcion/3/post','PasantiaController@paso3Control')->name('inscripcion.3.post')->middleware('auth');
-Route::get('/inscripcion/4', 'PasantiaController@paso4View')->name('inscripcion.4.view')->middleware('auth');
-Route::post('/inscripcion/4/post','PasantiaController@paso4Control')->name('inscripcion.4.post')->middleware('auth');
+//Route::get('/inscripcion/4', 'PasantiaController@paso4View')->name('inscripcion.4.view')->middleware('auth');
+//Route::post('/inscripcion/4/post','PasantiaController@paso4Control')->name('inscripcion.4.post')->middleware('auth');
 Route::get('/inscripcion/resumen', 'PasantiaController@resumenView')->name('inscripcion.resumen')->middleware('auth');
 Route::get('/inscripcion/cambiarSupervisor', 'PasantiaController@cambiarSupervisor')->name('inscripcion.cambiarSupervisor')->middleware('auth');
 Route::get('/inscripcion/certificado', 'PasantiaController@descargarCert')->name('inscripcion.certificado')->middleware('auth');
 Route::get('/inscripcion/5', 'PasantiaController@paso5View')->name('inscripcion.5.view')->middleware('auth');
 Route::post('/inscripcion/5/post','PasantiaController@paso5Control')->name('inscripcion.5.post')->middleware('auth');
+
+Route::get('/pasantia', 'PortalPasantiasController@index')->middleware('auth');
+Route::get('/pasantia/bitacora', 'PortalPasantiasController@bitacora')->middleware('auth');
+Route::get('/inscripcion/4', 'PortalPasantiasController@inscribirSeccionView')->name('inscripcion.4.view')->middleware('auth');
+Route::post('/pasantia/subirArchivo', 'PortalPasantiasController@subirArchivo')->name('pasantia.subirArchivo')->middleware('auth');
+
+
+Route::post('/inscripcion/4/seccion', 'PortalPasantiasController@inscribirSeccion')->name('inscripcion.4.add')->middleware('auth');
 
 
 Route::get('/confirmarTutor/{id}', 'PasantiaController@confirmarTutor')->name('confTutor');

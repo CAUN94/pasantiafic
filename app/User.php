@@ -267,11 +267,15 @@ class User extends Authenticatable{
             return true;
         }
         return false;
-
-
-    
-
         
+    }
+
+    public function seccion(){
+        return $this->belongsToMany('App\Seccion', 'seccion_user', 'idAlumno', 'idSeccion');
+    }
+
+    public function evaluacionPasantia(){
+        return $this->hasMany('App\EvalPasantia', 'idAlumno');
     }
 
 }

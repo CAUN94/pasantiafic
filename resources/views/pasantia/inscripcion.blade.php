@@ -62,7 +62,7 @@
                     Los datos de tu proyecto están incompletos. <a href="{{route('inscripcion.4.view')}}" role="button">Completar</a>
                 </li>
 			@elseif($statusPaso4==2)
-				<li class="list-group-item list-group-item-primary"><i class="fas fa-user"></i> Te encuentras inscrito y cursando tu sección de pasantía.</li>
+				<li class="list-group-item list-group-item-primary"><i class="fas fa-user"></i> Los datos de tu proyecto están guarados pero aún no ha sido aprobado.</li>
 			@elseif($statusPaso4==3)
 				<li class="list-group-item list-group-item-danger"><i class="fas fa-times"></i> Tu proyecto ha sido objetado. <a href="{{route('inscripcion.4.view')}}">Has click aquí para revisarlo</a></li>
 			@elseif($statusPaso4==4)
@@ -85,25 +85,5 @@
 		</ul>
 	</div>
 
-	<div class="row justify-content-md-center">
-		<div class="col-md-12">
-			<h3>Panel de control</h3>
-		</div>
-		<div class="col-md-12">
-			@if(Auth::user()->rol >= 4)
-				<form style="display: inline-block;" action="{{ url('inscripcion/destroy', $pasantia->idPasantia)}}" method="post">
-					@csrf
-					@method('DELETE')
-					<button class="btn btn-danger" type="submit">Eliminar Pasantía</button>
-				</form>
-			@endif
-			@if ($statusPaso3 >= 3)
-					<a class="btn btn-success" href="{{route('inscripcion.cambiarSupervisor')}}">Cambiar Supervisor</a>
-			@endif
-			<!-- @if ($statusGeneral == 1 || Auth::user()->rol >= 4)
-				<a class="btn btn-success" href="{{route('inscripcion.certificado')}}">Descargar certificado</a>
-			@endif -->
-		</div>
-	</div>
 </div>
 @endsection

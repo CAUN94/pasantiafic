@@ -34,6 +34,14 @@ class Pasantia extends Model{
 	  return $this->belongsTo('App\User', 'idAlumno', 'idUsuario');
 	}
 
+	public function evaluacionPasantia(){
+        return $this->hasOne('App\EvalPasantia', 'idPasantia');
+    }
+
+	public function bitacora(){
+        return $this->hasMany('App\Bitacora', 'idPasantia');
+    }
+
 	public function checkStatus(){
 		// if statusPaso0 == 0 return paso 0
 		// if statusPaso1 == 0 return paso 1

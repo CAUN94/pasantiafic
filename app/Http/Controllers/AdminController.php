@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Proyecto;
 use App\Pasantia;
+use App\Seccion;
+use App\Profesor;
 use Auth;
 
 class AdminController extends Controller
@@ -115,6 +117,68 @@ class AdminController extends Controller
     $proyecto->save();
 
     return redirect()->back();
+  }
+
+  public function AdminSeccion(){
+    $secciones = Seccion::all();
+    $profesores = Profesor::all();
+    return view('admin.listadoSecciones', compact('secciones'), compact('profesores'));
+  }
+
+  public function AdminAddSeccion(Request $request){
+    $secciones = Seccion::where('idSeccion', $request->id)->first();
+    if($secciones){
+      return redirect('/admin/listadoSecciones')->with('error', 'ya existe una sección con la id ingresada.');
+    }else{
+      $seccion = new Seccion([
+        'idSeccion' => $request->id,
+        'modalidad' => $request->modalidad,
+        'especialidad' => $request->especialidad,
+        'idProfesor' => $request->idProfesor,
+      ]);
+      $seccion->save();
+      return redirect('/admin/listadoSecciones')->with('success', 'La sección fue creada exitosamente.');
+    }
+  }
+
+  public function AdminEditSeccion(Request $request){
+    $seccion = Seccion::find($request->id);
+    $seccion->id = $request->id;
+    $seccion->modalidad = $request->modalidad;
+    $seccion->especialidad = $request->especialidad;
+    $seccion->idProfesor = $request->idProfesor;
+
+    $seccion->save();
+    return redirect()->back()->with('success', 'La sección fue editada exitosamente.');
+  }
+
+  public function AdminDeleteSeccion(Request $request){
+    if (Auth::user()->rol >=4){
+			$secciones = Seccion::where('idSeccion', $request->id)->first();
+			$secciones->delete();
+      return redirect()->back()->with('success', 'La sección fue eliminada exitosamente.');
+		}
+  }
+
+  public function AdminAddAlumno(Request $request){
+
+    $rutSinPuntos = str_replace(".", "", $request->rut);
+    $partes = explode("-", $rutSinPuntos);
+    $rut_formatted = $partes[0];
+
+    $alumno = User::where('rut_formatted', $rut_formatted)->first();
+    $seccion = Seccion::find($request->idSeccion);
+
+    if($alumno){
+      $seccion->alumnos()->attach($alumno->idUsuario);
+      $pasantia = Pasantia::where('idAlumno', $alumno->idUsuario)->where('actual',1)->first();
+      $pasantia->statusPaso4 = 2;
+      $pasantia->save();
+      return redirect()->back()->with('success', 'Se añadio al estudiante exitosamente');
+    }
+    
+    return redirect()->back()->with('error', 'No se encontró estudiante con el rut ingresado.');
+    
   }
 
   public function loginAs(){

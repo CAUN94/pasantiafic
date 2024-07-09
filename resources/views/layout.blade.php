@@ -97,7 +97,15 @@
 						<i class="fas fa-cog"></i> Todas las Pasantias
 					</a>
 					@endif
+					@if(Auth::user()->rol == 5)
+					<a href="/admin/listadoSecciones" class="list-group-item list-group-item-action ">
+						<i class="fas fa-cog"></i> Todas las Secciones
+					</a>
+					@endif
                     @if(Auth::user()->isProfesor())
+					<a href="/profesor/secciones" class="list-group-item list-group-item-action">
+						<i class="fas fa-paste"></i> Ver Mis Secciones
+					</a>
                     <a href="/admin/defensas" class="list-group-item list-group-item-action">
 						<i class="fas fa-paste"></i> Inscribir Defensas
 					</a>
