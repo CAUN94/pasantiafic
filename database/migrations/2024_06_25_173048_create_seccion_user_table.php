@@ -17,6 +17,7 @@ class CreateSeccionUserTable extends Migration
             $table->increments('id')->unsigned();
             $table->integer('idAlumno')->unsigned();
             $table->integer('idSeccion')->unsigned();
+            $table->boolean('vigente')->unsigned();
             $table->timestamps();
         });
     }

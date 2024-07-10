@@ -316,7 +316,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="col ml-3">
-                        <div class="row text-left mb-2"><p class="font-weight-bold">Feedback </p><p>: {{$bitacora->evalTipo}}</p></div>
+                        <div class="row text-left mb-2"><p class="font-weight-bold">Feedback </p><p>: @if($bitacora->evalTipo == 'Coaching') Coaching @elseif($bitacora->evalTipo == 'presentacionAvance_I') Presentacion Avance 1 @else Presentacion Avance 2 @endif</p></div>
                     </div>
                     <div class="col ml-3">
                         <div class="row text-left mb-2"><p class="font-weight-bold">Comentario</p><p>: {{$bitacora->comentario}}</p></div>

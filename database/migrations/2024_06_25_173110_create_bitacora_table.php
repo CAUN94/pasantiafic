@@ -17,7 +17,7 @@ class CreateBitacoraTable extends Migration
             $table->increments('id')->unsigned();
             $table->integer('idPasantia')->unsigned();
             $table->string('evalTipo');
-            $table->string('comentario');
+            $table->longText('comentario');
             $table->timestamps();
         });
     }

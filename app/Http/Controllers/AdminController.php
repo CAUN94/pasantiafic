@@ -171,6 +171,11 @@ class AdminController extends Controller
 
     if($alumno){
       $seccion->alumnos()->attach($alumno->idUsuario);
+      $evalPasantia = new EvalPasantia([
+        'idAlumno' => $User_id,
+        'idPasantia' => $pasantia->idPasantia
+      ]);
+      $evalPasantia->save();
       $pasantia = Pasantia::where('idAlumno', $alumno->idUsuario)->where('actual',1)->first();
       $pasantia->statusPaso4 = 2;
       $pasantia->save();
