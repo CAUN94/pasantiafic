@@ -253,12 +253,15 @@ class ListadoInscripcionController extends Controller
   {
     if (Auth::user()->rol >= 4) {
       $request->validate([
-        'nombre' => 'alpha|required',
-        'email' => 'email:rfc,dns|required'
+        'email' => 'email:rfc,dns|required',
       ]);
       $pasantia = Pasantia::find($id);
       $pasantia->nombreJefe = $request->nombre;
       $pasantia->correoJefe = $request->email;
+      $pasantia->cargoJefe = $request->cargo;
+      $pasantia->rolJefe = $request->rol;
+      $pasantia->razonCambio = $request->razon;
+      dd($pasantia);
       if ($pasantia->isDirty()) {
         $pasantia->save();
         self::enviarMailNotificacion($pasantia);

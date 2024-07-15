@@ -242,10 +242,7 @@
 				@if($downloadExcel == TRUE)
 				@elseif ($downloadExcel == FALSE)
 				<!-- Boton accion empresa -->
-				<a class="btn btn-warning @if ($datosPasantia['idEmpresa'] == null) disabled @else @endif"
-					href="{{route('empresas.edit', ['id' => $datosPasantia['idEmpresa']])}}" role="button">
-					Editar convenio
-				</a>
+				
 				@else @endif
 				<!-- End if de excel -->
 			</td>

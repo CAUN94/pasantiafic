@@ -310,6 +310,8 @@ class PasantiaController extends Controller{
 					'statusPaso5'=>$pasantia->statusPaso5,
 					'nombre'=>$pasantia->nombreJefe,
 					'correo'=>$pasantia->correoJefe,
+					'cargo'=>$pasantia->cargoJefe,
+					'rol'=>$pasantia->rolJefe,
 					'razon'=>false]);
 			}
 		}
@@ -330,7 +332,7 @@ class PasantiaController extends Controller{
 		$user = Auth::user();
 		$pasantia = Pasantia::where('idAlumno', $userId)->where('actual',1)->first();
 		$empresa = Empresa::where('idEmpresa', $pasantia->idEmpresa)->first();
-		if ($request->nombre == "" || $request->email == ""){
+		if ($request->nombre == "" || $request->email == "" || $request->cargo == "" || $request->description == ""){
 			$pasantia->statusPaso3 = 1;
 		}
 		else {
@@ -341,6 +343,9 @@ class PasantiaController extends Controller{
 		}
 		$pasantia->nombreJefe = $request->nombre;
 		$pasantia->correoJefe = $request->email;
+		$pasantia->cargoJefe = $request->cargo;
+		$pasantia->rolJefe = $request->description;
+		dd($pasantia);
 		if ($request->enviar){
 			while(Pasantia::where('tokenCorreo', $pasantia->tokenCorreo)->first()){
 				$pasantia->tokenCorreo = $string = Str::random(10);

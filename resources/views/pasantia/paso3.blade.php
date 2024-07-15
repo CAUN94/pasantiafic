@@ -38,11 +38,11 @@
 			  </div>
 			  <div class="form-group">
 			    <label for="cargo">Cargo</label>
-			    <input class="form-control" id="cargo" name="cargo" placeholder="Cargo Supervisor" value="" @if(($statusPaso3==3 || $statusPaso3==4) && $razon == false)disabled @endif>
+			    <input class="form-control" id="cargo" name="cargo" placeholder="Cargo Supervisor" value={{$cargo}} @if(($statusPaso3==3 || $statusPaso3==4) && $razon == false)disabled @endif>
 			  </div>
 			  <div class="form-group">
 			    <label for="description">Rol Supervisor</label>
-				<textarea class="form-control" id="description" name="description" rows="6" placeholder="Explicación del rol de supervisor al alumno." @if(($statusPaso3==3 || $statusPaso3==4) && $razon == false)disabled @endif required></textarea>
+				<textarea class="form-control" id="description" name="description" rows="6" placeholder="Explicación del rol de supervisor al alumno." value={{$rol}} @if(($statusPaso3==3 || $statusPaso3==4) && $razon == false)disabled @endif required></textarea>
 			  </div>
 				@if($razon == true)
 				<div class="form-group">

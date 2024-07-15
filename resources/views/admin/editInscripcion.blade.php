@@ -60,6 +60,23 @@
 							data-target="#paso2DestroyCheck">Eliminar</button></a>
 				</div>
 			</div>
+			<div class="btn-group">
+				<button type="button" class="btn btn-primary dropdown-toggle mx-1" data-toggle="dropdown" aria-haspopup="true"
+					aria-expanded="false">
+					Paso 3
+				</button>
+				<div class="dropdown-menu">
+					<p class="dropdown-header font-weight-bold">Acción</p>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item" href="#"><button class="btn btn-warning" type="button"
+							onclick="document.getElementById('paso3Edit').style.display = 'block';">Editar</button></a>
+
+					<!-- Boton de eliminar paso 3 -->
+					<!-- Button trigger modal paso 3 Destroy -->
+					<a class="dropdown-item" href="#"><button class="btn btn-danger" type="button" data-toggle="modal"
+							data-target="#paso3DestroyCheck">Eliminar</button></a>
+				</div>
+			</div>
 			<!-- Modal Paso 2 Destroy -->
 			<div class="modal fade" id="paso2DestroyCheck" tabindex="0" role="dialog" aria-labelledby="modelTitleId"
 				aria-hidden="true">
@@ -92,28 +109,8 @@
 					</div>
 				</form>
 			</div>
-
-			<!-- End Modal Paso 2 Destroy -->
-			{{-- <div class="btn-group">
-				<button type="button" class="btn btn-primary dropdown-toggle mx-1" data-toggle="dropdown" aria-haspopup="true"
-					aria-expanded="false">
-					Paso 3
-				</button>
-				<div class="dropdown-menu">
-					<p class="dropdown-header font-weight-bold">Acción</p>
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="#"><button class="btn btn-warning" type="button"
-							onclick="document.getElementById('paso3Edit').style.display = 'block';">Editar</button></a>
-
-					<!-- Boton de eliminar paso 3 -->
-					<!-- Button trigger modal paso 3 Destroy -->
-					<a class="dropdown-item" href="#"><button class="btn btn-danger" type="button" data-toggle="modal"
-							data-target="#paso3DestroyCheck">Eliminar</button></a>
-				</div>
-			</div> --}}
-
 			<!-- Modal Paso 3 Destroy -->
-			{{-- <div class="modal fade" id="paso3DestroyCheck" tabindex="0" role="dialog" aria-labelledby="modelTitleId"
+			<div class="modal fade" id="paso3DestroyCheck" tabindex="0" role="dialog" aria-labelledby="modelTitleId"
 				aria-hidden="true">
 				<form method="post" action="{{route('listadoInscripcion.destroyPaso3', $datosPasantias['idPasantia'])}}">
 					@csrf
@@ -142,7 +139,12 @@
 						</div>
 					</div>
 				</form>
-			</div> --}}
+			</div>
+
+			<!-- End Modal Paso 2 Destroy -->
+			
+
+			
 			<!-- End Modal Paso 3 Destroy -->
 		</div>
 	</div>
@@ -257,6 +259,21 @@
 					<label for="nombre">Nombre</label>
 					<input class="form-control" id="nombre" name="nombre" placeholder="Nombre"
 						value="{{$datosPasantias['nombreJefePasantia']}}" required>
+				</div>
+				<div class="form-group">
+					<label for="nombre">Cargo</label>
+					<input class="form-control" id="cargo" name="cargo" placeholder="Cargo"
+						value="{{$datosPasantias['cargoJefePasantia']}}" required>
+				</div>
+				<div class="form-group">
+					<label for="nombre">Rol</label>
+					<input class="form-control" id="rol" name="rol" placeholder="Rol"
+						value="{{$datosPasantias['rolJefePasantia']}}" required>
+				</div>
+				<div class="form-group">
+					<label for="nombre">Razón de Cambio</label>
+					<input class="form-control" id="razon" name="rol" placeholder="Razón de Cambio"
+						value="{{$datosPasantias['razonCambioPasantia']}}" required>
 				</div>
 
 
