@@ -15,7 +15,7 @@ class ProyectoController extends Controller
     public function index(){
         $downloadExcel = FALSE;
 
-        $proyectos = Proyecto::where('idProyecto','>',0)->where('created_at','>','2022-12-01')->orderBy('idProyecto','desc')->get();
+        $proyectos = Proyecto::where('idProyecto','>',0)->where('updated_at','>','2024-06-01')->orderBy('idProyecto','desc')->get();
         return view('proyecto.index',[
             'downloadExcel' => $downloadExcel,
             'proyectos' => $proyectos
