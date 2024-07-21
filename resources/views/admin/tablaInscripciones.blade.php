@@ -181,7 +181,24 @@
 			<!-- Paso 2 -->
 			<td>{{$datosPasantia['statusPaso2Pasantia']}}</td>
 			<!-- Paso 3 -->
-			<td>{{$datosPasantia['statusPaso3Pasantia']}}</td>
+			<td>{{$datosPasantia['statusPaso3Pasantia']}}
+					@if($downloadExcel == TRUE)
+						@elseif ($downloadExcel == FALSE)
+							<!-- boton validacion de paso 3 -->
+							@if ($datosPasantia['statusPaso3Pasantia'] == 'Correo no confirmado')
+							<div class="dropdown">
+								<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									Acciones
+								</button>
+								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+									<a class="dropdown-item" href="{{route('listadoInscripcion.validarSupervisor', ['id' => $datosPasantia['idPasantia']])}}">Confirmar</a>
+								</div>
+							</div>
+						@endif
+						<!-- endif de botones de accion hacia el paso 3 de la pasantia -->
+					@endif
+					<!-- endif de "ignorar boton por descarga hacia excel" -->
+			</td>
 			
 			<!-- Paso 4 -->
 			<td>

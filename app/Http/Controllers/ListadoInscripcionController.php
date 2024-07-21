@@ -159,6 +159,19 @@ class ListadoInscripcionController extends Controller
     }
   }
 
+  public function validarSupervisor($id){
+    if (Auth::user()->rol >= 4) {
+      $pasantia = Pasantia::find($id);
+      $pasantia->statusPaso3 = 4;
+      $pasantia->save();
+      
+      return redirect('admin/listadoInscripcion')->with('success', 'Operacion realizada correctamente.');
+    } else {
+      return redirect('admin/listadoInscripcion');
+    }
+
+  }
+
   public function validarProyecto($id, $accion)
   {
     if (Auth::user()->rol >= 4) {

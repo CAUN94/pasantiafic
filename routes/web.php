@@ -55,6 +55,8 @@ Route::resource('/admin/listadoInscripcion', 'ListadoInscripcionController')->mi
 Route::get('/admin/tablaInscripciones', 'ListadoInscripcionController@export')->name( 'tablaInscripciones.export')->middleware('auth', 'admin');
 // Ruta de validar al pariente
 Route::get('/admin/listadoInscripcion/{id}/statusPaso2/{statusPaso2}', 'ListadoInscripcionController@validarPariente')->name('listadoInscripcion.validarPariente')->middleware('auth', 'admin');
+// Ruta de validar supervisor
+Route::get('/admin/listadoInscripcion/{id}/paso3/confirmar', 'ListadoInscripcionController@validarSupervisor')->name('listadoInscripcion.validarSupervisor')->middleware('auth', 'admin');
 // Ruta de validar proyecto
 Route::get('/admin/listadoInscripcion/{id}/accion/{accion}', 'ListadoInscripcionController@validarProyecto')->name('listadoInscripcion.validarProyecto')->middleware('auth', 'admin');
 // Ruta de validar todo
