@@ -115,7 +115,7 @@
                     @endif
                     @if(Auth::user()->rol == 5)
 					<a href="/admin/listadoProyectos" class="list-group-item list-group-item-action ">
-						<i class="fas fa-cog"></i> Todas los proyectos
+						<i class="fas fa-cog"></i> Todos los proyectos
 					</a>
 					@endif
                     @if(Auth::user()->rol == 5)
