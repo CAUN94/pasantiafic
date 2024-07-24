@@ -77,6 +77,9 @@ class ProyectoController extends Controller
         $pasantia->statusPaso4 = $request->estado;
         $pasantia->save();
         if($request->estado == 4){
+          // cerrar Paso 5
+          $pasantia->statusPaso5 = 4;
+          $pasantia->save();
             // create defensa
             $defensa = new Defensa(
 				[
@@ -88,7 +91,7 @@ class ProyectoController extends Controller
 				]
 			);
             $defensa->save();
-
+            
         }
         else{
             // delete defensa
