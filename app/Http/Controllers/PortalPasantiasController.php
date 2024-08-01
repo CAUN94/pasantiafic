@@ -15,9 +15,9 @@ class PortalPasantiasController extends Controller
 {
     public function index(){
 		$pasantia = Pasantia::where('idAlumno', Auth::id())->where('actual',1)->first();
-		if($pasantia->statusPaso4 != 2){
-			return redirect('/inscripcion/resumen')->with('error', 'Aun no te han asignado a una sección');
-		}
+		//if($pasantia->statusPaso4 != 2){
+		//	return redirect('/inscripcion/resumen')->with('error', 'Aun no te han asignado a una sección');
+		//}
 		$seccion = Auth::user()->seccion()->first();
 		$evalPasantia = EvalPasantia::where('idAlumno', Auth::id())->where('idPasantia', $pasantia->idPasantia)->first();
 		$bitacoras = $pasantia->bitacora()->get();

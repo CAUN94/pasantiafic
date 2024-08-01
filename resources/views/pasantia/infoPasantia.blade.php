@@ -85,7 +85,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="text-right">Presentación Empresa 2</td>
+                                <td class="text-right">Presentación Empresa</td>
                                 <td>@if($evalPasantia->presentacionEmpresa) 
                                         {{$evalPasantia->presentacionEmpresa}}
                                     @else

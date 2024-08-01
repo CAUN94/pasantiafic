@@ -193,4 +193,28 @@ class ProfesorController extends Controller
     return redirect()->back()->with('success', 'Feedback enviado correctamente');
   }
 
+  public function exportNotasExcel($id){
+		$seccion = Seccion::find($id);
+    $alumnos = $seccion->alumnos()->get();
+    $evaluacionesPasantias = [];
+    foreach($alumnos as $alumno){
+      $pasantia = $alumno->pasantias()->where('actual', 1)->first();
+      $evalPasantia = $pasantia->evaluacionPasantia()->first();
+      $evaluacionesPasantias[] = array(
+        'alumno' => $alumno->getCompleteNameAttribute(),
+        'rut' => $alumno->rut,
+        'presentacionAvance_I' => $evalPasantia->presentacionAvance_I,
+        'informeAvance_I' => $evalPasantia->informeAvance_I,
+        'presentacionAvance_II' => $evalPasantia->presentacionAvance_II,
+        'informeAvance_II' => $evalPasantia->informeAvance_II,
+        'informeFinal' => $evalPasantia->informeFinal,
+        'presentacionEmpresa' => $evalPasantia->presentacionEmpresa,
+        'evaluacionEmpresa' => $evalPasantia->evaluacionEmpresa
+      );
+    }
+
+    return Excel::download(new ExportViews('profesor.excelNotas', [
+      'notasAlumnos' => $evaluacionesPasantias
+    ]), 'notasPasantia.xlsx');
+	}
 }

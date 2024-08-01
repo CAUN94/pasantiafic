@@ -39,8 +39,8 @@
 				@endforeach
 			</tbody>
 		</table>
-		
 		</div>
 	</div>
+    <a class="btn btn-dark m-3 " href="/profesor/bitacora/export/{{$seccion->idSeccion}}">Exportar Notas</a>
 
 @endsection

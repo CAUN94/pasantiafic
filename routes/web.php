@@ -101,6 +101,7 @@ Route::post('/profesor/proyecto/{id}/feedback', 'ProfesorController@feedbackProy
 Route::get('/profesor/secciones', 'ProfesorController@viewSecciones')->middleware('auth', 'noAlumno');
 Route::get('/profesor/secciones/{id}', 'ProfesorController@viewSeccion')->middleware('auth', 'noAlumno');
 Route::get('/profesor/bitacora/{id}', 'ProfesorController@viewBitacora')->middleware('auth', 'noAlumno');
+Route::get('/profesor/bitacora/export/{id}', 'ProfesorController@exportNotasExcel')->middleware('auth', 'noAlumno');
 Route::post('/profesor/bitacora/evaluar', 'ProfesorController@evaluacionBitacora')->name('profesor.evaluarBitacora')->middleware('auth', 'noAlumno');
 Route::post('/profesor/bitacora/feedback', 'ProfesorController@feedbackBitacora')->name('profesor.feedbackBitacora')->middleware('auth', 'noAlumno');
 
