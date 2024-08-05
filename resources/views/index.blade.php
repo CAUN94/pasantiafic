@@ -102,8 +102,8 @@
 				<div class="row">
 					<div class="col-md-12 text-center">
         <button type="button" class="btn btn-lg btn-light m-3" data-toggle="popover" data-placement="bottom" title="Pasantia"
-        data-content="
-        @if ($pasantia == null)
+        data-content='Selecciona el boton de "Pasantía" a la izquierda para más información'>
+        <!--@if ($pasantia == null)
         Aún no ha empezado el proceso de su pasantía.
         @elseif ($pasantia->statusPaso0 != 2)
         Aún no ha aceptado el reglamento de pasantías.
@@ -137,13 +137,13 @@
         El paso 4 de su pasantia ha sido rechazado.
         @else
         Ha ocurrido un error, favor de intentar nuevamente.
-        @endif">
+        @endif -->
 					<i class="fas fa-paste"></i> Mi pasantía
 				</button>
 
-				<!-- boton popover profesor -->
+				<!-- boton popover profesor 
 				<button type="button" class="btn btn-lg btn-light m-3" data-toggle="popover" data-placement="bottom"
-					title="Profesor" data-content="
+					title="Profesor" data-content=""> 
       @if ($pasantia == null || $pasantia->statusPaso3 == 0)
       Aún no ha seleccionado un profesor tutor de su pasantía.
       @elseif ($pasantia->statusPaso3 == 1)
@@ -156,14 +156,14 @@
       El profesor tutor de su pasantía ha confirmado el mail.
       @else
       Ha ocurrido un error, favor de intentar nuevamente.
-      @endif">
+      @endif" 
 					<i class="fas fa-user-tie"></i> Mi profesor
-				</button>
+				</button> -->
 
 				<!-- boton popover empresa -->
 				<button type="button" class="btn btn-lg btn-light m-3" data-toggle="popover" data-placement="bottom"
-					title="Empresa" data-content="
-    @if ($empresa == null)
+					title="Empresa" data-content='Selecciona el boton de "Empresas" a la izquierda para más información'>
+    <!-- @if ($empresa == null)
     Aún no ha seleccionado una empresa para hacer su pasantía.
     @elseif ($empresa != null && $empresa->status == 0)
     La empresa {{$empresa->nombre}} en la que realizará su pasantía aún no ha finalizado su proceso de convenio con la Universidad.
@@ -171,7 +171,7 @@
     La empresa {{$empresa->nombre}} en la que realizará su pasantía tiene su convenio activado con la universidad
     @else
     Ha ocurrido un error, favor de intentar nuevamente.
-    @endif">
+    @endif -->
 					<i class="fas fa-industry"></i> Mi empresa
 				</button>
 
