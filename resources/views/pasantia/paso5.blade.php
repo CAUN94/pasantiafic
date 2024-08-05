@@ -137,7 +137,7 @@
 					<label for="areaProyecto">15. Seleccione el área principal que considere tu proyecto: </label>
 						<select class="rounded" id="areaProyecto" name="areaProyecto"  required>
 							@foreach(['Automatización','Business Inteligence','Ciberseguridad','Circularidad de Residuos','Construcción',
-								'Control de Genstión','Data Science','Diseño','EComerce','Economía','Energía','Emprendimiento','Estadistíca',
+								'Control de Genstión','Data Science','Diseño','ECommerce','Economía','Energía','Emprendimiento','Estadistíca',
 								'Evaluación de Proyectos','Finanzas','Física','Geotecnia','Gestión de Calidad','Gestión de Operaciones',
 								'Innovación','Hidráulica','Inteligencia Artificial (IA)','Inteligencia de Negocios','Microbiología','Mineria de Datos',
 								'Obras Civiles','Operaciones','Optimización de Procesos','Planificación','Tendencias en la industria de la Construcción',
