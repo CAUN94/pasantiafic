@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Mail\ConfTutor;
+use App\Mail\certificadoMail;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use App\User;
@@ -270,6 +271,25 @@ class PasantiaController extends Controller{
 			$pasantia->statusPaso2 = 1;
 		}
 		else {
+			$fecha = Carbon::now()->locale('es');
+			$fechaParse = $fecha->isoFormat('LL');
+			$empresa = Empresa::where('idEmpresa', $pasantia->idEmpresa)->first();
+			$user = Auth::user();
+			if(($fecha->format('m') < 7)) {
+				$semestre = '1er.';
+			}else {
+				$semestre = '2do.';
+			} 
+			$data = [
+				'fecha' => $fechaParse,
+				'nombre' => $user->nombres . " " . $user->apellidoPaterno . " " . $user->apellidoMaterno,
+				'rut' => $user->rut,
+				'carrera' => 'Ingeniería Civil',
+				'nombreEmpresa' => $empresa->nombre,
+				'semestre' => $semestre,
+				'año' => $fecha->format('Y')
+			];
+			Mail::to($user->email)->send(new certificadoMail($data));
 			$pasantia->statusPaso2 = 2;
 		}
 		if ($request->pariente == 1){
@@ -579,18 +599,27 @@ class PasantiaController extends Controller{
 		$fecha = Carbon::now()->locale('es');
 		$fechaParse = $fecha->isoFormat('LL');
 		$user = Auth::user();
-		$pasantia = $user->pasantia->first();
+		$pasantia = $user->pasantias()->where('actual',1)->first();
 		$empresa = Empresa::where('idEmpresa', $pasantia->idEmpresa)->first();
-
+		
+		if(($fecha->format('m') < 7)) {
+			$semestre = '1er.';
+		}else {
+			$semestre = '2do.';
+		} 
+		$año = $fecha->format('Y');
 		$data = [
 			'fecha' => $fechaParse,
 			'nombre' => $user->nombres . " " . $user->apellidoPaterno . " " . $user->apellidoMaterno,
 			'rut' => $user->rut,
 			'carrera' => 'Ingeniería Civil',
-			'nombreEmpresa' => $empresa->nombre
+			'nombreEmpresa' => $empresa->nombre,
+			'semestre' => $semestre,
+			'año' => $año
 		];
+		
 		//return view('pasantia/certificado', $data);
-		$pdf = PDF::loadView('pasantia/certificado', $data)->setPaper('letter', 'portrait');
+		$pdf = Pdf::loadView('pasantia/certificado', $data);
 		return $pdf->download('Certificado Pasantía ' . $user->nombres . " " . $user->apellidoPaterno . " " . $user->apellidoMaterno . ".pdf");
 	}
 

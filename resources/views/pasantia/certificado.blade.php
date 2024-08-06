@@ -29,7 +29,7 @@
 </head>
 <body>
 	<p>
-		<img src="{{ asset('img/logouai.png') }}" class="logo">
+		<img src="{{ public_path('img/logouai.png') }}" class="logo">
 	</p>
 	<p>
 		<h1>CERTIFICADO DE PASANTÍA</h1>
@@ -48,7 +48,7 @@
 
 		El proyecto Capstone es parte integral del currículum académico de la carrera, y tiene por objetivo que el alumno aplique e integre los conocimientos adquiridos durante sus estudios, identificando y enfrentando problemas reales, proponiendo y diseñando soluciones ingenieriles a éstos, para finalmente generar valor.<br/><br/>
 
-		El proyecto Capstone puede desarrollarse en la Universidad o en alguna empresa bajo el formato de Pasantía, en este último caso deberá tener una duración mínima de 810 horas, las que deberán ser cumplidas el segundo semestre del año 2020.<br/><br/>
+		El proyecto Capstone puede desarrollarse en la Universidad o en alguna empresa bajo el formato de Pasantía, en este último caso deberá tener una duración mínima de 810 horas, las que deberán ser cumplidas el {{$semestre}} semestre {{$año}}.<br/><br/>
 
 		Mientras el alumno se encuentre desarrollando su proyecto Capstone, será alumno regular de la Universidad Adolfo Ibáñez.<br/><br/>
 
@@ -58,11 +58,11 @@
 
 	</p>
 	<p style ="text-align: center; display: block; margin-top:-50px; height:100px;">
-		<img src="{{ asset('img/firmajm.png') }}">
+		<img src="{{ public_path('img/firmarm.png') }}">
 	</p>
 	<p style="text-align: center;">
-		<b>José Maldifassi Pohlhammer</b><br/>
-		Secretario Académico<br/>
+		<b>Ruth Murrugarra Munares</b><br/>
+		Secretaria Académico<br/>
 		Facultad de Ingeniería y Ciencias<br/>
 		Universidad Adolfo Ibáñez<br/>
 	</p>
