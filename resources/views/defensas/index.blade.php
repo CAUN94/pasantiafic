@@ -163,9 +163,11 @@
                             <td>@if($comision->pivot->EsPresidente) Presidente @else Miembro @endif</td>
                             <td>{{$comision->getCompleteNameAttribute()}}</td>
                             <td>
-                                @foreach($comision->areas() as $area)
-                                    {{$area}}<br>
-                                @endforeach
+                                @if(!is_null($comision->areas()) || !empty($comision->areas()))
+                                    @foreach($comision->areas() as $area)
+                                        {{$area}}<br>
+                                    @endforeach
+                                @endif
                             </td>
                             <td class="text-center">
                                 <form action="{{ route('adminComisionDefensa.destroy')}}" method="Post">

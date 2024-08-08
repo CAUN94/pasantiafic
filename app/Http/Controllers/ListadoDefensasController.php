@@ -84,7 +84,11 @@ class ListadoDefensasController extends Controller
   }
 
   public function inscribirDefensa(Request $request){
-    $alumno = User::where('rut', $request->rut)->first(); 
+    $rutSinPuntos = str_replace(".", "", $request->rut);
+    $partes = explode("-", $rutSinPuntos);
+    $rut_formatted = $partes[0];
+
+    $alumno = User::where('rut_formatted', $rut_formatted)->first();
     $pasantia = Pasantia::where('idAlumno', $alumno->idUsuario)->where('actual',1)->first();
     $proyecto = Proyecto::where('idPasantia', $pasantia->idPasantia)->first();
 
