@@ -95,12 +95,12 @@
                     <div class="th-inner">Informe</div>
                 </th>
                 
-                <th scope="col" data-field="problematica" data-sortable="true" style="text-align:center">
-                    <div class="th-inner" style="width: 500px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">Problematica</div>
+                <th scope="col" data-field="descripcion" data-sortable="true" style="text-align:center">
+                    <div class="th-inner" style="width: 500px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">Descripción</div>
                 </th>
-                <th scope="col" data-field="objetivo" data-sortable="true" style="text-align:center">
+                <!-- <th scope="col" data-field="objetivo" data-sortable="true" style="text-align:center">
                     <div class="th-inner" style="width: 500px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">Objetivo</div>
-                </th>
+                </th> -->
             </tr>
         </thead>
 
@@ -162,15 +162,15 @@
                 
                 <td><a target="_blank" href="/documents/{{$defensa->proyecto->informe}}">Informe</a></td>
                 <td class="text-wrap">
-                    <span class="texto-corto">{{ Str::limit($defensa->proyecto->problematica, 50) }}</span>
-                    <span class="texto-completo d-none">{{ $defensa->proyecto->problematica }}</span>
-                    @if(strlen($defensa->proyecto->problematica) > 50)
+                    <span class="texto-corto">{{ Str::limit($defensa->proyecto->descripcion, 50) }}</span>
+                    <span class="texto-completo d-none">{{ $defensa->proyecto->descripcion }}</span>
+                    @if(strlen($defensa->proyecto->descripcion) > 50)
                         <br><a href="#" class="ver-mas">Ver más</a>
                     @else
                         Vacio
                     @endif
                 </td>
-                <td class="text-wrap">
+                <!-- <td class="text-wrap">
                     <span class="texto-corto">{{ Str::limit($defensa->proyecto->objetivo, 50) }}</span>
                     <span class="texto-completo d-none">{{$defensa->proyecto->objetivo}}</span>
                     @if(strlen($defensa->proyecto->problematica) > 50)
@@ -178,7 +178,7 @@
                     @else
                         Vacio
                     @endif
-                </td>
+                </td> -->
             </tr>
             @endforeach
             

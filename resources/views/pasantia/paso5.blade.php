@@ -149,7 +149,7 @@
 
 					<label for="descripcion">16. Descripción Proyecto (no más de 250 palabras)</label>
                     
-					<textarea class="form-control mt-2" id="descripcion" name="descripcion" rows="6" placeholder="Descripcion del proyecto" value="{{$proyecto->descripcion}}">{{$proyecto->descripcion}}</textarea>
+					<textarea class="form-control mt-2" id="descripcion" name="descripcion" rows="6" placeholder="Descripcion del proyecto" value="{{$proyecto->descripcion}}" required>{{$proyecto->descripcion}}</textarea>
 
 					<div class="mt-3 form-group">
 						<label for="informeProyecto" class="form-label">17. Sube el Informe De Tu Proyecto (Formato PDF o ZIP)</label>
