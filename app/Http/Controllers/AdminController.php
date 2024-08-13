@@ -144,7 +144,7 @@ class AdminController extends Controller
 
   public function AdminEditSeccion(Request $request){
     $seccion = Seccion::find($request->id);
-    $seccion->id = $request->id;
+    $seccion->idSeccion = $request->id;
     $seccion->modalidad = $request->modalidad;
     $seccion->especialidad = $request->especialidad;
     $seccion->idProfesor = $request->idProfesor;
