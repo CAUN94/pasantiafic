@@ -36,6 +36,9 @@
 					<th scope="col" data-field="profesor" data-sortable="true">
 						<div class="th-inner">Profesor</div>
 					</th>
+                    <th scope="col" data-field="sede" data-sortable="true">
+						<div class="th-inner">Sede</div>
+					</th>
 					<th scope="col" data-field="accion" data-sortable="true">
 						<div class="th-inner">Acciones</div>
 					</th>
@@ -55,6 +58,12 @@
                         </td>
 						<td>@if($seccion->idProfesor) 
                                 {{App\User::find($seccion->idProfesor)->getCompleteNameAttribute()}}
+                            @else
+                                Pendiente
+                            @endif
+                        </td>
+                        <td>@if($seccion->sede) 
+                                {{$seccion->sede}}
                             @else
                                 Pendiente
                             @endif
@@ -104,6 +113,12 @@
                                     <option value="{{$profesor->idProfesor}}">{{$profesor->user->getCompleteNameAttribute()}}</option>
                                 @endforeach
                             </select>
+
+                            <label for="sede">5. Sede</label>
+                            <select class="form-control w-75 ml-4 mb-2" name="sede">
+                                <option selected value="Santiago">Santiago</option>
+                                <option value="Viña del mar">Viña del mar</option>
+                            </select>
                         </div>
                 </div>
                 <div class="modal-footer">
@@ -146,6 +161,12 @@
                                 @foreach($profesores as $profesor)
                                     <option value="{{$profesor->idProfesor}}" @if($seccion->idProfesor == $profesor->idProfesor) selected @endif>{{$profesor->user->getCompleteNameAttribute()}}</option>
                                 @endforeach
+                            </select>
+
+                            <label for="sede">5. Sede</label>
+                            <select class="form-control w-75 ml-4 mb-2" name="sede">
+                                <option selected value="Santiago">Santiago</option>
+                                <option value="Viña del mar">Viña del mar</option>
                             </select>
                             <input type="hidden" name="idDefensa" value="{{$seccion->idSeccion}}">
                         </div>

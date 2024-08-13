@@ -134,7 +134,8 @@ class AdminController extends Controller
         'idSeccion' => $request->id,
         'modalidad' => $request->modalidad,
         'especialidad' => $request->especialidad,
-        'idProfesor' => $request->idProfesor,
+        'sede' => $request->sede,
+        'idProfesor' => $request->idProfesor
       ]);
       $seccion->save();
       return redirect('/admin/listadoSecciones')->with('success', 'La sección fue creada exitosamente.');
@@ -147,6 +148,7 @@ class AdminController extends Controller
     $seccion->modalidad = $request->modalidad;
     $seccion->especialidad = $request->especialidad;
     $seccion->idProfesor = $request->idProfesor;
+    $seccion->sede = $request->sede;
 
     $seccion->save();
     return redirect()->back()->with('success', 'La sección fue editada exitosamente.');

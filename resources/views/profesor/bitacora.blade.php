@@ -64,7 +64,7 @@
                                 @if($pasantia->evaluacionPasantia()->first()->docPresentacionAvance_I)
                                     <a class="btn" href="/documents/pasantiaDocs/{{ $pasantia->evaluacionPasantia()->first()->docPresentacionAvance_I }}" target="_blank"><i class="fas fa-paste"></i> Ver</a>
                                 @else
-                                    pendiente
+                                    -
                                 @endif
                             </td>
                         </tr>
@@ -82,7 +82,7 @@
                                 @if($pasantia->evaluacionPasantia()->first()->docInformeAvance_I)
                                     <a class="btn" href="/documents/pasantiaDocs/{{ $pasantia->evaluacionPasantia()->first()->docInformeAvance_I }}" target="_blank"><i class="fas fa-paste"></i> Ver</a>
                                 @else
-                                    pendiente
+                                    -
                                 @endif
                             </td>   
                         </tr>
@@ -100,7 +100,7 @@
                                 @if($pasantia->evaluacionPasantia()->first()->docPresentacionAvance_II)
                                     <a class="btn" href="/documents/pasantiaDocs/{{ $pasantia->evaluacionPasantia()->first()->docPresentacionAvance_II }}" target="_blank"><i class="fas fa-paste"></i> Ver</a>
                                 @else
-                                    pendiente
+                                    -
                                 @endif</
                                 td>   
                         </tr>
@@ -118,9 +118,8 @@
                                 @if($pasantia->evaluacionPasantia()->first()->docInformeAvance_II)
                                     <a class="btn" href="/documents/pasantiaDocs/{{ $pasantia->evaluacionPasantia()->first()->docInformeAvance_II }}" target="_blank"><i class="fas fa-paste"></i> Ver</a>
                                 @else
-                                    pendiente
-                                @endif</
-                                td>   
+                                    -
+                                @endif</td>   
                         </tr>
                         <tr>
                             <td class="text-center">Informe Final</td>
@@ -136,9 +135,8 @@
                                 @if($pasantia->evaluacionPasantia()->first()->docInformeFinal)
                                     <a class="btn" href="/documents/pasantiaDocs/{{ $pasantia->evaluacionPasantia()->first()->docInformeFinal }}" target="_blank"><i class="fas fa-paste"></i> Ver</a>
                                 @else
-                                    pendiente
-                                @endif</
-                                td>   
+                                    -
+                                @endif</td>   
                         </tr>
                         <tr>
                             <td class="text-center">Presentación Empresa</td>

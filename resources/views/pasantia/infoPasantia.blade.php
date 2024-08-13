@@ -19,13 +19,13 @@
     </div>
 
     <div class="row shadow">
-        <div class="container shadow col-8 bg-light rounded m-3">
+        <div class="container shadow bg-light rounded m-3">
             <div class="row mb-3">
                 <div class="col border rounded-top border-dark text-left"><h5 class="m-2">Información de Sección {{$seccion->idSeccion}}</h5></div>
             </div>
             
             <div class="row">
-                <div class="col rounded border border-dark m-3">
+                <div class="col rounded border border-dark m-3 ">
                     <h5 class="mt-1">Notas</h5>
                     <table class="table table-hover border border-dark">
                         <thead class="bg-dark text-white">
@@ -106,7 +106,18 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="col rounded border border-dark m-3">
+
+                <div class="col mt-3">
+                    <div class="border border-dark shadow bg-light rounded">
+                        <div class="col rounded"><h5 class="m-2">Información de Pasantía</h5></div>
+                        <div><a class="btn btn-lg btn-outline-success mt-2" href="{{route('inscripcion.0.view')}}" role="button">Paso 0</a></div>
+                        <div><a class="btn btn-lg btn-outline-success mt-2" href="{{route('inscripcion.1.view')}}" role="button">Paso 1</a></div>
+                        <div><a class="btn btn-lg btn-outline-success mt-2" href="{{route('inscripcion.2.view')}}" role="button">Paso 2</a></div>
+                        <div><a class="btn btn-lg btn-outline-success mt-2" href="{{route('inscripcion.3.view')}}" role="button">Paso 3</a></div>
+                        <div><a class="btn btn-lg btn-outline-dark my-2" href="#" role="button" data-toggle="modal" data-target="#verInfo{{$pasantia->idPasantia}}">Ver Más</a></div>
+                    </div>
+                </div>
+                <!-- <div class="col rounded border border-dark m-3">
                     <h5 class="mt-1">Actividades Buzón Entrega</h5>
                     <label class="text-left" for="preseTacionAvance">1. Presentación de Avance 1</label><br>
                     <a class="btn btn-sm @if($evalPasantia->docPresentacionAvance_I) btn-warning @else btn-primary @endif mb-2" href="#" role="button" data-toggle="modal" data-target="#entregablePA_I">@if($evalPasantia->docPresentacionAvance_I) Editar Archivo @else Subir Archivo @endif</a><br>
@@ -123,19 +134,10 @@
                     <label for="preseTacionAvance">5. Informe Final</label><br>
                     <a class="btn btn-sm @if($evalPasantia->docInformeFinal) btn-warning @else btn-primary @endif" href="#" role="button" data-toggle="modal" data-target="#entregableInformeFinal">@if($evalPasantia->docInformeFinal) Editar Archivo @else Subir Archivo @endif</a><br>
 
-                </div>
+                </div> -->
             </div>
         </div>
-        <div class="col-3 mt-3">
-            <div class=" shadow bg-light rounded">
-                <div class="col rounded border border-dark"><h5 class="m-2">Información de Pasantía</h5></div>
-                <div><a class="btn btn-lg btn-outline-success mt-2" href="{{route('inscripcion.0.view')}}" role="button">Paso 0</a></div>
-                <div><a class="btn btn-lg btn-outline-success mt-2" href="{{route('inscripcion.1.view')}}" role="button">Paso 1</a></div>
-                <div><a class="btn btn-lg btn-outline-success mt-2" href="{{route('inscripcion.2.view')}}" role="button">Paso 2</a></div>
-                <div><a class="btn btn-lg btn-outline-success mt-2" href="{{route('inscripcion.3.view')}}" role="button">Paso 3</a></div>
-                <div><a class="btn btn-lg btn-outline-dark my-2" href="#" role="button" data-toggle="modal" data-target="#verInfo{{$pasantia->idPasantia}}">Ver Más</a></div>
-            </div>
-        </div>
+        
     </div>
 
     <div class="row mt-3 bg-light border border-dark rounded shadow">

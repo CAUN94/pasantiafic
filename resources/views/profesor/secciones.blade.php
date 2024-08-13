@@ -37,6 +37,9 @@
 					<th scope="col" data-field="profesor" data-sortable="true">
 						<div class="th-inner">Profesor</div>
 					</th>
+					<th scope="col" data-field="sede" data-sortable="true">
+						<div class="th-inner">Sede</div>
+					</th>
 					<th scope="col" data-field="accion" data-sortable="true">
 						<div class="th-inner">Acciones</div>
 					</th>
@@ -51,6 +54,7 @@
 						<td>{{$seccion->modalidad}}</td>
 						<td>{{$seccion->especialidad}}</td>
 						<td>{{App\User::find($seccion->idProfesor)->getCompleteNameAttribute()}}</td>
+						<td>{{$seccion->sede}}</td>
 						<td class=""><a class="btn btn-light btn-outline-dark" href="/profesor/secciones/{{$seccion->idSeccion}}" >Ingresar Sección</a></td>
 					</tr>
 					@endif

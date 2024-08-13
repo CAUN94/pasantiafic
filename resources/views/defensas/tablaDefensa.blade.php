@@ -50,7 +50,7 @@
             @foreach($defensas as $defensa)
             <tr>
                 <td>{{$defensa->idDefensa}}</td>
-                <td>@if($defensa->Estado == 1)
+                <td>@if($defensa->Estado == 0)
                         Realizada ({{DB::table('rubrica')->where('idDefensa', $defensa->idDefensa)->count()}}@if($defensa->proyecto->dobleTitulacion)/2) @else /1) @endif  
                     @elseif($defensa->Estado == 2)
                         Cancelado
