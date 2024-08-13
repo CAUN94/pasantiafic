@@ -98,14 +98,17 @@
 						<input type="radio" name="modalidad" id="modalidad_remota" value="0"><br>
 
                         <label for="reunion">5. Sede (Si aplica)</label>
-                        <select class="form-control w-75" name="sede">
+                        <select class="form-control w-75 mb-2" name="sede">
                             <option selected value> -- Sede -- </option>
                             <option value="Peñalolén">Peñalolén</option>
                             <option value="Viña del Mar">Viña del Mar</option>
                         </select>
 						
                         <label for="reunion">6. Lugar de Reunion</label>
-                            <input class="form-control w-75" id="reunion" name="reunion" placeholder="Enlace de reunion" value="">
+                            <input class="form-control w-75 mb-2" id="reunion" name="reunion" placeholder="Enlace de reunion" value="">
+
+                        <label for="reunion">7. Periodo Académico</label>
+                        <input class="form-control w-75" id="periodo" name="periodo" placeholder="2024-2" value="">
                     </div>
                     
             </div>

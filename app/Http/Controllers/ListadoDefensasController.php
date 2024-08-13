@@ -100,7 +100,8 @@ class ListadoDefensasController extends Controller
       'Hora' => $request->hora,
       'modalidad' => $request->modalidad,
       'sede' => $request->sede,
-      'zoom' => $request->reunion
+      'zoom' => $request->reunion,
+      'PeriodoAcademico' => $request->periodo
     ]);
 
     $defensa->save();
