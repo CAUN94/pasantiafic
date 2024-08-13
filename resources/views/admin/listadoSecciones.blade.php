@@ -165,7 +165,8 @@
 
                             <label for="sede">5. Sede</label>
                             <select class="form-control w-75 ml-4 mb-2" name="sede">
-                                <option selected value="Santiago">Santiago</option>
+                                <option selected value> -- Sede -- </option>
+                                <option value="Santiago">Santiago</option>
                                 <option value="Viña del mar">Viña del mar</option>
                             </select>
                             <input type="hidden" name="idDefensa" value="{{$seccion->idSeccion}}">

@@ -8,6 +8,7 @@ use App\Proyecto;
 use App\Pasantia;
 use App\Seccion;
 use App\Profesor;
+use App\EvalPasantia;
 use Auth;
 
 class AdminController extends Controller
