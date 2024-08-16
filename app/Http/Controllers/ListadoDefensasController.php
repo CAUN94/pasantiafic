@@ -18,6 +18,7 @@ use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 /**
  * ListadoInscripcionController es el controlador del listado de pasantias.
  * En este controlador están las funciones para mostrar, editar, actualizar y eliminar las pasantias.
@@ -43,7 +44,16 @@ class ListadoDefensasController extends Controller
     $profesors = Profesor::all();
 
     if (is_null($request->start) && is_null($request->end)) {
-      $datosDefensas = Defensa::orderBy('idDefensa', 'desc')->get();
+      $fechaInicial = Carbon::parse('08/01/2024')->format('Y-m-d'); // Inicia la busqueda desde 01-08-2024, el mes y dia estan invertidos
+      $fechaFinal = CCarbon::parse('12/31/2024')->format('Y-m-d');
+      $datosDefensas = Defensa::whereBetween('fecha',[$fechaInicial,$fechaFinal])->orderBy('fecha', 'desc')->get();
+      $downloadExcel = TRUE;
+      
+      return Excel::download(new ExportViews('defensas.tablaDefensa', [
+        'downloadExcel' => $downloadExcel,
+        'defensas' => $datosDefensas,
+        'profesors' => $profesors,
+      ]), 'Defensas.xlsx');
     } else {
       $datosDefensas = Defensa::whereBetween('fecha',[$request->start,$request->end])->orderBy('fecha', 'desc');
       
