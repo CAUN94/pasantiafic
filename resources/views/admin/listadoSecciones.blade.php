@@ -227,7 +227,7 @@
                                 <tr>
                                     <td class="text-center">{{$alumno->getCompleteNameAttribute()}}</td>
                                     <td class="text-center">{{$alumno->email}}</td>
-                                    <td class="text-center">{{$alumno->pasantias()->first()->empresa()->first()->nombre}}</td>
+                                    <td class="text-center">@if($alumno->pasantias()->first()->empresa()->first()->nombre ){{$alumno->pasantias()->first()->empresa()->first()->nombre}} @else --- @endif</td>
                                 </tr>    
                             @endforeach
                         </tbody>
