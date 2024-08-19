@@ -19,6 +19,12 @@
                 <th scope="col" data-field="area_III" data-sortable="true">
                     <div class="th-inner">Área III</div>
                 </th>
+                <th scope="col" data-field="Presidencia 1" data-sortable="true">
+                    <div class="th-inner">Presidencia 1</div>
+                </th>
+                <th scope="col" data-field="Presidencia 2" data-sortable="true">
+                    <div class="th-inner">Presidencia 2</div>
+                </th>
                 <th scope="col" data-field="habilitado" data-sortable="true">
                     <div class="th-inner">Habilitado</div>
                 </th>
