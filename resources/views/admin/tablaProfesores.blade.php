@@ -46,6 +46,8 @@
                 <td>{{$profesor->area_I}}</td>
                 <td>{{$profesor->area_II}}</td>
                 <td>{{$profesor->area_III}}</td>
+                <td>{{$profesor->presidente1}}</td>
+                <td>{{$profesor->presidente2}}</td>
                 <td>@if($profesor->habilitado == 1) Habilitado @else Inhabilitado @endif</td>
                 @if($downloadExcel == TRUE)
 			    @elseif ($downloadExcel == FALSE)
