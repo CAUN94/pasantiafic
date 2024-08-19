@@ -95,15 +95,15 @@ Route::post('/admin/rubrica', 'PortalDefensasController@rubrica')->name('admin.d
 
 Route::resource('/perfil', 'PerfilController')->middleware('auth');
 
-Route::get('/profesor', 'ProfesorController@index')->name('profesor.index')->middleware('auth', 'noAlumno');
-Route::get('/profesor/proyecto/{id}', 'ProfesorController@verProyecto')->name('profesor.verProyecto')->middleware('auth', 'noAlumno');
-Route::post('/profesor/proyecto/{id}/feedback', 'ProfesorController@feedbackProyecto')->middleware('auth', 'noAlumno');
-Route::get('/profesor/secciones', 'ProfesorController@viewSecciones')->middleware('auth', 'noAlumno');
-Route::get('/profesor/secciones/{id}', 'ProfesorController@viewSeccion')->middleware('auth', 'noAlumno');
-Route::get('/profesor/bitacora/{id}', 'ProfesorController@viewBitacora')->middleware('auth', 'noAlumno');
-Route::get('/profesor/bitacora/export/{id}', 'ProfesorController@exportNotasExcel')->middleware('auth', 'noAlumno');
-Route::post('/profesor/bitacora/evaluar', 'ProfesorController@evaluacionBitacora')->name('profesor.evaluarBitacora')->middleware('auth', 'noAlumno');
-Route::post('/profesor/bitacora/feedback', 'ProfesorController@feedbackBitacora')->name('profesor.feedbackBitacora')->middleware('auth', 'noAlumno');
+Route::get('/profesor', 'ProfesorController@index')->name('profesor.index')->middleware('auth');
+Route::get('/profesor/proyecto/{id}', 'ProfesorController@verProyecto')->name('profesor.verProyecto')->middleware('auth');
+Route::post('/profesor/proyecto/{id}/feedback', 'ProfesorController@feedbackProyecto')->middleware('auth');
+Route::get('/profesor/secciones', 'ProfesorController@viewSecciones')->middleware('auth');
+Route::get('/profesor/secciones/{id}', 'ProfesorController@viewSeccion')->middleware('auth');
+Route::get('/profesor/bitacora/{id}', 'ProfesorController@viewBitacora')->middleware('auth');
+Route::get('/profesor/bitacora/export/{id}', 'ProfesorController@exportNotasExcel')->middleware('auth');
+Route::post('/profesor/bitacora/evaluar', 'ProfesorController@evaluacionBitacora')->name('profesor.evaluarBitacora')->middleware('auth');
+Route::post('/profesor/bitacora/feedback', 'ProfesorController@feedbackBitacora')->name('profesor.feedbackBitacora')->middleware('auth');
 
 //Rutas Admin Profesores
 Route::get('/admin/listadoProfesores', 'ProfesorController@vistaAdminProfesores')->name('profesor.tablaProfesores')->middleware('auth', 'admin');
