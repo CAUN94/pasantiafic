@@ -180,6 +180,11 @@
 <div class="row mt-3 bg-light border border-dark rounded shadow">
     <div class="container m-3 text-left"><h5>Sesiones de Feedback</h5>
         <div class="row">
+            @foreach($bitacoras as $bitacora)
+                <div>
+                    <a class="btn btn-lg btn-outline-dark ml-2" href="#" role="button" data-toggle="modal" data-target="#feedback{{$bitacora->idPasantia}}">@if($bitacora->evalTipo == "coaching") coaching @elseif($bitacora->evalTipo =="presentacionAvance_I") PA1 @else PA2 @endif <br> {{date('d/m/Y', strtotime($bitacora->created_at))}}</a>
+                </div>
+            @endforeach
             <div class="col">
                 <a class="btn btn-dark" href="#" role="button" data-toggle="modal" data-target="#addSession">+ Añadir Sesión</a>
             </div>
@@ -350,4 +355,31 @@
         </div>
     </div>
 </div>
+
+@foreach($bitacoras as $bitacora)
+    <div class ="modal fade" id="feedback{{$pasantia->idPasantia}}" tabindex="0" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h3 class="modal-title text-white text-center">Información Feedback</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="col ml-3">
+                        <div class="row text-left mb-2"><p class="font-weight-bold">Feedback </p><p>: @if($bitacora->evalTipo == 'Coaching') Coaching @elseif($bitacora->evalTipo == 'presentacionAvance_I') Presentacion Avance 1 @else Presentacion Avance 2 @endif</p></div>
+                    </div>
+                    <div class="col ml-3">
+                        <div class="row text-left mb-2"><p class="font-weight-bold">Comentario</p><p>: {{$bitacora->comentario}}</p></div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver</button>
+            </div>
+            </div>
+        </div>
+    </div>
+@endforeach
+
 @endsection

@@ -151,7 +151,8 @@ class ProfesorController extends Controller
   public function viewBitacora($id){
     $alumno = User::find($id);
     $pasantia = $alumno->pasantias()->where('actual', 1)->first();
-    return view('profesor.bitacora', compact('alumno'), compact('pasantia'));
+    $bitacoras = Bitacora::where('idPasantia',$pasantia->idPasantia)->get();
+    return view('profesor.bitacora', compact('alumno', 'pasantia', 'bitacoras'));
   }
   
   public function evaluacionBitacora(Request $request){

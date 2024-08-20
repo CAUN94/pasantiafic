@@ -175,7 +175,7 @@ class AdminController extends Controller
     if($alumno){
       $pasantia = Pasantia::where('idAlumno', $alumno->idUsuario)->where('actual',1)->first();
       $seccion->alumnos()->attach($alumno->idUsuario);
-      $evalPasantia = EvalPasantia::where('idAlumno',$alumno->idUsuario)->first();
+      $evalPasantia = EvalPasantia::where('idAlumno',$alumno->idUsuario)->where('idPasantia',$pasantia->idPasantia)->first();
 
       if(is_null($evalPasantia)){
         $evalPasantia = new EvalPasantia([
