@@ -56,7 +56,7 @@
                                 @if($pasantia->evaluacionPasantia()->first()->presentacionAvance_I) 
                                     {{$pasantia->evaluacionPasantia()->first()->presentacionAvance_I}}
                                 @else
-                                    pendiente
+                                    Pendiente
                                 @endif
                             </td>
                             <td class="text-center"><a class="btn btn-sm btn-outline-dark" href="#" role="button" data-toggle="modal" data-target="#notaPA1">Calificar</a></td>
@@ -74,7 +74,7 @@
                                 @if($pasantia->evaluacionPasantia()->first()->informeAvance_I)
                                     {{$pasantia->evaluacionPasantia()->first()->informeAvance_I}}
                                 @else
-                                    pendiente
+                                    Pendiente
                                 @endif
                             </td>
                             <td class="text-center"><a class="btn btn-sm btn-outline-dark" href="#" role="button" data-toggle="modal" data-target="#notaInformeA1">Calificar</a></td>
@@ -92,7 +92,7 @@
                                 @if($pasantia->evaluacionPasantia()->first()->presentacionAvance_II)
                                     {{$pasantia->evaluacionPasantia()->first()->presentacionAvance_II}}
                                 @else
-                                    pendiente
+                                    Pendiente
                                 @endif
                             </td>
                             <td class="text-center"><a class="btn btn-sm btn-outline-dark" href="#" role="button" data-toggle="modal" data-target="#notaPA2">Calificar</a></td>
@@ -110,7 +110,7 @@
                                 @if($pasantia->evaluacionPasantia()->first()->informeAvance_II)
                                     {{$pasantia->evaluacionPasantia()->first()->informeAvance_II}}
                                 @else
-                                    pendiente
+                                    Pendiente
                                 @endif
                             </td>
                             <td class="text-center"><a class="btn btn-sm btn-outline-dark" href="#" role="button" data-toggle="modal" data-target="#notaInformeA2">Calificar</a></td>
@@ -127,7 +127,7 @@
                                 @if($pasantia->evaluacionPasantia()->first()->informeFinal)
                                     {{$pasantia->evaluacionPasantia()->first()->informeFinal}}
                                 @else
-                                    pendiente
+                                    Pendiente
                                 @endif
                             </td>
                             <td class="text-center"><a class="btn btn-sm btn-outline-dark" href="#" role="button" data-toggle="modal" data-target="#notaInformeFinal">Calificar</a></td>
@@ -144,7 +144,7 @@
                                 @if($pasantia->evaluacionPasantia()->first()->presentacionEmpresa)
                                     {{$pasantia->evaluacionPasantia()->first()->presentacionEmpresa}}
                                 @else
-                                    pendiente
+                                    Pendiente
                                 @endif
                             </td>
                         </tr>
@@ -154,7 +154,7 @@
                                 @if($pasantia->evaluacionPasantia()->first()->evaluacionEmpresa)
                                     {{$pasantia->evaluacionPasantia()->first()->evaluacionEmpresa}}
                                 @else
-                                    pendiente
+                                    Pendiente
                                 @endif
                             </td>
                         </tr>
