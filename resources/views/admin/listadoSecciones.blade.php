@@ -210,14 +210,17 @@
                     <table class="table table-hover text-nowrap">
                         <thead class="bg-primary text-white border border-dark">
                             <tr>
-                                <th scope="col" data-field="seccion" data-sortable="true">
+                                <th scope="col" data-field="nombre" data-sortable="true">
                                     <div class="th-inner text-center">Nombre</div>
                                 </th>
-                                <th scope="col" data-field="seccion" data-sortable="true">
+                                <th scope="col" data-field="correo" data-sortable="true">
                                     <div class="th-inner text-center">Correo</div>
                                 </th>
-                                <th scope="col" data-field="seccion" data-sortable="true">
+                                <th scope="col" data-field="empresa" data-sortable="true">
                                     <div class="th-inner text-center">Empresa</div>
+                                </th>
+                                <th scope="col" data-field="actions" data-sortable="true">
+                                    <div class="th-inner text-center">Actions</div>
                                 </th>
                             </tr>
                         </thead>
@@ -228,6 +231,15 @@
                                     <td class="text-center">{{$alumno->getCompleteNameAttribute()}}</td>
                                     <td class="text-center">{{$alumno->email}}</td>
                                     <td class="text-center">@if($alumno->pasantias()->first()->empresa()->first()->nombre ){{$alumno->pasantias()->first()->empresa()->first()->nombre}} @else --- @endif</td>
+                                    <td>
+                                        <form action="{{ route('adminSeccion.deleteAlumno')}}" method="Post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <input type="hidden" name="idAlumno" value="{{$alumno->idUsuario}}">
+                                            <input type="hidden" name="idSeccion" value="{{$seccion->id}}">
+                                            <button class="btn btn-danger" type="submit">X</button>
+                                        </form>
+                                    </td>
                                 </tr>    
                             @endforeach
                         </tbody>

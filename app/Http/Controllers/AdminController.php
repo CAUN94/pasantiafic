@@ -173,13 +173,18 @@ class AdminController extends Controller
     $seccion = Seccion::find($request->idSeccion);
 
     if($alumno){
-      $seccion->alumnos()->attach($alumno->idUsuario);
-      $evalPasantia = new EvalPasantia([
-        'idAlumno' => $User_id,
-        'idPasantia' => $pasantia->idPasantia
-      ]);
-      $evalPasantia->save();
       $pasantia = Pasantia::where('idAlumno', $alumno->idUsuario)->where('actual',1)->first();
+      $seccion->alumnos()->attach($alumno->idUsuario);
+      $evalPasantia = EvalPasantia::where('idAlumno',$alumno->idUsuario)->first();
+
+      if(is_null($evalPasantia)){
+        $evalPasantia = new EvalPasantia([
+          'idAlumno' => $alumno->idUsuario,
+          'idPasantia' => $pasantia->idPasantia
+        ]);
+        $evalPasantia->save();
+      }
+      
       $pasantia->statusPaso4 = 2;
       $pasantia->save();
       return redirect()->back()->with('success', 'Se añadio al estudiante exitosamente');
@@ -187,6 +192,13 @@ class AdminController extends Controller
     
     return redirect()->back()->with('error', 'No se encontró estudiante con el rut ingresado.');
     
+  }
+
+  public function AdminDesinscribir(Request $request){
+    $seccion = Seccion::find($request->idSeccion);
+    $seccion->alumnos()->detach($request->idAlumno);
+
+    return redirect()->back()->with('success', 'Se desinscribio al estudiante exitosamente');
   }
 
   public function loginAs(){

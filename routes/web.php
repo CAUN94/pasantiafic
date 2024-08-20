@@ -75,6 +75,8 @@ Route::post('/admin/listadoSecciones/añadir', 'AdminController@AdminAddSeccion'
 Route::post('/admin/listadoSecciones/añadirAlumno', 'AdminController@AdminAddAlumno')->name('adminSeccion.addAlumno')->middleware('auth', 'admin');
 Route::post('/admin/listadoSecciones/editar', 'AdminController@AdminEditSeccion')->name('adminSeccion.edit')->middleware('auth', 'admin');
 Route::delete('/admin/listadoSecciones/eliminar({id}', 'AdminController@AdminDeleteSeccion')->name('adminSeccion.destroy')->middleware('auth', 'admin');
+Route::delete('/admin/listadoSecciones/desinscribir', 'AdminController@AdminDesinscribir')->name('adminSeccion.deleteAlumno')->middleware('auth', 'admin');
+
 
 // Ruta de Listado Defensas
 Route::get('/admin/listadoDefensas/export', 'ListadoDefensasController@exportDefensas')->middleware('auth', 'admin');
