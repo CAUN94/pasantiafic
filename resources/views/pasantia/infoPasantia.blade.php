@@ -21,7 +21,7 @@
     <div class="row shadow">
         <div class="container shadow bg-light rounded m-3">
             <div class="row mb-3">
-                <div class="col border rounded-top border-dark text-left"><h5 class="m-2">Información de Sección {{$seccion->idSeccion}}</h5></div>
+                <div class="col border rounded-top border-dark text-left"><h5 class="m-2">Información de Sección {{$seccion->idSeccion}} - {{$profesor}} </h5></div>
             </div>
             
             <div class="row">
@@ -110,11 +110,35 @@
                 <div class="col mt-3">
                     <div class="border border-dark shadow bg-light rounded">
                         <div class="col rounded"><h5 class="m-2">Información de Pasantía</h5></div>
-                        <div><a class="btn btn-lg btn-outline-success mt-2" href="{{route('inscripcion.0.view')}}" role="button">Paso 0</a></div>
-                        <div><a class="btn btn-lg btn-outline-success mt-2" href="{{route('inscripcion.1.view')}}" role="button">Paso 1</a></div>
-                        <div><a class="btn btn-lg btn-outline-success mt-2" href="{{route('inscripcion.2.view')}}" role="button">Paso 2</a></div>
-                        <div><a class="btn btn-lg btn-outline-success mt-2" href="{{route('inscripcion.3.view')}}" role="button">Paso 3</a></div>
-                        <div><a class="btn btn-lg btn-outline-dark my-2" href="#" role="button" data-toggle="modal" data-target="#verInfo{{$pasantia->idPasantia}}">Ver Más</a></div>
+                        
+                        <div class="row mx-3">
+                            <div class="col">
+                                <div class="row text-left mb-2"><p class="font-weight-bold">Fecha Inicio </p><p>: {{$pasantia->fechaInicio}}</p></div>
+                                <div class="row text-left mb-2"><p class="font-weight-bold">Supervisor</p><p>: {{$pasantia->nombreJefe}}</p></div>
+                                
+                            </div>
+                            <div class="col">
+                                <div class="row text-left mb-2"><p class="font-weight-bold">Horas Semanales </p><p>: {{$pasantia->horasSemanales}}</p></div>
+                                <div class="row text-left mb-2"><p class="font-weight-bold">Correo</p><p>: {{$pasantia->correoJefe}}</p></div>
+                            </div>
+
+                            <div class="d-flex flex-row justify-content-center mb-2"><p class="font-weight-bold">Empresa: </p><p class="ml-1"> {{$pasantia->empresa()->first()->nombre}}</p></div>
+                            <div class="d-flex flex-row justify-content-center mb-2"><p class="font-weight-bold">Ciudad/Pais </p><p>: {{$pasantia->ciudad}} - {{$pasantia->pais}}</p></div>
+
+                            <div class="d-flex flex-row justify-content-center text-left"><p class="font-weight-bold">Estado Paso 3:</p><p class="ml-1"> @if($pasantia->statusPaso3 == 3)  El correo fue enviado pero no ha sido confirmado por supervisor @elseif($pasantia->statusPaso3 == 4) El correo ha sido confirmado por tu supervisor @endif</p></div>
+                        </div>
+
+                        <div class="d-flex justify-content-center mb-3">
+                            <a class="btn btn-outline-dark" href="/inscripcion/cambiarSupervisor">Cambiar Supervisor</a>
+                        </div>
+
+                        <h5>Estado Pasos</h5>
+                        <div class="d-flex flex-row justify-content-center mb-4">
+                            <a class="btn btn-lg btn-outline-success mr-2" href="{{route('inscripcion.0.view')}}" role="button">Paso 0</a>
+                            <a class="btn btn-lg btn-outline-success mr-2" href="{{route('inscripcion.1.view')}}" role="button">Paso 1</a>
+                            <a class="btn btn-lg btn-outline-success mr-2" href="{{route('inscripcion.2.view')}}" role="button">Paso 2</a>
+                            <a class="btn btn-lg btn-outline-success mr-2" href="{{route('inscripcion.3.view')}}" role="button">Paso 3</a>
+                        </div>
                     </div>
                 </div>
                 <!-- <div class="col rounded border border-dark m-3">
@@ -151,38 +175,6 @@
         </div>
     </div>
 </div>
-     
-
-    <div class ="modal fade" id="verInfo{{$pasantia->idPasantia}}" tabindex="0" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-primary">
-                    <h3 class="modal-title text-white text-center">Información Pasantía</h3>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                    <div class="col ml-3">
-                        <div class="row text-left mb-2"><p class="font-weight-bold">Fecha Inicio </p><p>: {{$pasantia->fechaInicio}}</p></div>
-                        <div class="row text-left mb-2"><p class="font-weight-bold">Horas Semanales </p><p>: {{$pasantia->horasSemanales}}</p></div>
-                        <div class="row text-left mb-2"><p class="font-weight-bold">Empresa: </p><p> {{$pasantia->empresa()->first()->nombre}}</p></div>
-                        <div class="row text-left mb-2"><p class="font-weight-bold">Ciudad/Pais </p><p>: {{$pasantia->ciudad}} - {{$pasantia->pais}}</p></div>
-                    </div>
-                    <div class="col">
-                        <div class="row text-left mb-2"><p class="font-weight-bold">Supervisor</p><p>: {{$pasantia->nombreJefe}}</p></div>
-                        <div class="row text-left mb-2"><p class="font-weight-bold">Correo</p><p>: {{$pasantia->correoJefe}}</p></div>
-                        <div class="row text-left mb-2"><p class="font-weight-bold">Estado Paso 3:</p><p> @if($pasantia->statusPaso3 == 3) El correo fue enviado pero no ha sido confirmado por supervisor @elseif($pasantia->statusPaso3 == 4) El correo ha sido confirmado por tu supervisor @endif</p></div>
-                        <a class="btn btn-outline-dark" href="/inscripcion/cambiarSupervisor">Cambiar Supervisor</a>
-                    </div>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver</button>
-            </div>
-            </div>
-        </div>
-    </div>
 
     <div class ="modal fade" id="entregablePA_I" tabindex="0" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
         <div class="modal-dialog" role="document">

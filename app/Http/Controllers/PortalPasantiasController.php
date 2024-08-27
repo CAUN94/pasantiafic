@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Seccion;
 use App\Pasantia;
 use App\Proyecto;
+use App\User;
 use App\EvalPasantia;
 use Auth;
 use Illuminate\Support\Facades\DB;
@@ -19,10 +20,16 @@ class PortalPasantiasController extends Controller
 		//	return redirect('/inscripcion/resumen')->with('error', 'Aun no te han asignado a una sección');
 		//}
 		$seccion = Auth::user()->seccion()->first();
+		$profesor = User::find($seccion->idProfesor);
 		$evalPasantia = EvalPasantia::where('idAlumno', Auth::id())->where('idPasantia', $pasantia->idPasantia)->first();
 		$bitacoras = $pasantia->bitacora()->get();
 		if($seccion){
-			return view('pasantia.infoPasantia', [ 'evalPasantia' => $evalPasantia, 'pasantia'=> $pasantia, 'seccion'=> $seccion, 'bitacoras'=> $bitacoras ]);
+			return view('pasantia.infoPasantia', [	 'evalPasantia' => $evalPasantia,
+													'pasantia'=> $pasantia,
+													'seccion'=> $seccion,
+													'bitacoras'=> $bitacoras,
+													'profesor'=> $profesor->getCompleteNameAttribute()
+												 ]);
 		}else{
 			return redirect('/inscripcion/resumen')->with('error', "No te encuentras inscrito a una sección.");
 		}

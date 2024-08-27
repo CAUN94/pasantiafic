@@ -643,7 +643,9 @@ class PasantiaController extends Controller{
  		 'statusPaso4'=>$pasantia->statusPaso4,
 		 'statusPaso5'=>$pasantia->statusPaso5,
  		 'nombre'=>$pasantia->nombreJefe,
- 		 'correo'=>$pasantia->correoJefe])->with('razon', true);
+ 		 'correo'=>$pasantia->correoJefe,
+ 		 'rol'=>$pasantia->rolJefe,
+		 'cargo' =>$pasantia->cargoJefe])->with('razon', true);
 	}
 
 	public function resumenAlumno(){
