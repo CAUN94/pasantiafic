@@ -21,7 +21,12 @@ class PortalPasantiasController extends Controller
 		$seccion = Auth::user()->seccion()->first();
 		$evalPasantia = EvalPasantia::where('idAlumno', Auth::id())->where('idPasantia', $pasantia->idPasantia)->first();
 		$bitacoras = $pasantia->bitacora()->get();
-        return view('pasantia.infoPasantia', [ 'evalPasantia' => $evalPasantia, 'pasantia'=> $pasantia, 'seccion'=> $seccion, 'bitacoras'=> $bitacoras ]);
+		if($seccion){
+			return view('pasantia.infoPasantia', [ 'evalPasantia' => $evalPasantia, 'pasantia'=> $pasantia, 'seccion'=> $seccion, 'bitacoras'=> $bitacoras ]);
+		}else{
+			return redirect('/inscripcion/resumen')->with('error', "No te encuentras inscrito a una sección.");
+		}
+        
     }
 
 

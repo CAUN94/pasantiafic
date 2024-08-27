@@ -508,6 +508,9 @@ class PasantiaController extends Controller{
 	public function resumenView(){
 		$userId = Auth::id();
 		$pasantia = Pasantia::where('idAlumno', $userId)->where('actual',1)->first();
+		if(Auth::user()->seccion()->first()){
+			return redirect('/pasantia');
+		}
 		if ($pasantia && $pasantia->statusPaso0 == 2){
 			$empresa = Empresa::where('idEmpresa', $pasantia->idEmpresa)->first();
 			return view('pasantia.resumen', [

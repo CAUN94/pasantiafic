@@ -197,6 +197,10 @@ class AdminController extends Controller
   public function AdminDesinscribir(Request $request){
     $seccion = Seccion::find($request->idSeccion);
     $seccion->alumnos()->detach($request->idAlumno);
+    $pasantia = Pasantia::where('idAlumno', $request->idAlumno)->where('actual',1)->first();
+    
+    $pasantia->statusPaso4 = 0;
+    $pasantia->save();
 
     return redirect()->back()->with('success', 'Se desinscribio al estudiante exitosamente');
   }
