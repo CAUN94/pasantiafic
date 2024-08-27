@@ -230,7 +230,7 @@
                                 <tr>
                                     <td class="text-center">{{$alumno->getCompleteNameAttribute()}}</td>
                                     <td class="text-center">{{$alumno->email}}</td>
-                                    <td class="text-center">@if($alumno->pasantias()->first()->empresa()->first()->nombre ){{$alumno->pasantias()->first()->empresa()->first()->nombre}} @else --- @endif</td>
+                                    <td class="text-center">@if(optional(optional($alumno->pasantias()->first())->empresa()->first())->nombre){{$alumno->pasantias()->first()->empresa()->first()->nombre}} @else --- @endif</td>
                                     <td>
                                         <form action="{{ route('adminSeccion.deleteAlumno')}}" method="Post">
                                             @csrf
