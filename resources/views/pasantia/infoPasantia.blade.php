@@ -25,7 +25,7 @@
             </div>
             
             <div class="row">
-                <div class="col rounded border border-dark m-3 ">
+                <div class="col rounded border border-dark m-3 pb-5">
                     <h5 class="mt-1">Notas</h5>
                     <table class="table table-hover border border-dark">
                         <thead class="bg-dark text-white">
@@ -113,19 +113,19 @@
                         
                         <div class="row mx-3">
                             <div class="col">
-                                <div class="row text-left mb-2"><p class="font-weight-bold">Fecha Inicio </p><p>: {{$pasantia->fechaInicio}}</p></div>
-                                <div class="row text-left mb-2"><p class="font-weight-bold">Supervisor</p><p>: {{$pasantia->nombreJefe}}</p></div>
+                                <div class="row text-left mb-2 mr-2"><p class="font-weight-bold">Fecha Inicio:</p><p class="ml-1"> {{$pasantia->fechaInicio}}</p></div>
+                                <div class="row text-left mb-2 mr-2"><p class="font-weight-bold">Supervisor:</p><p class="ml-1"> {{$pasantia->nombreJefe}}</p></div>
                                 
                             </div>
                             <div class="col">
-                                <div class="row text-left mb-2"><p class="font-weight-bold">Horas Semanales </p><p>: {{$pasantia->horasSemanales}}</p></div>
-                                <div class="row text-left mb-2"><p class="font-weight-bold">Correo</p><p>: {{$pasantia->correoJefe}}</p></div>
+                                <div class="row text-left mb-2 mr-2"><p class="font-weight-bold">Horas Semanales:</p><p class="ml-1"> {{$pasantia->horasSemanales}}</p></div>
+                                <div class="row text-left mb-2 mr-2"><p class="font-weight-bold">Correo:</p><p class="ml-1"> {{$pasantia->correoJefe}}</p></div>
                             </div>
 
-                            <div class="d-flex flex-row justify-content-center mb-2"><p class="font-weight-bold">Empresa: </p><p class="ml-1"> {{$pasantia->empresa()->first()->nombre}}</p></div>
-                            <div class="d-flex flex-row justify-content-center mb-2"><p class="font-weight-bold">Ciudad/Pais </p><p>: {{$pasantia->ciudad}} - {{$pasantia->pais}}</p></div>
+                            <div class="d-flex flex-row justify-content-center mr-2 mb-2"><p class="font-weight-bold">Empresa: </p><p class="ml-1"> {{$pasantia->empresa()->first()->nombre}}</p></div>
+                            <div class="d-flex flex-row justify-content-center mr-2 mb-2"><p class="font-weight-bold">Ciudad/Pais:</p><p class="ml-1"> {{$pasantia->ciudad}} - {{$pasantia->pais}}</p></div>
 
-                            <div class="d-flex flex-row justify-content-center text-left"><p class="font-weight-bold">Estado Paso 3:</p><p class="ml-1"> @if($pasantia->statusPaso3 == 3)  El correo fue enviado pero no ha sido confirmado por supervisor @elseif($pasantia->statusPaso3 == 4) El correo ha sido confirmado por tu supervisor @endif</p></div>
+                            <div class="d-flex flex-row justify-content-center mr-2 text-left"><p class="font-weight-bold">Estado Paso 3:</p><p class="ml-1"> @if($pasantia->statusPaso3 == 3)  El correo fue enviado pero no ha sido confirmado por supervisor @elseif($pasantia->statusPaso3 == 4) El correo ha sido confirmado por tu supervisor @elseif($pasantia->statusPaso3 == 0) No has iniciado el paso 3 @endif</p></div>
                         </div>
 
                         <div class="d-flex justify-content-center mb-3">
@@ -134,10 +134,36 @@
 
                         <h5>Estado Pasos</h5>
                         <div class="d-flex flex-row justify-content-center mb-4">
+                        @if($pasantia->statusPaso0 == 2)
                             <a class="btn btn-lg btn-outline-success mr-2" href="{{route('inscripcion.0.view')}}" role="button">Paso 0</a>
+                        @else
+                            <a class="btn btn-lg btn-outline-warning mr-2" href="{{route('inscripcion.0.view')}}" role="button">Paso 0</a>
+                        @endif
+                        
+                        @if($pasantia->statusPaso1 == 2)
                             <a class="btn btn-lg btn-outline-success mr-2" href="{{route('inscripcion.1.view')}}" role="button">Paso 1</a>
+                        @elseif($pasantia->statusPaso1 == 0)
+                            <a class="btn btn-lg btn-outline-danger mr-2" href="{{route('inscripcion.1.view')}}" role="button">Paso 1</a>
+                        @else
+                            <a class="btn btn-lg btn-outline-warning mr-2" href="{{route('inscripcion.1.view')}}" role="button">Paso 1</a>
+                        @endif
+                            
+                        @if($pasantia->statusPaso2 == 2)
                             <a class="btn btn-lg btn-outline-success mr-2" href="{{route('inscripcion.2.view')}}" role="button">Paso 2</a>
+                        @elseif($pasantia->statusPaso2 == 0)
+                            <a class="btn btn-lg btn-outline-danger mr-2" href="{{route('inscripcion.2.view')}}" role="button">Paso 2</a>
+                        @else
+                            <a class="btn btn-lg btn-outline-warning mr-2" href="{{route('inscripcion.2.view')}}" role="button">Paso 2</a>
+                        @endif
+                            
+                        @if($pasantia->statusPaso3==4)
                             <a class="btn btn-lg btn-outline-success mr-2" href="{{route('inscripcion.3.view')}}" role="button">Paso 3</a>
+                        @elseif($pasantia->statusPaso3 == 0)
+                            <a class="btn btn-lg btn-outline-danger mr-2" href="{{route('inscripcion.3.view')}}" role="button">Paso 3</a>
+                        @else
+                            <a class="btn btn-lg btn-outline-warning mr-2" href="{{route('inscripcion.3.view')}}" role="button">Paso 3</a>
+                        @endif
+                            
                         </div>
                     </div>
                 </div>
