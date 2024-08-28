@@ -365,7 +365,6 @@ class PasantiaController extends Controller{
 		$pasantia->correoJefe = $request->email;
 		$pasantia->cargoJefe = $request->cargo;
 		$pasantia->rolJefe = $request->description;
-		dd($pasantia);
 		if ($request->enviar){
 			while(Pasantia::where('tokenCorreo', $pasantia->tokenCorreo)->first()){
 				$pasantia->tokenCorreo = $string = Str::random(10);
