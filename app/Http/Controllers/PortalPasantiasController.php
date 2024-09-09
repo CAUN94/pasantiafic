@@ -22,6 +22,9 @@ class PortalPasantiasController extends Controller
 		if(is_null($pasantia->empresa()->first())){
 			return redirect('/inscripcion/resumen')->with('error', 'Tu pasantía no cuenta con una empresa asociada.');
 		}
+		if($pasantia->statusPaso4 == 0){
+			return redirect('/inscripcion/resumen')->with('error', 'Aún no te han asignado una sección de pasantía.');
+		}
 		if($pasantia->statusPaso2 == 2){
 			$seccion = Auth::user()->seccion()->first();
 			$profesor = User::find($seccion->idProfesor);
@@ -78,11 +81,16 @@ class PortalPasantiasController extends Controller
 		$pasantia = Pasantia::where('idAlumno', $User_id)->where('actual', 1)->first();
 		$seccion = Seccion::find($request->idSeccion);
 		$seccion->alumnos()->attach($User_id);
+
 		$evalPasantia = new EvalPasantia([
 			'idAlumno' => $User_id,
 			'idPasantia' => $pasantia->idPasantia
 		]);
 		$evalPasantia->save();
+
+		$pasantia->statusPaso4 = 2;
+		$pasantia->save();
+
         return redirect('/pasantia')->with('success','Ingreso de sección exitoso.');
 	}
 

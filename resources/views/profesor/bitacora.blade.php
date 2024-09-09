@@ -18,6 +18,13 @@
     <h2>Bitácora de alumno {{$alumno->getCompleteNameAttribute()}}</h2>
 </div>
 
+<div class="row mb-3">
+    <a class="btn btn-dark m-3 " href="/profesor/secciones/{{$alumno->seccion[0]->idSeccion}}">Volver Listado</a>
+</div>
+
+
+
+
 <div class="row shadow">
         <div class="container shadow col-9 bg-light rounded">
             <div class="row m-2">

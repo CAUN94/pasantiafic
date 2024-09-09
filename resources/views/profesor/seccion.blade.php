@@ -8,6 +8,8 @@
     <h2>Listado de Alumnos de la sección {{$seccion->idSeccion}}</h2>
 </div>
 
+<a class="btn btn-dark m-3 " href="/profesor/secciones">Volver Listado</a>
+
     <div class="row justify-content-md-center mb-5">
 		<div class="col-md-9">
 		<table class="table table-hover text-nowrap">

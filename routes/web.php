@@ -168,4 +168,4 @@ Route::get('evaluacion/listado/{idProyecto}', 'EvalTutorController@listado')->na
 Route::get('evaluacion/ver/{idEvaluacion}', 'EvalTutorController@ver')->middleware('auth', 'noAlumno');
 
 Route::get('/empresa/evaluacion/{id}', 'EmpresaController@evaluacionDesempeñoAlumno');
-Route::post('/empresa/evaluacion/store', 'EmpresaController@storeEvaluacionAlumno')->name('store.evaluacionAlumno');
+Route::post('/empresa/evaluacion/success', 'EmpresaController@storeEvaluacionAlumno')->name('store.evaluacionAlumno');

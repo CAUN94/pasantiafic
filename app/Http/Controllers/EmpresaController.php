@@ -232,6 +232,6 @@ class EmpresaController extends Controller{
 		]);
 		
         $evaltutor->save();
-		return $evaltutor;
+		return redirect('/empresa/evaluacion/store');
 	}
 }
