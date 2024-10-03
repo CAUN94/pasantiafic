@@ -169,3 +169,7 @@ Route::get('evaluacion/ver/{idEvaluacion}', 'EvalTutorController@ver')->middlewa
 
 Route::get('/empresa/evaluacion/{id}', 'EmpresaController@evaluacionDesempeñoAlumno');
 Route::post('/empresa/evaluacion/success', 'EmpresaController@storeEvaluacionAlumno')->name('store.evaluacionAlumno');
+
+Route::get('/lista/import', 'AdminController@ImportExcelSecciones');
+Route::post('/lista/import', 'AdminController@ImportExcelSecciones')->name('import.alumnos');
+

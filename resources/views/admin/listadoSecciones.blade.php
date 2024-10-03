@@ -80,8 +80,33 @@
 			</tbody>
 		</table>
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#añadirSeccion">Añadir Sección</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#dataImport">Importar datos</button>
 		</div>
 	</div>
+
+    <div class ="modal fade" id="dataImport" tabindex="0" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h3 class="modal-title text-white text-center">Importar alunnos a sección</h3>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{{ route('import.alumnos') }}"  enctype="multipart/form-data" class="text-left">
+                        <fieldset>
+                        @csrf
+                            <label for="idFile">Listado de alumnos Excel</label>
+
+                            <input type="file" name="datosExcel" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Import</button>
+                            </fielset>
+                        </form>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class ="modal fade" id="añadirSeccion" tabindex="0" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -201,7 +226,7 @@
     </div>
 
     <div class ="modal fade" id="inscribirSeccion{{$seccion->idSeccion}}" tabindex="0" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
                     <h3 class="modal-title text-white text-center">Listado de Alumnos de la sección {{$seccion->idSeccion}}</h3>

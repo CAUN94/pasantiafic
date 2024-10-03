@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use App\User;
 use App\Proyecto;
 use App\Pasantia;
 use App\Seccion;
 use App\Profesor;
 use App\EvalPasantia;
+use Illuminate\Support\Facades\DB;
+
 use Auth;
 
 class AdminController extends Controller
@@ -208,4 +211,56 @@ class AdminController extends Controller
   public function loginAs(){
     return view('admin.loginAs');
   }
+
+  public function ImportExcelSecciones(Request $request){
+
+    
+
+      // Validate the uploaded file
+      $request->validate([
+          'datosExcel' => 'required|mimes:xlsx,xls',
+      ]);
+      
+      $file = $request->file('datosExcel');
+      $datos = Excel::toArray([], $file);
+
+      array_shift($datos[0]);
+
+      foreach($datos[0] as $dato){
+        $rutSinPuntos = str_replace(".", "", $dato[0]);
+        $partes = explode("-", $rutSinPuntos);
+        $rut_formatted = $partes[0];
+
+        $seccion = Seccion::find($dato[2]);
+        $alumno = User::where('rut_formatted', $rut_formatted)->first();
+
+        if($alumno){
+          $alumno = User::where('email', $dato[1])->first();
+        }
+
+        if($alumno && $seccion){
+          $pasantia = Pasantia::where('idAlumno', $alumno->idUsuario)->where('actual',1)->first();
+
+          $exists = DB::table('seccion_user')->where('idAlumno', $alumno->idUsuario)->where('idSeccion', $request->idSeccion)->exists();
+
+          if(!$exists && !is_null($pasantia)){
+            $seccion->alumnos()->attach($alumno->idUsuario);
+            $evalPasantia = EvalPasantia::where('idAlumno',$alumno->idUsuario)->where('idPasantia',$pasantia->idPasantia)->first();
+
+            if(is_null($evalPasantia)){
+              $evalPasantia = new EvalPasantia([
+                'idAlumno' => $alumno->idUsuario,
+                'idPasantia' => $pasantia->idPasantia
+              ]);
+              $evalPasantia->save();
+            }
+        
+            $pasantia->statusPaso4 = 2;
+            $pasantia->save();
+          }
+        }
+      }
+
+      return redirect()->back()->with('success', 'Excel file imported successfully!');
+  } 
 }
