@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Exports\ExportViews;
 use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
 
 
 class ProyectoController extends Controller
@@ -27,7 +28,7 @@ class ProyectoController extends Controller
         if (is_null($request->start) && is_null($request->end)) {
           $datosProyectos = Proyecto::orderBy('updated_at', 'desc')->get();
         } else {
-          $datosProyectos = Proyecto::whereBetween('updated_at',[$request->start,$request->end])->orderBy('updated_at', 'desc');
+          $datosProyectos = Proyecto::whereBetween('updated_at',[Carbon::parse($request->start)->startOfDay(),Carbon::parse($request->end)->endOfDay()])->orderBy('updated_at', 'desc');
           
           // carrera
           if(!is_null($request->carrera)){
@@ -87,7 +88,8 @@ class ProyectoController extends Controller
 					'idProyecto' => $proyecto->idProyecto,
 					'Nota' => '0',
 					'Expediente' => '1',
-					'PlanEstudio' => '1'
+					'PlanEstudio' => '1',
+          'Estado' => 1
 				]
 			);
             $defensa->save();

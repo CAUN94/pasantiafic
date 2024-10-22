@@ -46,11 +46,11 @@ class ListadoDefensasController extends Controller
     if (is_null($request->start) && is_null($request->end)) {
       $fechaInicial = Carbon::parse('08/01/2024')->format('Y-m-d'); // Inicia la busqueda desde 01-08-2024, el mes y dia estan invertidos
       $fechaFinal = Carbon::parse('12/31/2024')->format('Y-m-d');
-      $datosDefensas = Defensa::whereBetween('fecha',[$fechaInicial,$fechaFinal])->orderBy('fecha', 'desc')->get();
+      $datosDefensas = Defensa::whereBetween('fecha',[Carbon::parse($fechaInicial)->startOfDay(),Carbon::parse($fechaFinal)->endOfDay()])->orderBy('fecha', 'desc')->get();
       $downloadExcel = TRUE;
 
     } else {
-      $datosDefensas = Defensa::whereBetween('fecha',[$request->start,$request->end])->orderBy('fecha', 'desc');
+      $datosDefensas = Defensa::whereBetween('fecha',[Carbon::parse($request->start)->startOfDay(),Carbon::parse($request->end)->endOfDay()])->orderBy('fecha', 'desc');
       
       // modalidad
       if(!is_null($request->modalidad)){
