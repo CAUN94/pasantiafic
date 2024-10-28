@@ -9,6 +9,7 @@ use App\Pasantia;
 use App\Proyecto;
 use App\User;
 use App\EvalPasantia;
+use App\EvalTutor;
 use Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -29,12 +30,14 @@ class PortalPasantiasController extends Controller
 			$seccion = Auth::user()->seccion()->first();
 			$profesor = User::find($seccion->idProfesor);
 			$evalPasantia = EvalPasantia::where('idAlumno', Auth::id())->where('idPasantia', $pasantia->idPasantia)->first();
+			$evaluacionesDesempeño = EvalTutor::where('idPasantia', $pasantia->idPasantia)->get()->toArray();
 			$bitacoras = $pasantia->bitacora()->get();
 			if($seccion){
 				return view('pasantia.infoPasantia', [	 'evalPasantia' => $evalPasantia,
 														'pasantia'=> $pasantia,
 														'seccion'=> $seccion,
 														'bitacoras'=> $bitacoras,
+														'evaluacionesDesempeño' => $evaluacionesDesempeño,
 														'profesor'=> $profesor->getCompleteNameAttribute()
 													]);
 			}else{

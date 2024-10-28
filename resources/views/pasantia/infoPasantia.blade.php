@@ -18,26 +18,90 @@
         <h2>Pasantía</h2>
     </div>
 
-    <div class="row shadow">
-        <div class="container shadow bg-light rounded m-3">
-            <div class="row mb-3">
-                <div class="col border rounded-top border-dark text-left"><h5 class="m-2">Información de Sección {{$seccion->idSeccion}} - {{$profesor}} </h5></div>
+    <div class="row border rounded text-left mb-1">
+        <h5 class="m-2 ml-1">Información de Sección {{$seccion->idSeccion}} - {{$profesor}} </h5>
+    </div>
+
+    <div class="row mb-1">
+        <div class="col border border-dark bg-light rounded m-1">
+            <h5 class="m-2">Información de Pasantía</h5>
+
+            <div class="row mx-3">
+                <div class="col">
+                    <div class="row text-left mb-2 mr-2"><p class="font-weight-bold">Fecha Inicio:</p><p class="ml-1"> {{$pasantia->fechaInicio}}</p></div>
+                    <div class="row text-left mb-2 mr-2"><p class="font-weight-bold">Supervisor:</p><p class="ml-1"> {{$pasantia->nombreJefe}}</p></div>
+                </div>
+                <div class="col">
+                    <div class="row text-left mb-2 mr-2"><p class="font-weight-bold">Horas Semanales:</p><p class="ml-1"> {{$pasantia->horasSemanales}}</p></div>
+                    <div class="row text-left mb-2 mr-2"><p class="font-weight-bold">Correo:</p><p class="ml-1"> {{$pasantia->correoJefe}}</p></div>
+                </div>
+                <div class="d-flex flex-row justify-content-center mr-2 mb-2"><p class="font-weight-bold">Empresa: </p><p class="ml-1"> {{$pasantia->empresa()->first()->nombre}}</p></div>
+                <div class="d-flex flex-row justify-content-center mr-2 mb-2"><p class="font-weight-bold">Ciudad/Pais:</p><p class="ml-1"> {{$pasantia->ciudad}} - {{$pasantia->pais}}</p></div>
+                <div class="d-flex flex-row justify-content-center mr-2 text-left"><p class="font-weight-bold">Estado Paso 3:</p><p class="ml-1"> @if($pasantia->statusPaso3 == 3)  El correo fue enviado pero no ha sido confirmado por supervisor @elseif($pasantia->statusPaso3 == 4) El correo ha sido confirmado por tu supervisor @elseif($pasantia->statusPaso3 == 0) No has iniciado el paso 3 @endif</p></div>
             </div>
-            
-            <div class="row">
-                <div class="col rounded border border-dark m-3 pb-5">
-                    <h5 class="mt-1">Notas</h5>
-                    <table class="table table-hover border border-dark">
-                        <thead class="bg-dark text-white">
-                            <tr>
-                                <th scope="col" data-field="evaluacion" data-sortable="true">
-                                    <div class="th-inner text-center">Evaluación</div>
-                                </th>
-                                <th scope="col" data-field="note" data-sortable="true">
-                                    <div class="th-inner text-center">Nota</div>
-                                </th>
-                            </tr>
-                        </thead>
+
+            <div class="d-flex justify-content-center mb-3">
+                <a class="btn btn-outline-dark" href="/inscripcion/cambiarSupervisor">Cambiar Supervisor</a>
+            </div>
+        </div>          
+        <div class="border border-dark bg-light rounded m-1">
+            <div class="justify-content-center m-3">
+                <h5>Estado Pasos</h5>
+                <div class="row justify-content-center mb-2">
+                    @if($pasantia->statusPaso0 == 2)
+                        <a class="btn btn-lg btn-outline-success mr-2" href="{{route('inscripcion.0.view')}}" role="button">Paso 0</a>
+                    @else
+                        <a class="btn btn-lg btn-outline-warning mr-2" href="{{route('inscripcion.0.view')}}" role="button">Paso 0</a>
+                    @endif
+                </div>
+                <div class="row justify-content-center mb-2">
+                    @if($pasantia->statusPaso1 == 2)
+                        <a class="btn btn-lg btn-outline-success mr-2" href="{{route('inscripcion.1.view')}}" role="button">Paso 1</a>
+                    @elseif($pasantia->statusPaso1 == 0)
+                        <a class="btn btn-lg btn-outline-danger mr-2" href="{{route('inscripcion.1.view')}}" role="button">Paso 1</a>
+                    @else
+                        <a class="btn btn-lg btn-outline-warning mr-2" href="{{route('inscripcion.1.view')}}" role="button">Paso 1</a>
+                    @endif
+                </div>
+
+                <div class="row justify-content-center mb-2">
+                    @if($pasantia->statusPaso2 == 2)
+                        <a class="btn btn-lg btn-outline-success mr-2" href="{{route('inscripcion.2.view')}}" role="button">Paso 2</a>
+                    @elseif($pasantia->statusPaso2 == 0)
+                        <a class="btn btn-lg btn-outline-danger mr-2" href="{{route('inscripcion.2.view')}}" role="button">Paso 2</a>
+                    @else
+                        <a class="btn btn-lg btn-outline-warning mr-2" href="{{route('inscripcion.2.view')}}" role="button">Paso 2</a>
+                    @endif
+                </div>
+                
+                <div class="row justify-content-center mb-2">
+                    @if($pasantia->statusPaso3==4)
+                        <a class="btn btn-lg btn-outline-success mr-2" href="{{route('inscripcion.3.view')}}" role="button">Paso 3</a>
+                    @elseif($pasantia->statusPaso3 == 0)
+                        <a class="btn btn-lg btn-outline-danger mr-2" href="{{route('inscripcion.3.view')}}" role="button">Paso 3</a>
+                    @else
+                        <a class="btn btn-lg btn-outline-warning mr-2" href="{{route('inscripcion.3.view')}}" role="button">Paso 3</a>
+                    @endif
+                </div>
+                       
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-1">
+        <div class="col bg-light rounded border border-dark m-2 pb-5">
+                <h5 class="mt-1">Evaluaciones de Pasantía</h5>
+                <table class="table table-hover border border-dark">
+                    <thead class="bg-dark text-white">
+                        <tr>
+                            <th scope="col" data-field="evaluacion" data-sortable="true">
+                               <div class="th-inner text-center">Evaluación</div>
+                            </th>
+                            <th scope="col" data-field="note" data-sortable="true">
+                                <div class="th-inner text-center">Nota</div>
+                            </th>
+                        </tr>
+                    </thead>
                         <tbody>
                             <tr>
                                 <td class="text-right">Presentación Avance 1</td>   
@@ -104,69 +168,51 @@
                             </tr>
                             
                         </tbody>
-                    </table>
-                </div>
+                </table>
+            </div>
 
-                <div class="col mt-3">
-                    <div class="border border-dark shadow bg-light rounded">
-                        <div class="col rounded"><h5 class="m-2">Información de Pasantía</h5></div>
-                        
-                        <div class="row mx-3">
-                            <div class="col">
-                                <div class="row text-left mb-2 mr-2"><p class="font-weight-bold">Fecha Inicio:</p><p class="ml-1"> {{$pasantia->fechaInicio}}</p></div>
-                                <div class="row text-left mb-2 mr-2"><p class="font-weight-bold">Supervisor:</p><p class="ml-1"> {{$pasantia->nombreJefe}}</p></div>
-                                
-                            </div>
-                            <div class="col">
-                                <div class="row text-left mb-2 mr-2"><p class="font-weight-bold">Horas Semanales:</p><p class="ml-1"> {{$pasantia->horasSemanales}}</p></div>
-                                <div class="row text-left mb-2 mr-2"><p class="font-weight-bold">Correo:</p><p class="ml-1"> {{$pasantia->correoJefe}}</p></div>
-                            </div>
+        <div class="col bg-light rounded border border-dark m-2 pb-5">
+            <h5 class="mt-1">Notas Evaluación Desempeño</h5>
+            <table class="table table-hover border border-dark">
+                <thead class="bg-dark text-white">
+                    <tr>
+                        <th scope="col" data-field="evaluacion" data-sortable="true">
+                           <div class="th-inner text-center">Evaluación</div>
+                        </th>
+                        <th scope="col" data-field="fecha" data-sortable="true">
+                            <div class="th-inner text-center">Fecha</div>
+                        </th>
+                        <th scope="col" data-field="note" data-sortable="true">
+                            <div class="th-inner text-center">Nota</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($evaluacionesDesempeño as $index => $evaluacion)
+                        <tr>
+                            <td class="text-center">Evaluacion Desempeño {{$index+1}}</td>   
+                            <td>{{ \Carbon\Carbon::parse($evaluacion['created_at'])->format('d-m-Y') }}</td>
+                            <td>{{ number_format($evaluacion['promedio'], 1)}}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-                            <div class="d-flex flex-row justify-content-center mr-2 mb-2"><p class="font-weight-bold">Empresa: </p><p class="ml-1"> {{$pasantia->empresa()->first()->nombre}}</p></div>
-                            <div class="d-flex flex-row justify-content-center mr-2 mb-2"><p class="font-weight-bold">Ciudad/Pais:</p><p class="ml-1"> {{$pasantia->ciudad}} - {{$pasantia->pais}}</p></div>
-
-                            <div class="d-flex flex-row justify-content-center mr-2 text-left"><p class="font-weight-bold">Estado Paso 3:</p><p class="ml-1"> @if($pasantia->statusPaso3 == 3)  El correo fue enviado pero no ha sido confirmado por supervisor @elseif($pasantia->statusPaso3 == 4) El correo ha sido confirmado por tu supervisor @elseif($pasantia->statusPaso3 == 0) No has iniciado el paso 3 @endif</p></div>
-                        </div>
-
-                        <div class="d-flex justify-content-center mb-3">
-                            <a class="btn btn-outline-dark" href="/inscripcion/cambiarSupervisor">Cambiar Supervisor</a>
-                        </div>
-
-                        <h5>Estado Pasos</h5>
-                        <div class="d-flex flex-row justify-content-center mb-4">
-                        @if($pasantia->statusPaso0 == 2)
-                            <a class="btn btn-lg btn-outline-success mr-2" href="{{route('inscripcion.0.view')}}" role="button">Paso 0</a>
-                        @else
-                            <a class="btn btn-lg btn-outline-warning mr-2" href="{{route('inscripcion.0.view')}}" role="button">Paso 0</a>
-                        @endif
-                        
-                        @if($pasantia->statusPaso1 == 2)
-                            <a class="btn btn-lg btn-outline-success mr-2" href="{{route('inscripcion.1.view')}}" role="button">Paso 1</a>
-                        @elseif($pasantia->statusPaso1 == 0)
-                            <a class="btn btn-lg btn-outline-danger mr-2" href="{{route('inscripcion.1.view')}}" role="button">Paso 1</a>
-                        @else
-                            <a class="btn btn-lg btn-outline-warning mr-2" href="{{route('inscripcion.1.view')}}" role="button">Paso 1</a>
-                        @endif
-                            
-                        @if($pasantia->statusPaso2 == 2)
-                            <a class="btn btn-lg btn-outline-success mr-2" href="{{route('inscripcion.2.view')}}" role="button">Paso 2</a>
-                        @elseif($pasantia->statusPaso2 == 0)
-                            <a class="btn btn-lg btn-outline-danger mr-2" href="{{route('inscripcion.2.view')}}" role="button">Paso 2</a>
-                        @else
-                            <a class="btn btn-lg btn-outline-warning mr-2" href="{{route('inscripcion.2.view')}}" role="button">Paso 2</a>
-                        @endif
-                            
-                        @if($pasantia->statusPaso3==4)
-                            <a class="btn btn-lg btn-outline-success mr-2" href="{{route('inscripcion.3.view')}}" role="button">Paso 3</a>
-                        @elseif($pasantia->statusPaso3 == 0)
-                            <a class="btn btn-lg btn-outline-danger mr-2" href="{{route('inscripcion.3.view')}}" role="button">Paso 3</a>
-                        @else
-                            <a class="btn btn-lg btn-outline-warning mr-2" href="{{route('inscripcion.3.view')}}" role="button">Paso 3</a>
-                        @endif
-                            
-                        </div>
+    <div class="row border rounded mb-1">
+        <div class="container m-3 text-left"><h5>Sesiones de coaching y evaluaciones</h5>
+            <div class="row ml-3">
+                @foreach($bitacoras as $bitacora)
+                    <div>
+                        <a class="btn btn-lg btn-outline-dark ml-2" href="#" role="button" data-toggle="modal" data-target="#feedback{{$bitacora->id}}">@if($bitacora->evalTipo == "coaching") coaching @elseif($bitacora->evalTipo =="presentacionAvance_I") PA1 @else PA2 @endif <br> {{date('d/m/Y', strtotime($bitacora->created_at))}}</a>
                     </div>
-                </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+        
+            
                 <!-- <div class="col rounded border border-dark m-3">
                     <h5 class="mt-1">Actividades Buzón Entrega</h5>
                     <label class="text-left" for="preseTacionAvance">1. Presentación de Avance 1</label><br>
@@ -185,22 +231,6 @@
                     <a class="btn btn-sm @if($evalPasantia->docInformeFinal) btn-warning @else btn-primary @endif" href="#" role="button" data-toggle="modal" data-target="#entregableInformeFinal">@if($evalPasantia->docInformeFinal) Editar Archivo @else Subir Archivo @endif</a><br>
 
                 </div> -->
-            </div>
-        </div>
-        
-    </div>
-
-    <div class="row mt-3 bg-light border border-dark rounded shadow">
-    <div class="container m-3 text-left"><h5>Sesiones de coaching y evaluaciones</h5>
-        <div class="row m-3">
-            @foreach($bitacoras as $bitacora)
-                <div>
-                    <a class="btn btn-lg btn-outline-dark ml-2" href="#" role="button" data-toggle="modal" data-target="#feedback{{$bitacora->id}}">@if($bitacora->evalTipo == "coaching") coaching @elseif($bitacora->evalTipo =="presentacionAvance_I") PA1 @else PA2 @endif <br> {{date('d/m/Y', strtotime($bitacora->created_at))}}</a>
-                </div>
-            @endforeach
-        </div>
-    </div>
-</div>
 
     <div class ="modal fade" id="entregablePA_I" tabindex="0" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
         <div class="modal-dialog" role="document">
