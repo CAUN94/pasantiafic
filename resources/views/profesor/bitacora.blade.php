@@ -184,6 +184,36 @@
         </div>
 </div>
 
+<div class="row shadow">
+    <div class="col bg-light rounded border border-dark mt-3 pb-5">
+            <h5 class="mt-2 text-left">Notas Evaluación Desempeño</h5>
+            <table class="table table-hover border border-dark">
+                <thead class="bg-dark text-white">
+                    <tr>
+                        <th scope="col" data-field="evaluacion" data-sortable="true">
+                           <div class="th-inner text-center">Evaluación</div>
+                        </th>
+                        <th scope="col" data-field="fecha" data-sortable="true">
+                            <div class="th-inner text-center">Fecha</div>
+                        </th>
+                        <th scope="col" data-field="note" data-sortable="true">
+                            <div class="th-inner text-center">Nota</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($evaluacionesDesempeño as $index => $evaluacion)
+                        <tr>
+                            <td class="text-center">Evaluacion Desempeño {{$index+1}}</td>   
+                            <td>{{ \Carbon\Carbon::parse($evaluacion['created_at'])->format('d-m-Y') }}</td>
+                            <td>{{ number_format($evaluacion['promedio'], 1)}}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+</div>
+
 <div class="row mt-3 bg-light border border-dark rounded shadow">
     <div class="container m-3 text-left"><h5>Sesiones de Feedback</h5>
         <div class="row">
