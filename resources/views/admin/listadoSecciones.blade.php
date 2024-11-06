@@ -88,7 +88,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
-                    <h3 class="modal-title text-white text-center">Importar alunnos a sección</h3>
+                    <h3 class="modal-title text-white text-center">Importar alumnos a sección</h3>
                 </div>
                 <div class="modal-body">
                     <form method="POST" action="{{ route('import.alumnos') }}"  enctype="multipart/form-data" class="text-left">

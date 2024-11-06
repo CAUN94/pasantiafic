@@ -68,6 +68,7 @@
 </div>
 
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#inscripcionDefensa">Crear Defensa</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#dataImport">Importar defensas</button>
 
 <div class ="modal fade" id="inscripcionDefensa" tabindex="0" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -300,6 +301,29 @@
 
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class ="modal fade" id="dataImport" tabindex="0" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h3 class="modal-title text-white text-center">Importar defensas</h3>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ route('import.defensas') }}"  enctype="multipart/form-data" class="text-left">
+                    <fieldset>
+                    @csrf
+                        <label for="idFile">Listado de defensas Excel</label>
+                        <input type="file" name="datosExcel" required>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Import</button>
+                        </fielset>
+                    </form>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver</button>
             </div>
         </div>
     </div>

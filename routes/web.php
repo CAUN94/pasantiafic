@@ -80,6 +80,7 @@ Route::delete('/admin/listadoSecciones/desinscribir', 'AdminController@AdminDesi
 
 // Ruta de Listado Defensas
 Route::get('/admin/listadoDefensas/export', 'ListadoDefensasController@exportDefensas')->middleware('auth', 'admin');
+Route::post('/admin/listadoDefensas/import', 'ListadoDefensasController@ImportExcelDefensas')->middleware('auth', 'admin')->name('import.defensas');
 Route::resource('/admin/listadoDefensas', 'ListadoDefensasController')->middleware('auth', 'admin');
 Route::post('/admin/listadoDefensas/inscribir', 'ListadoDefensasController@inscribirDefensa')->name('listadoDefensas.crearDefensa')->middleware('auth', 'admin');
 Route::post('/admin/listadoDefensas/editar', 'ListadoDefensasController@editarDefensa')->name('listadoDefensas.edit')->middleware('auth', 'admin');

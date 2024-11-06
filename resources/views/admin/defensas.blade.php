@@ -253,7 +253,7 @@
                         <label for="motivos">5. INDIQUE BREVEMENTE LOS MOTIVOS DE LA REPROBACIÓN</label>
                         <input class="form-control" id="motivos" name="motivos" placeholder="motivos" value="Ninguno" required>
                         <label for="nota">6. NOTA DE LA DEFENSA, ASIGNADA POR LA COMISIÓN DE EVALUACIÓN (Ejemplo: 66 para nota 6.6):</label>
-                        <input type="number" step="0.1" id="nota" name="nota" placeholder="nota" required>
+                        <input type="number" step="0.1" id="nota" name="nota" placeholder="nota" min="1" required>
                         <label for="comentarios">7. COMENTARIOS GENERALES (OPCIONAL)<label>
                         <textarea class="form-control mt-2" id="comentarios" name="comentarios" rows="3" placeholder="Comentarios"></textarea>
 

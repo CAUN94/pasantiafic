@@ -137,4 +137,65 @@ class ListadoDefensasController extends Controller
     DB::table('defensa_user')->where('defensa_id', $request->idDefensa)->where('user_id', $request->idProfesor)->delete();
     return redirect()->back()->with('success','Defensa eliminada correctamente');
   }
+
+  public function ImportExcelDefensas(Request $request){
+
+    // Validate the uploaded file
+    $request->validate([
+        'datosExcel' => 'required|mimes:xlsx,xls',
+    ]);
+    
+    $file = $request->file('datosExcel');
+    $arregloDatos = Excel::toArray([], $file);
+
+    foreach($arregloDatos as $datos){
+      
+      array_shift($datos);
+
+      foreach($datos as $dato){
+        $rutSinPuntos = str_replace(".", "", $dato[2]);
+        $partes = explode("-", $rutSinPuntos);
+        $rut_formatted = $partes[0];
+
+        $año = Carbon::parse($dato[4])->format('Y');
+        if(intval(Carbon::parse($dato[4])->format('m')) >= 6){
+          $periodo = '2';
+        }else{
+          $periodo = '1';
+        }
+        $periodo = $año . '-' . $periodo;
+
+        if($dato[8] == "Remota"){
+          $modalidad = 0;
+        }else{
+          $modalidad = 1;
+        }
+
+        $alumno = User::where('rut_formatted', $rut_formatted)->first();
+        if($alumno){
+          $pasantia = Pasantia::where('idAlumno', $alumno->idUsuario)->where('actual',1)->first();
+          $proyecto = Proyecto::where('idPasantia', $pasantia->idPasantia)->first();
+
+          if(!is_null($pasantia) && !is_null($proyecto)){
+            $defensa = new Defensa([
+              'idAlumno' => $alumno->idUsuario,
+              'idProyecto' => $proyecto->idProyecto,
+              'Nota' => 0,
+              'Fecha' => Carbon::parse($dato[4])->format('Y-m-d'),
+              'Hora' => $dato[5],
+              'modalidad' => $modalidad,
+              'Estado' => 1,
+              'sede' => $request->sede,
+              'zoom' => $dato[9],
+              'PeriodoAcademico' => $periodo
+            ]);
+        
+            $defensa->save();
+          }
+        }
+      }
+    }
+
+    return redirect()->back()->with('success', 'El archivo fue importado exitosamente');
+} 
 }
