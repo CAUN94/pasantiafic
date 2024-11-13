@@ -87,8 +87,10 @@ class ListadoInscripcionController extends Controller
       $professor = $request->professor;
       // company
       $company = $request->company;
+      //Lugar Pasantía
+      $lugar = $request->LugarPasantia;
       
-      $datosPasantias = PasantiasRepository::getAllFilterPasantias($start,$end,$paso,$statusGeneral,$starti,$endi,$professor,$company);
+      $datosPasantias = PasantiasRepository::getAllFilterPasantias($start,$end,$paso,$statusGeneral,$starti,$endi,$professor,$company,$lugar);
 
       return view('admin.listadoInscripcion', [
         'downloadExcel' => $downloadExcel,
@@ -274,7 +276,7 @@ class ListadoInscripcionController extends Controller
       $pasantia->cargoJefe = $request->cargo;
       $pasantia->rolJefe = $request->rol;
       $pasantia->razonCambio = $request->razon;
-      dd($pasantia);
+
       if ($pasantia->isDirty()) {
         $pasantia->save();
         self::enviarMailNotificacion($pasantia);

@@ -246,7 +246,7 @@ class PasantiasRepository
     return self::$datosPasantias;
   }
 
-  public static function getAllFilterPasantias($start,$end,$paso = null,$status = null,$starti = null,$endi = null,$profesor = null,$company = null){
+  public static function getAllFilterPasantias($start,$end,$paso = null,$status = null,$starti = null,$endi = null,$profesor = null,$company = null,$lugar=null){
     $pasantias = Pasantia::whereBetween('fechaInicio', [$start, $end])->orderBy('fechaInicio', 'desc');
     // check if paso isset
     if($paso != null){
@@ -291,6 +291,14 @@ class PasantiasRepository
       // get all pasantias where empresa is company
       $pasantias = $pasantias->where('idEmpresa', $company);
     }
+    if($lugar != null){
+      if($lugar == 1){
+        $pasantias = $pasantias->where('pais', 'Chile')->orWhere('pais', 'CHILE')->orWhere('pais', 'chile');
+      }else{
+        $pasantias = $pasantias->where('ciudad', '!=', 'Santiago')->where('pais', '!=', 'Chile');
+      }
+    }
+    
 
     // $pasantiias to sql query
     // $pasantias = $pasantias->toSql();

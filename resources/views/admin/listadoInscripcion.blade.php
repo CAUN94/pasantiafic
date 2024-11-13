@@ -59,13 +59,21 @@
 			<input type="date" class="form-control" name="endi" value="{{ $endi ?? '' ?? old('endi') }}">
 			<small class="form-text text-muted">Rango Fecha Inscripción</small>
 		</div>
-
 		<div class="form-group mx-sm-3 col">
+			<select class="form-control" name="LugarPasantia">
+				<option selected value> -- Chile/Fuera de Chile -- </option>
+				<option value="1">En Chile</option>
+				<option value="0">Fuera de Chile</option>
+			</select>
+			<small class="form-text text-muted">Lugar de Pasantía</small>
+		</div>
+
+		<!--<div class="form-group mx-sm-3 col">
 			<select class="form-control" name="professor" disabled>
 				<option disabled selected value> -- Profesor Guía -- </option>
 			</select>
 			<small class="form-text text-muted">Profesor Guía <span class="text-danger">Sin Implementar</span></small>
-		</div>
+		</div>-->
 
 		<!-- select button with pasantia validada o no validada -->
 		<div class="form-group mx-sm-3 col">
