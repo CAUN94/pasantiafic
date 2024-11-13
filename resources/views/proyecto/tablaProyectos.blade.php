@@ -37,6 +37,9 @@
             <th scope="col" data-field="Area" data-sortable="true">
 				<div class="th-inner">Area</div>
 			</th>
+            <th scope="col" data-field="Fecha Subida" data-sortable="true">
+				<div class="th-inner">Fecha Subida</div>
+			</th>
             <th scope="col" data-field="Última Edición" data-sortable="true">
 				<div class="th-inner">Última Edición</div>
 			</th>
@@ -67,6 +70,7 @@
                 <td>{{$proyecto->correoSupervisor}}</td>
                 <td>{{$proyecto->nombreProyecto}}</td>
                 <td>{{$proyecto->areaProyecto}}</td>
+                <td>{{$proyecto->created_at->format('Y-m-d')}}</td>
                 <td>{{$proyecto->updated_at->format('Y-m-d')}}</td>
                 <td>
                     @if($downloadExcel == TRUE)
