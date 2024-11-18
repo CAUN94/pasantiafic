@@ -112,7 +112,7 @@ class User extends Authenticatable{
 
     public function defensaEstudiante(){
         // First Defensa where idAlumno is the current user
-        $defensa = Defensa::where('idAlumno', $this->idUsuario)->latest();
+        $defensa = Defensa::where('idAlumno', $this->idUsuario)->first();
         if($defensa->Estado == 2){
             return false;
         }
