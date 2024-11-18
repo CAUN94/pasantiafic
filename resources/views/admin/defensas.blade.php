@@ -64,9 +64,9 @@
                 <td>@if($defensa->Estado == 2) 
                         Cancelada 
                     @elseif($defensa->Estado == 1)
-                        Realizada                        
+                        Pendiente @if(Auth::user()->isPresident($defensa->idDefensa))<br>@if(is_null(DB::table('rubrica')->where('idProfesor',Auth::user()->idUsuario)->where('idDefensa',$defensa->idDefensa)->first()))<a href="#" data-toggle="modal" data-target="#rubrica{{$defensa->idDefensa}}">Evaluar</a>@endif @endif                    
                     @else
-                        Pendiente @if(Auth::user()->isPresident($defensa->idDefensa))<br>@if(is_null(DB::table('rubrica')->where('idProfesor',Auth::user()->idUsuario)->where('idDefensa',$defensa->idDefensa)->first()))<a href="#" data-toggle="modal" data-target="#rubrica{{$defensa->idDefensa}}">Evaluar</a>@endif @endif 
+                        Realizado
                     @endif
                 </td>
                 <td>{{App\User::find($defensa->idAlumno)->getCompleteNameAttribute()}}</td>
