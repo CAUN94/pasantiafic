@@ -32,6 +32,10 @@ class ListadoDefensasController extends Controller
   public function index()
   {
     $defensas = Defensa::where('idDefensa', '!=', 678)->where('idDefensa', '!=', 678)->get();
+
+    $fechaFinal = Defensa::orderBy('created_at', 'DESC')->first();
+    $defensas = Defensa::where('idDefensa', '!=', 678)->whereBetween('fecha',[Carbon::parse($fechaFinal->created_at)->subMonth()->startOfDay(),Carbon::parse($fechaFinal->created_at)->endOfDay()])->orderBy('fecha', 'desc')->get();
+    
     // All Profesor
     $profesors = Profesor::all();
 
@@ -44,10 +48,28 @@ class ListadoDefensasController extends Controller
     $profesors = Profesor::all();
 
     if (is_null($request->start) && is_null($request->end)) {
-      $fechaInicial = Carbon::parse('08/01/2024')->format('Y-m-d'); // Inicia la busqueda desde 01-08-2024, el mes y dia estan invertidos
-      $fechaFinal = Carbon::parse('12/31/2024')->format('Y-m-d');
-      $datosDefensas = Defensa::whereBetween('fecha',[Carbon::parse($fechaInicial)->startOfDay(),Carbon::parse($fechaFinal)->endOfDay()])->orderBy('fecha', 'desc')->get();
-      $downloadExcel = TRUE;
+      $fechaFinal = Defensa::orderBy('created_at', 'DESC')->first();
+      $datosDefensas = Defensa::where('idDefensa', '!=', 678)->whereBetween('fecha',[Carbon::parse($fechaFinal->created_at)->subMonth()->startOfDay(),Carbon::parse($fechaFinal->created_at)->endOfDay()])->orderBy('fecha', 'desc')->get();
+
+      if ($request->submit == 'filter') {
+        $downloadExcel = FALSE;
+        return view('defensas.index', [
+          'downloadExcel' => $downloadExcel,
+          'defensas' => $datosDefensas,
+          'profesors' => $profesors,
+          'start' => $request->start,
+          'end' => $request->end,
+        ]);
+      } elseif ($request->submit == 'export') {
+  
+        $downloadExcel = TRUE;
+        
+        return Excel::download(new ExportViews('defensas.tablaDefensa', [
+          'downloadExcel' => $downloadExcel,
+          'defensas' => $datosDefensas,
+          'profesors' => $profesors,
+        ]), 'Defensas.xlsx');
+      }
 
     } else {
       $datosDefensas = Defensa::whereBetween('fecha',[Carbon::parse($request->start)->startOfDay(),Carbon::parse($request->end)->endOfDay()])->orderBy('fecha', 'desc');
