@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ExportViews;
 use App\User;
 use App\Proyecto;
 use App\Pasantia;
 use App\Seccion;
 use App\Profesor;
 use App\EvalPasantia;
+use App\EvalTutor;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 use Auth;
 
@@ -214,8 +217,6 @@ class AdminController extends Controller
 
   public function ImportExcelSecciones(Request $request){
 
-    
-
       // Validate the uploaded file
       $request->validate([
           'datosExcel' => 'required|mimes:xlsx,xls',
@@ -262,5 +263,74 @@ class AdminController extends Controller
       }
 
       return redirect()->back()->with('success', 'Excel file imported successfully!');
-  } 
+  }
+
+  public function evaluacionTutor(){
+    return view('evalTutor.import');
+  }
+
+  public function importEvaluaciones(Request $request){
+
+		// Validate el archivo usado
+		$request->validate([
+			'datosExcel' => 'required|mimes:xlsx,xls',
+		]);
+
+		$file = $request->file('datosExcel');
+    $arregloDatos = Excel::toArray([], $file);
+
+    array_shift($arregloDatos[0]);
+
+		foreach($arregloDatos[0] as $key => $dato){
+      $convertedDate = Carbon::createFromDate(1900, 1, 1)->addDays($dato[0] - 2)->format('Y-m-d');
+
+      $partes = explode("-", $dato[1]);
+      $rut_formatted = $partes[0];
+
+      $alumno = User::where('rut_formatted', $rut_formatted)->first();
+      if($alumno){
+        $pasantia = Pasantia::where('idAlumno', $alumno->idUsuario)->where('correoJefe', $dato[4])->where('actual',1)->first();
+        if($pasantia){
+          $existeEvaluacion = EvalTutor::where('idPasantia',$pasantia->idPasantia)->where('created_at',$convertedDate)->exists();
+
+          if(!$existeEvaluacion){
+            $evalTutor = new EvalTutor([
+              'idAlumno' => $alumno->idUsuario,
+              'idPasantia' => $pasantia->idPasantia,
+              "compromiso" => $dato[5],
+              "adaptabilidad" => $dato[6],
+              "comunicacion" => $dato[7],
+              "equipo" => $dato[8],
+              "liderazgo" => $dato[9],
+              "sobreponerse" => $dato[10],
+              "habilidades" => $dato[11],
+              "proactividad" => $dato[12],
+              "innovacion" => $dato[13],
+              "etica" => $dato[14],
+              "promedio" => ($dato[5] + $dato[6] + $dato[7] + $dato[8] + $dato[9] + $dato[10] + $dato[11] + $dato[12] + $dato[13] + $dato[14])/10,
+              "created_at" => $convertedDate,
+              "updated_at" => $convertedDate,
+            ]);
+            if($dato[16] == "ACEPTAR"){
+              $evalTutor->certificadoTutor = 1;
+            }else{
+              $evalTutor->certificadoTutor = 0;
+            }
+            $evalTutor->save();
+          }
+          unset($arregloDatos[0][$key]);
+        }else{
+          array_push($arregloDatos[0][$key], "No tiene pasantía asociada a este correo de supervisor.");
+        }
+      }else{
+        array_push($arregloDatos[0][$key], "No existen registros de un alumno con este rut.");
+      }
+    }
+
+    return Excel::download(new ExportViews('evalTutor.tablaImport', [
+      'evaluaciones' => $arregloDatos[0],
+    ]), 'IntentosFallidos.xlsx');
+
+	}
+  
 }
