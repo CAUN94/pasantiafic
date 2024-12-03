@@ -291,14 +291,12 @@ class AdminController extends Controller
       if($alumno){
         $pasantia = Pasantia::where('idAlumno', $alumno->idUsuario)->where('correoJefe', $dato[4])->where('actual',1)->first();
         if($pasantia){
-          $proyecto = Proyecto::where('idPasantia',$pasantia->idPasantia)->first();
 
           $existeEvaluacion = EvalTutor::where('idPasantia',$pasantia->idPasantia)->where('created_at',$convertedDate)->exists();
 
           if(!$existeEvaluacion){
             $evalTutor = new EvalTutor([
               'idAlumno' => $alumno->idUsuario,
-              'idProyecto' => $proyecto ->idProyecto,
               'idPasantia' => $pasantia->idPasantia,
               "compromiso" => $dato[5],
               "adaptabilidad" => $dato[6],
