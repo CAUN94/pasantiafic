@@ -174,3 +174,8 @@ Route::post('/empresa/evaluacion/success', 'EmpresaController@storeEvaluacionAlu
 Route::get('/lista/import', 'AdminController@ImportExcelSecciones');
 Route::post('/lista/import', 'AdminController@ImportExcelSecciones')->name('import.alumnos');
 
+Route::get('/admin/evaluaciones', 'AdminController@evaluacionTutor')->middleware('auth', 'admin');
+Route::post('/admin/evaluaciones/import', 'AdminController@importEvaluaciones')->middleware('auth', 'admin')->name('import.evaluacion');
+
+
+
