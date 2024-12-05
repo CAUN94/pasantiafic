@@ -295,7 +295,6 @@ class AdminController extends Controller
 
           if(!$existeEvaluacion){
             $evalTutor = new EvalTutor;
-            $evalTutor->idAlumno = $alumno->idUsuario;
             $evalTutor->idPasantia = $pasantia->idPasantia;
             $evalTutor->tokenCorreo = $pasantia->tokenCorreo;
             $evalTutor->compromiso = $dato[5];
