@@ -10,7 +10,7 @@ class EvalTutor extends Model{
 
     protected $fillable = [
          'idEvalTutor',
-         'idProyecto',
+         'idPasantia',
          'tokenCorreo',
          'compromiso',
          'adaptabilidad',
@@ -24,6 +24,7 @@ class EvalTutor extends Model{
          'etica',
          'promedio',
          'comentarios',
-         'certificadoTutor'
+         'certificadoTutor',
+         'created_at'
     ];
 }

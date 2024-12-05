@@ -291,27 +291,25 @@ class AdminController extends Controller
       if($alumno){
         $pasantia = Pasantia::where('idAlumno', $alumno->idUsuario)->where('correoJefe', $dato[4])->where('actual',1)->first();
         if($pasantia){
-
           $existeEvaluacion = EvalTutor::where('idPasantia',$pasantia->idPasantia)->where('created_at',$convertedDate)->exists();
 
           if(!$existeEvaluacion){
-            $evalTutor = new EvalTutor([
-              'idAlumno' => $alumno->idUsuario,
-              'idPasantia' => $pasantia->idPasantia,
-              "compromiso" => $dato[5],
-              "adaptabilidad" => $dato[6],
-              "comunicacion" => $dato[7],
-              "equipo" => $dato[8],
-              "liderazgo" => $dato[9],
-              "sobreponerse" => $dato[10],
-              "habilidades" => $dato[11],
-              "proactividad" => $dato[12],
-              "innovacion" => $dato[13],
-              "etica" => $dato[14],
-              "promedio" => ($dato[5] + $dato[6] + $dato[7] + $dato[8] + $dato[9] + $dato[10] + $dato[11] + $dato[12] + $dato[13] + $dato[14])/10,
-              "created_at" => $convertedDate,
-              "updated_at" => $convertedDate,
-            ]);
+            $evalTutor = new EvalTutor;
+            $evalTutor->idAlumno = $alumno->idUsuario;
+            $evalTutor->idPasantia = $pasantia->idPasantia;
+            $evalTutor->compromiso = $dato[5];
+            $evalTutor->adaptabilidad = $dato[6];
+            $evalTutor->comunicacion = $dato[7];
+            $evalTutor->equipo = $dato[8];
+            $evalTutor->liderazgo = $dato[9];
+            $evalTutor->sobreponerse = $dato[10];
+            $evalTutor->habilidades = $dato[11];
+            $evalTutor->proactividad = $dato[12];
+            $evalTutor->innovacion = $dato[13];
+            $evalTutor->etica = $dato[14];
+            $evalTutor->promedio = ($dato[5] + $dato[6] + $dato[7] + $dato[8] + $dato[9] + $dato[10] + $dato[11] + $dato[12] + $dato[13] + $dato[14])/10;
+            $evalTutor->created_at = $convertedDate;
+
             if($dato[16] == "ACEPTAR"){
               $evalTutor->certificadoTutor = 1;
             }else{
