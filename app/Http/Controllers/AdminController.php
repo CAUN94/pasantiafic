@@ -297,6 +297,7 @@ class AdminController extends Controller
             $evalTutor = new EvalTutor;
             $evalTutor->idAlumno = $alumno->idUsuario;
             $evalTutor->idPasantia = $pasantia->idPasantia;
+            $evalTutor->tokenCorreo = $pasantia->tokenCorreo;
             $evalTutor->compromiso = $dato[5];
             $evalTutor->adaptabilidad = $dato[6];
             $evalTutor->comunicacion = $dato[7];
