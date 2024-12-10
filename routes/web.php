@@ -105,6 +105,8 @@ Route::get('/profesor/secciones', 'ProfesorController@viewSecciones')->middlewar
 Route::get('/profesor/secciones/{id}', 'ProfesorController@viewSeccion')->middleware('auth');
 Route::get('/profesor/bitacora/{id}', 'ProfesorController@viewBitacora')->middleware('auth');
 Route::get('/profesor/bitacora/export/{id}', 'ProfesorController@exportNotasExcel')->middleware('auth');
+Route::get('/profesor/notas/{id}', 'ProfesorController@vistaImportarNotas')->name('profesor.vistaImportarNotas')->middleware('auth');
+Route::post('/profesor/notas/import', 'ProfesorController@importarNotas')->name('profesor.ImportarNotas')->middleware('auth');
 Route::post('/profesor/bitacora/evaluar', 'ProfesorController@evaluacionBitacora')->name('profesor.evaluarBitacora')->middleware('auth');
 Route::post('/profesor/bitacora/feedback', 'ProfesorController@feedbackBitacora')->name('profesor.feedbackBitacora')->middleware('auth');
 

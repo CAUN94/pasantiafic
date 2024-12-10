@@ -43,6 +43,10 @@
 		</table>
 		</div>
 	</div>
-    <a class="btn btn-dark m-3 " href="/profesor/bitacora/export/{{$seccion->idSeccion}}">Exportar Notas</a>
+	<div class="d-flex justify-content-end">
+		<a class="btn btn-dark m-2" href="/profesor/notas/{{$seccion->idSeccion}}">Importar Notas</a>
+		<a class="btn btn-dark m-2 mr-3" href="/profesor/bitacora/export/{{$seccion->idSeccion}}">Exportar Notas</a>
+	</div>
 
+	
 @endsection

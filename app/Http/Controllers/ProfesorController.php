@@ -219,4 +219,60 @@ class ProfesorController extends Controller
       'notasAlumnos' => $evaluacionesPasantias
     ]), 'notasPasantia.xlsx');
 	}
+
+  public function vistaImportarNotas($id){
+		return view('pasantia.importarNotas' , ['id' => $id]);
+	}
+
+	public function importarNotas(Request $request){
+
+    // Validate el archivo usado
+		$request->validate([
+			'datosExcel' => 'required|mimes:xlsx,xls',
+		]);
+
+		$file = $request->file('datosExcel');
+    $arregloDatos = Excel::toArray([], $file);
+
+    array_shift($arregloDatos[0]);
+
+		foreach($arregloDatos[0] as $key => $dato){
+
+      $partes = explode("-", $dato[0]);
+      $rut_formatted = $partes[0];
+
+      $alumno = User::where('rut_formatted', $rut_formatted)->first();
+      if($alumno){
+        $pasantia = Pasantia::where('idAlumno', $alumno->idUsuario)->where('actual',1)->first();
+        if($pasantia){
+          $existeEvaluacion = EvalPasantia::where('idPasantia',$pasantia->idPasantia)->exists();
+
+          if($existeEvaluacion){
+
+            $evaluacionPasantia = EvalPasantia::where('idPasantia',$pasantia->idPasantia)->first();
+            $evaluacionPasantia->presentacionAvance_I = $dato[1];
+            $evaluacionPasantia->informeAvance_I = $dato[2];
+            $evaluacionPasantia->presentacionAvance_II = $dato[3];
+            $evaluacionPasantia->informeAvance_II = $dato[4];
+            $evaluacionPasantia->informeFinal = $dato[5];
+            $evaluacionPasantia->NotaFinal = $dato[6];
+            $evaluacionPasantia->save();
+
+            unset($arregloDatos[0][$key]);
+          }else{
+            array_push($arregloDatos[0][$key], "La pasantía asociada a este alumno no cuenta con una evaluación asociada");
+          }
+
+        }else{
+          array_push($arregloDatos[0][$key], "No tiene pasantía asociada al alumno con este rut.");
+        }
+      }else{
+        array_push($arregloDatos[0][$key], "No existen registros de un alumno con este rut.");
+      }
+    }
+
+    return Excel::download(new ExportViews('profesor.tablaImport', [
+      'evaluaciones' => $arregloDatos[0],
+    ]), 'IntentosFallidos.xlsx');
+	}
 }
