@@ -106,7 +106,7 @@
                             <tr>
                                 <td class="text-right">Presentación Avance 1</td>   
                                 <td>@if($evalPasantia->presentacionAvance_I) 
-                                        {{$evalPasantia->presentacionAvance_I}}
+                                        {{round($evalPasantia->presentacionAvance_I, 1)}}
                                     @else
                                         pendiente
                                     @endif
@@ -115,7 +115,7 @@
                             <tr>
                                 <td class="text-right">Informe Avance 1</td>
                                 <td>@if($evalPasantia->informeAvance_I) 
-                                        {{$evalPasantia->informeAvance_I}}
+                                        {{round($evalPasantia->informeAvance_I, 1)}}
                                     @else
                                         pendiente
                                     @endif
@@ -124,7 +124,7 @@
                             <tr>
                                 <td class="text-right">Presentación Avance 2</td>
                                 <td>@if($evalPasantia->presentacionAvance_II) 
-                                        {{$evalPasantia->presentacionAvance_II}}
+                                        {{round($evalPasantia->presentacionAvance_II, 1)}}
                                     @else
                                         pendiente
                                     @endif
@@ -133,7 +133,7 @@
                             <tr>
                                 <td class="text-right">Informe Avance 2</td>
                                 <td>@if($evalPasantia->informeAvance_II) 
-                                        {{$evalPasantia->informeAvance_II}}
+                                        {{round($evalPasantia->informeAvance_II, 1)}}
                                     @else
                                         pendiente
                                     @endif
@@ -142,7 +142,7 @@
                             <tr>
                                 <td class="text-right">Informe Final</td>
                                 <td>@if($evalPasantia->informeFinal) 
-                                        {{$evalPasantia->informeFinal}}
+                                        {{round($evalPasantia->informeFinal, 1)}}
                                     @else
                                         pendiente
                                     @endif
@@ -151,7 +151,7 @@
                             <tr>
                                 <td class="text-right">Presentación Empresa</td>
                                 <td>@if($evalPasantia->presentacionEmpresa) 
-                                        {{$evalPasantia->presentacionEmpresa}}
+                                        {{round($evalPasantia->presentacionEmpresa, 1)}}
                                     @else
                                         pendiente
                                     @endif
@@ -160,7 +160,7 @@
                             <tr>
                                 <td class="text-right">Evaluación Empresa</td>
                                 <td>@if($evalPasantia->evaluacionEmpresa) 
-                                        {{$evalPasantia->evaluacionEmpresa}}
+                                        {{round($evalPasantia->evaluacionEmpresa, 1)}}
                                     @else 
                                         pendiente
                                     @endif
