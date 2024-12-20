@@ -774,7 +774,7 @@ class PasantiaController extends Controller{
 				'correoSupervisor' => $request->correoSupervisor,
 				'nombre' => $request->nombre,
 				'area' => $request->areaProyecto,
-				'descripcion' => $request->descripcionProyecto,
+				'descripcion' => $request->descripcion,
 				'informe' => Auth::user()->rut. '_Informe_' .time() . '_' . $request->informeProyecto->getClientOriginalName(),
 				'presentacion' => $request->presentacion,
 				'comentario' => $request->comentarios
