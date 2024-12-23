@@ -50,7 +50,9 @@
 					<div class="mb-3">
 						<label for="carrera">4. Selecciona tu carrera: </label>
 						<select class="rounded" id="carrera" name="carrera" required>
-							@foreach(['Selecciona una Carrera','Ingeniería Civil Bioingeniería', 'Ingeniería Civil', 'Ingeniería Civil Energía y Medioambiente', 
+                            {{-- option select  selected but not disabled --}}
+                            <option selected disabled>Selecciona tu carrera</option>
+							@foreach(['Ingeniería Civil Bioingeniería', 'Ingeniería Civil', 'Ingeniería Civil Energía y Medioambiente', 
 										'Ingeniería Civil Mecanica','Ingeniería Civil en Minería', 'Ingeniería Civil Industrial',
 										'Ingeniería Civil Informática'] as $opcion)
 								<option value="{{$opcion}}" @if($proyecto->carrera == $opcion) selected @endif>{{ $opcion }}</option>
@@ -64,14 +66,15 @@
 						<input class="ml-5" type="radio" name="dobleTitulacion" id="dobleTitulacion_si" value="1" required>
 						<label for="dobleTitulacion_si">Sí:</label>
 
-						<input type="radio" name="dobleTitulacion" id="dobleTitulacion_no" value="0" required>
+						<input type="radio" name="dobleTitulacion" id="dobleTitulacion_no" value="0" checked required>
 						<label for="dobleTitulacion_no">No:</label>
 					</div>
 
-					<div class="mb-3" id="segundaCarreraContainer" style="display: block;">
+					<div class="mb-3" id="segundaCarreraContainer" style="display: none;">
 						<label for="segundaCarrera">6. Selecciona tu segunda carrera:</label>
 						<select class="segundaCarrera" id="segundaCarrera" name="segundaCarrera">
-							@foreach(['Ninguna','Ingeniería Civil Bioingeniería', 'Ingeniería Civil', 'Ingeniería Civil Energía y Medioambiente', 
+                            <option selected value="null">Selecciona tu carrera</option>
+							@foreach(['Ingeniería Civil Bioingeniería', 'Ingeniería Civil', 'Ingeniería Civil Energía y Medioambiente', 
 										'Ingeniería Civil Mecanica','Ingeniería Civil en Minería', 'Ingeniería Civil Industrial',
 										'Ingeniería Civil Informática'] as $opcion)
 								<option value="{{ $opcion }}" @if($proyecto->segundaCarrera == $opcion) selected @endif>{{ $opcion }}</option>
@@ -137,7 +140,7 @@
 					<label for="areaProyecto">15. Seleccione el área principal que considere tu proyecto: </label>
 						<select class="rounded" id="areaProyecto" name="areaProyecto"  required>
 							@foreach(['Automatización','Business Inteligence','Ciberseguridad','Circularidad de Residuos','Construcción',
-								'Control de Genstión','Data Science','Diseño','ECommerce','Economía','Energía','Emprendimiento','Estadistíca',
+								'Control de Gestión','Data Science','Diseño','Ecommerce','Economía','Energía','Emprendimiento','Estadistíca',
 								'Evaluación de Proyectos','Finanzas','Física','Geotecnia','Gestión de Calidad','Gestión de Operaciones',
 								'Innovación','Hidráulica','Inteligencia Artificial (IA)','Inteligencia de Negocios','Microbiología','Mineria de Datos',
 								'Obras Civiles','Operaciones','Optimización de Procesos','Planificación','Tendencias en la industria de la Construcción',
@@ -147,9 +150,9 @@
 						</select>
 					</div>
 
-					<label for="descripcion">16. Descripción Proyecto (no más de 250 palabras)</label>
+					<label for="descripcion">16. Descripción Proyecto (no más de 500 palabras)</label>
                     
-					<textarea class="form-control mt-2" id="descripcion" name="descripcion" rows="6" placeholder="Descripcion del proyecto" value="{{$proyecto->descripcion}}" required>{{$proyecto->descripcion}}</textarea>
+					<textarea class="form-control mt-2" id="descripcion" name="descripcion" rows="6" placeholder="Descripcion del proyecto" value="{{$proyecto->descripcion}}" maxlength="500" required>{{$proyecto->descripcion}}</textarea>
 
 					<div class="mt-3 form-group">
 						<label for="informeProyecto" class="form-label">17. Sube el Informe De Tu Proyecto (Formato PDF o ZIP)</label>
