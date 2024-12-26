@@ -48,7 +48,7 @@
 
 		El proyecto Capstone es parte integral del currículum académico de la carrera, y tiene por objetivo que el alumno aplique e integre los conocimientos adquiridos durante sus estudios, identificando y enfrentando problemas reales, proponiendo y diseñando soluciones ingenieriles a éstos, para finalmente generar valor.<br/><br/>
 
-		El proyecto Capstone puede desarrollarse en la Universidad o en alguna empresa bajo el formato de Pasantía, en este último caso deberá tener una duración mínima de 810 horas, las que deberán ser cumplidas el {{$semestre}} semestre {{$año}}.<br/><br/>
+		El proyecto Capstone puede desarrollarse en la Universidad o en alguna empresa bajo el formato de Pasantía, en este último caso deberá tener una duración mínima de 810 horas, las que deberán ser cumplidas el primer semestre 2025.<br/><br/>
 
 		Mientras el alumno se encuentre desarrollando su proyecto Capstone, será alumno regular de la Universidad Adolfo Ibáñez.<br/><br/>
 
