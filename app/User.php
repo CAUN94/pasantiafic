@@ -146,6 +146,7 @@ class User extends Authenticatable{
             $query->where('user_id', $this->idUsuario);
         })->get();
         // return $defensas;
+
         $checkDefensas = [];
         foreach($defensas as $defensa){
             $proyecto = $defensa->proyecto;
@@ -153,6 +154,7 @@ class User extends Authenticatable{
             // check areas if one is equal tto carrera in proyecto
             foreach($areas as $area){
                 if($area == $proyecto->carrera or $area == $proyecto->segundaCarrera){
+
                     $checkDefensas[] = $defensa;
                 }
                 if($area == 'Todas'){
@@ -269,6 +271,14 @@ class User extends Authenticatable{
         return false;
         
     }
+
+    public function isRelleno(){
+        if(($this->profesor->presidente1 == 'NO') && ($this->profesor->area_I == 'Todas')){
+            return true;
+        }
+        return false;
+    }
+
 
     public function seccion(){
         return $this->belongsToMany('App\Seccion', 'seccion_user', 'idAlumno', 'idSeccion');

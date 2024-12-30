@@ -66,13 +66,12 @@ class PortalDefensasController extends Controller
         $checkDefensas = [];  
         if (count((array) $defensas) != 0){
             foreach($defensas as $defensa){
-                if($defensa->proyecto->pasantia->actual == 1){
+                if($defensa->proyecto->pasantia->actual == 1 && $defensa->idDefensa >= 1973){
                     $checkDefensas[] = $defensa;
                 }
             }
         }
         $defensas = $checkDefensas;
-
         return view('admin.comision',compact('defensas'));
     }
 
@@ -105,17 +104,19 @@ class PortalDefensasController extends Controller
             'conciencia' => $request->conciencia,
         ]);
 
+        $rubrica->save();
+
         $defensa = Defensa::find($request->idDefensa);
         $proyecto = Proyecto::find($defensa->idProyecto);
-        $segundaRubrica = DB::table('rubrica')->where('idDefensa',$defensa->idDefensa)->first();
+        $rubricas = Rubrica::where('idDefensa',$defensa->idDefensa)->count();
        
-        if(($proyecto->dobleTitulacion == 1) && (!is_null($segundaRubrica))){
+        if(($proyecto->dobleTitulacion == 1) && ($rubricas == 2)){
             $defensa->Estado = 1;
-        }elseif($proyecto->dobleTitulacion == 0){
+        }elseif($proyecto->dobleTitulacion == 0 && ($rubricas == 1)){
             $defensa->Estado = 1;
         }
         $defensa->save();
-        $rubrica->save();
+        
         
         return redirect()->back()->with('success','Rubrica Enviada Exitosamente');
     }
