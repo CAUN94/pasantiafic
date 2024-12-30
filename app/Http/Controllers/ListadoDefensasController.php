@@ -31,10 +31,11 @@ class ListadoDefensasController extends Controller
   */
   public function index()
   {
-    $defensas = Defensa::where('idDefensa', '!=', 678)->where('idDefensa', '!=', 678)->get();
 
-    $fechaFinal = Defensa::orderBy('created_at', 'DESC')->first();
-    $defensas = Defensa::where('idDefensa', '!=', 678)->whereBetween('fecha',[Carbon::parse($fechaFinal->created_at)->subMonth()->startOfDay(),Carbon::parse($fechaFinal->created_at)->endOfDay()])->orderBy('fecha', 'desc')->get();
+    $fechaInicio = Carbon::now()->startOfMonth()->startOfDay();
+    $fechaFinal = Carbon::now()->endOfMonth()->startOfDay();
+
+    $defensas = Defensa::where('idDefensa', '!=', 678)->whereBetween('fecha',[$fechaInicio,$fechaFinal])->orderBy('fecha', 'desc')->get();
     
     // All Profesor
     $profesors = Profesor::all();
