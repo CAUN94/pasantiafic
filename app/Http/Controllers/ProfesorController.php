@@ -238,7 +238,7 @@ class ProfesorController extends Controller
 
 		foreach($arregloDatos[0] as $key => $dato){
 
-      $partes = explode("-", $dato[0]);
+      $partes = explode("-", $dato[1]);
       $rut_formatted = $partes[0];
 
       $alumno = User::where('rut_formatted', $rut_formatted)->first();
@@ -250,12 +250,12 @@ class ProfesorController extends Controller
           if($existeEvaluacion){
 
             $evaluacionPasantia = EvalPasantia::where('idPasantia',$pasantia->idPasantia)->first();
-            $evaluacionPasantia->presentacionAvance_I = $dato[1];
-            $evaluacionPasantia->informeAvance_I = $dato[2];
-            $evaluacionPasantia->presentacionAvance_II = $dato[3];
-            $evaluacionPasantia->informeAvance_II = $dato[4];
-            $evaluacionPasantia->informeFinal = $dato[5];
-            $evaluacionPasantia->NotaFinal = $dato[6];
+            $evaluacionPasantia->presentacionAvance_I = $dato[2];
+            $evaluacionPasantia->informeAvance_I = $dato[3];
+            $evaluacionPasantia->presentacionAvance_II = $dato[4];
+            $evaluacionPasantia->informeAvance_II = $dato[5];
+            $evaluacionPasantia->informeFinal = $dato[6];
+            $evaluacionPasantia->NotaFinal = $dato[7];
             $evaluacionPasantia->save();
 
             unset($arregloDatos[0][$key]);

@@ -17,5 +17,7 @@
 
     </fielset>
 </form>
+<button href="/profesor/secciones/{{$id}}" class="btn btn-dark text-white mt-3">Volver</button>
+
 
 @endsection

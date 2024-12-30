@@ -36,6 +36,7 @@
 						<td class="text-center">{{$alumno->getCompleteNameAttribute()}}</td>
 						<td class="text-center">{{$alumno->email}}</td>
 						<td class="text-center">{{$alumno->pasantias()->first()->empresa()->first()->nombre}}</td>
+						<td class="text-center">{{$alumno->pasantias()->first()->empresa()->first()->nombre}}</td>
                         <td class=""><a class="btn btn-light btn-outline-dark" href="/profesor/bitacora/{{$alumno->idUsuario}}">Ingresar Bitacora</a></td>
 					</tr>    
 				@endforeach
