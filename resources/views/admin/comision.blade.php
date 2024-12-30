@@ -142,7 +142,7 @@
                 @if( ($defensa->comision->count() < 2) and !($defensa->Estado == 2))
                     @if(Auth::user()->isRelleno() and $defensa->isDobleTitulation()) 
                         <td>Comisión completa</td>
-                    @elseif(!$defensa->isDobleTitulation() and Auth::user()->isIndustrial() and $defensa->hasPresident() and Auth::user()->canBePresident($defensa->idDefensa))
+                    @elseif(!$defensa->isDobleTitulation() and Auth::user()->isIndustrial() and $defensa->hasPresident())
                         <td>Comisión completa</td>
                     @elseif(Auth::user()->canBePresident($defensa->idDefensa) and $defensa->isDobleTitulation())
                         <td><a target="_blank" href="#" data-toggle="modal" data-target="#cupos{{$defensa->idDefensa}}">Inscribir</a></td>
