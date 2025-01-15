@@ -9,6 +9,7 @@ use App\User;
 use App\Proyecto;
 use App\Rubrica;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class PortalDefensasController extends Controller
 {
@@ -120,4 +121,71 @@ class PortalDefensasController extends Controller
         
         return redirect()->back()->with('success','Rubrica Enviada Exitosamente');
     }
+
+    public function vistaRubricas(){
+
+        $fechaInicio = Carbon::now()->startOfMonth()->startOfDay();
+        $fechaFinal = Carbon::now()->endOfMonth()->startOfDay();
+
+        $rubricas = Rubrica::whereBetween('created_at', [$fechaInicio,$fechaFinal])->orderBy('created_at', 'desc')->get();
+
+        return view('defensas.listadoRubricas', compact('rubricas'));
+
+    }
+
+    public function exportarRubricas(Request $request){
+    
+        if (is_null($request->start) && is_null($request->end)) {
+            $fechaInicio = Carbon::now()->startOfMonth()->startOfDay();
+            $fechaFinal = Carbon::parse(Rubrica::orderBy('created_at', 'DESC')->first()->created_at);
+
+            $rubricas = Rubrica::whereBetween('created_at',[$fechaInicio, $fechaFinal])->orderBy('created_at', 'desc')->get();
+    
+            if ($request->submit == 'filter') {
+
+                $downloadExcel = FALSE;
+
+                return view('defensas.listadoRubricas', [
+                    'downloadExcel' => $downloadExcel,
+                    'rubricas' => $rubricas,
+                    'start' => $request->start,
+                    'end' => $request->end,
+                ]);
+
+            } elseif ($request->submit == 'export') {
+        
+                $downloadExcel = TRUE;
+                
+                return Excel::download(new ExportViews('defensas.tablaRubrica', [
+                    'downloadExcel' => $downloadExcel,
+                    'rubricas' => $rubricas,
+                ]), 'Rubricas.xlsx');
+            }
+    
+        } else {
+            $fechaInicio = Carbon::parse($request->start)->startOfDay();
+            $fechaFinal = Carbon::parse($request->end)->endOfDay();
+
+            $rubricas = Rubrica::whereBetween('created_at', [$fechaInicio, $fechaFinal])->orderBy('created_at', 'desc');
+    
+            $rubricas = $rubricas->get();
+        if ($request->submit == 'filter') {
+          $downloadExcel = FALSE;
+          return view('defensas.listadoRubricas', [
+            'downloadExcel' => $downloadExcel,
+            'rubricas' => $rubricas,
+            'start' => $request->start,
+            'end' => $request->end,
+          ]);
+        } elseif ($request->submit == 'export') {
+    
+          $downloadExcel = TRUE;
+          
+          return Excel::download(new ExportViews('defensas.tablaRubrica', [
+            'downloadExcel' => $downloadExcel,
+            'rubricas' => $rubricas,
+          ]), 'Defensas.xlsx');
+        }
+      }
+      }
 }
