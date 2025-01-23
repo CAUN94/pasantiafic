@@ -124,6 +124,11 @@
 					</a>
 					@endif
 					@if(Auth::user()->rol == 5)
+					<a href="/admin/listadoRubrica" class="list-group-item list-group-item-action ">
+						<i class="fas fa-cog"></i> Todas las Rubricas
+					</a>
+					@endif
+					@if(Auth::user()->rol == 5)
 					<a href="/admin/listadoProfesores" class="list-group-item list-group-item-action ">
 						<i class="fas fa-cog"></i> Todos los Profesores
 					</a>

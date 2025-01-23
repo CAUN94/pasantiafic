@@ -10,6 +10,8 @@ use App\Proyecto;
 use App\Rubrica;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ExportViews;
 
 class PortalDefensasController extends Controller
 {
@@ -184,7 +186,7 @@ class PortalDefensasController extends Controller
           return Excel::download(new ExportViews('defensas.tablaRubrica', [
             'downloadExcel' => $downloadExcel,
             'rubricas' => $rubricas,
-          ]), 'Defensas.xlsx');
+          ]), 'Rubricas.xlsx');
         }
       }
       }
